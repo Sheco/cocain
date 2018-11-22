@@ -23,18 +23,20 @@ class Receta {
         return false;
     }
 
-    preparar(total) {
-        this.limpiar();
-        console.log(`Preparando ${total} ${this.receta.nombre}`);
-        for(let [nombre, cantidad] of Object.entries(this.receta.componentes.generales)) {
-            if(!this.consumir(nombre, cantidad))
-                return false;
-        }
-
-        for(let [nombre, cantidad] of Object.entries(this.receta.componentes.unidad)) {
+    consumirVarios(componentes, total) {
+        for(let [nombre, cantidad] of Object.entries(componentes)) {
             if(!this.consumir(nombre, cantidad*total))
                 return false;
         }
+    }
+
+    preparar(total) {
+        this.limpiar();
+        console.log(`Preparando ${total} ${this.receta.nombre}`);
+
+        this.consumirVarios(this.receta.componentes.generales, 1);
+        this.consumirVarios(this.receta.componentes.unidad, total);
+
         return true;
     }
 
@@ -49,7 +51,7 @@ class Receta {
         let total = 0;
         for(let [nombre, vars] of Object.entries(this.receta.recursos)) {
             let src = require('./recursos/'+nombre);
-            let costo = 0 ;
+            let costo = 0;
             
             if(!vars.costoFijoPagado)  {
                 costo = src.costoFijo(vars);
