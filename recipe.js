@@ -7,7 +7,7 @@ class Recipe {
     consume(name, amount) {
         let c = this.data.resources[name];
         if(c===undefined) {
-            console.log(`No hay resource para ${name}`);
+            console.log(`No resource for ${name}`);
             return false;
         }
 
@@ -19,7 +19,7 @@ class Recipe {
             return true;
         }
         console.log(`${c.amount}>${amount}`);
-        console.log(`No se pudieron consume ${amount.toFixed(2)} de ${name}`);
+        console.log(`Can't consume ${amount.toFixed(2)} of ${name}`);
         return false;
     }
 
@@ -47,7 +47,7 @@ class Recipe {
     }
 
     report() {
-        console.log('\nReporte...');
+        console.log('\nReport...');
         let total = 0;
         for(let [name, vars] of Object.entries(this.data.resources)) {
             let src = require('./resources/'+name);
