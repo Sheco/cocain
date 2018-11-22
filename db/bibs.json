@@ -1,0 +1,24 @@
+{
+    "name": "Baberos 38cm²",
+    "resources": {
+        "microfiber": {
+            "amount": 15000,
+            "fixedCost": 70
+        },
+        "gas": {
+            "mileage": 14,
+            "pricePerLiter": 19.7
+        },
+        "designer": {
+        }
+    },
+    "components": {
+        "general": {
+            "gas": 5
+        },
+        "perUnit": {
+            "microfiber": 1444,
+            "designer": 0.166
+        }
+    }
+}

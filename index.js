@@ -1,10 +1,11 @@
-const receta = require('./receta');
+const recipe = require('./recipe');
 const fs = require('fs');
 
-fs.promises.readFile('db/baberos.json')
+fs.promises.readFile('db/bibs.json')
 .then(data => {
-    let baberos = new receta(JSON.parse(data));
-    if(baberos.preparar(10)) {
-        baberos.reporte();
+    let bibs = new recipe(JSON.parse(data));
+    console.log(bibs);
+    if(bibs.make(10)) {
+        bibs.report();
     }
 });
