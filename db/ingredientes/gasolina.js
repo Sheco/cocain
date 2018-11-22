@@ -1,6 +1,9 @@
 module.exports = {
     unidad: 'km',
-    costoUnidad: function() {
-        return Math.round(this.consumido*(this.precioLitro/this.rendimiento)*100)/100;
+    costoFijo: function(vars) {
+        return vars.costoFijo || 0;
+    },
+    costoUnidad: function(vars) {
+        return Math.round((vars.precioLitro/vars.rendimiento)*100)/100;
     }
 }

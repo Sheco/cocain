@@ -1,4 +1,9 @@
 module.exports = {
-    costoUnidad: 50,
-    unidad: 'h'
+    unidad: 'h',
+    costoFijo: function(vars) {
+        return vars.costoFijo || 0;
+    },
+    costoUnidad: function(vars) {
+        return vars.costoUnidad || 50;
+    }
 }

@@ -1,15 +1,7 @@
 
 class Receta {
-    constructor(nombre) {
-        this.nombre = nombre;
-        this.receta = require('./db/'+nombre);
-        for(let [nombre, datos] of Object.entries(this.receta.recursos)) {
-            try {
-                let datos_db = require('./db/ingredientes/'+nombre);
-                this.receta.recursos[nombre] = Object.assign(datos, datos_db);
-            } catch(e) {
-            }
-        }
+    constructor(receta) {
+        this.receta = receta;
     }
 
     consumir(nombre, cantidad) {
@@ -32,7 +24,8 @@ class Receta {
     }
 
     preparar(total) {
-        console.log(`Preparando ${total} ${this.nombre}`);
+        this.limpiar();
+        console.log(`Preparando ${total} ${this.receta.nombre}`);
         for(let [nombre, cantidad] of Object.entries(this.receta.componentes.generales)) {
             if(!this.consumir(nombre, cantidad))
                 return false;
@@ -43,7 +36,6 @@ class Receta {
                 return false;
         }
         return true;
-
     }
 
     limpiar() {
@@ -56,29 +48,24 @@ class Receta {
         console.log('\nReporte...');
         let total = 0;
         for(let [nombre, vars] of Object.entries(this.receta.recursos)) {
+            let src = require('./db/ingredientes/'+nombre);
             let costo = 0 ;
             
             if(!vars.costoFijoPagado)  {
-                costo = (vars.costoFijo instanceof Function? 
-                    vars.costoFijo(): 
-                    vars.costoFijo
-                ) || 0;
+                costo = src.costoFijo(vars);
                 if(costo>0) {
-                    // marcar como pagado
                     vars.costoFijoPagado = true;
                 }
             }
-            costo += (vars.costoUnidad instanceof Function? 
-                vars.costoUnidad(): 
-                vars.costoUnidad*vars.consumido
-            ) || 0;
 
-            total+=costo;
-            console.log(`${nombre}: se usaron ${vars.consumido.toFixed(2)} ${vars.unidad}: $${costo.toFixed(2)}`)
+            costo += src.costoUnidad(vars)*vars.consumido;
+            total += costo;
+
+            console.log(`${nombre}: se usaron ${vars.consumido.toFixed(2)} ${src.unidad}: $${costo.toFixed(2)}`)
 
             
             if(vars.cantidad>0) {
-                console.log(`* ${nombre} tiene una merma de ${vars.cantidad} ${vars.unidad}`);
+                console.log(`* ${nombre} tiene una merma de ${vars.cantidad.toFixed(2)} ${src.unidad}`);
             }
         }
         console.log(`\nTotal: $${total.toFixed(2)}`);

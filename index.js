@@ -1,8 +1,11 @@
 const receta = require('./receta');
+const fs = require('fs');
+const JSON5 = require('json5');
 
-let baberos = new receta('baberos');
-if(baberos.preparar(10)) {
-    baberos.reporte();
-    baberos.limpiar();
-}
-console.log(baberos);
+fs.readFile('db/baberos.json', (err, data) => {
+    data = JSON5.parse(data);
+    let baberos = new receta(data);
+    if(baberos.preparar(10)) {
+        baberos.reporte();
+    }
+});

@@ -1,24 +1,24 @@
-module.exports = {
+{
     nombre: 'Baberos 38cm²',
     recursos: {
         microfibra: {
-            cantidad: 150*100,
+            cantidad: 15000,
             costoFijo: 70,
         },
         gasolina: {
-            rendimiento: 14/*km/l*/,
-            precioLitro: 19.7/*$*/
+            rendimiento: 14,
+            precioLitro: 19.7
         },
         natalia: {
         },
     },
     componentes: {
         generales: {
-            gasolina: 5/*km*/,
+            gasolina: 5,
         },
         unidad: {
-            microfibra: 38*38/*cm*/,
-            natalia: 1/(60/10)/*horas*/,
+            microfibra: 1444,
+            natalia: 0.166,
         }
     }
 }
