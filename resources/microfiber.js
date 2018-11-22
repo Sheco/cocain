@@ -1,5 +1,5 @@
 module.exports = {
-    unidad: 'cm²',
+    unit: 'cm²',
     fixedCost: function(vars) {
         return vars.fixedCost || 0;
     },
