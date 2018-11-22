@@ -1,24 +1,24 @@
 {
-    nombre: 'Baberos 38cm²',
-    recursos: {
-        microfibra: {
-            cantidad: 15000,
-            costoFijo: 70,
+    "nombre": "Baberos 38cm²",
+    "recursos": {
+        "microfibra": {
+            "cantidad": 15000,
+            "costoFijo": 70
         },
-        gasolina: {
-            rendimiento: 14,
-            precioLitro: 19.7
+        "gasolina": {
+            "rendimiento": 14,
+            "precioLitro": 19.7
         },
-        natalia: {
-        },
+        "natalia": {
+        }
     },
-    componentes: {
-        generales: {
-            gasolina: 5,
+    "componentes": {
+        "generales": {
+            "gasolina": 5
         },
-        unidad: {
-            microfibra: 1444,
-            natalia: 0.166,
+        "unidad": {
+            "microfibra": 1444,
+            "natalia": 0.166
         }
     }
 }
