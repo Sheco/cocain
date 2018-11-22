@@ -4,6 +4,6 @@ module.exports = {
         return vars.fixedCost || 0;
     },
     unitCost: function(vars) {
-        return Math.round((vars.pricePerLiter/vars.mileage)*100)/100;
+        return Math.round((vars.price/vars.mileage)*100)/100;
     }
 }
