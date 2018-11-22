@@ -48,7 +48,7 @@ class Receta {
         console.log('\nReporte...');
         let total = 0;
         for(let [nombre, vars] of Object.entries(this.receta.recursos)) {
-            let src = require('./db/ingredientes/'+nombre);
+            let src = require('./recursos/'+nombre);
             let costo = 0 ;
             
             if(!vars.costoFijoPagado)  {
