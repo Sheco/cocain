@@ -64,8 +64,8 @@ function make_recipe(data) {
     const calculateCost = function() {
         for(let resource of data.resources) {
             let src = require('./resources/'+resource.resource);
-            resource.cost = src.fixedCost(resource)+
-                (src.unitCost(resource)*resource.consumed);
+            resource.cost = Math.round((src.fixedCost(resource)+
+                (src.unitCost(resource)*resource.consumed))*100)/100;
         }
     }
 
@@ -88,6 +88,9 @@ function make_recipe(data) {
                 unit: src.unit,
             });
         }
+        result.totalCost = Math.round(result.resources
+            .reduce((total,res) => total+res.cost, 0)*100)/100;
+        result.costPerProduct = Math.round(result.totalCost/result.products*100)/100;
         return result;
     }
 
