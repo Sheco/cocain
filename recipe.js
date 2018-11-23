@@ -40,9 +40,22 @@ function make_recipe(data) {
     const make = function() {
         let components = data.components;
         consumeMany(components.general, 1);
-        consumeMany(components.perUnit, data.amount);
-
-        calculateCost();
+        if(data.amount>0)  {
+            consumeMany(components.perUnit, data.amount);
+            return data.amount;
+        }
+        else {
+            let products = 0;
+            try {
+                while(true) {
+                    consumeMany(components.perUnit, 1);
+                    products++;
+                }
+            } catch(e) {
+                console.error('Ran out of resources: '+e);
+            }
+            return products;
+        }
     }
 
     const calculateCost = function() {
@@ -54,11 +67,16 @@ function make_recipe(data) {
     }
 
     const process = function() {
-        make();
-        let result = [];
+        let products = make();
+        calculateCost();
+
+        let result = {
+            products: products,
+            resources: [],
+        };
         for(let resource of data.resources) {
             let src = require('./resources/'+resource.resource);
-            result.push({
+            result.resources.push({
                 resource: resource.resource,
                 name: resource.name,
                 cost: resource.cost,
