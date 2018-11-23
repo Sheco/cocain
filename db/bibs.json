@@ -1,26 +1,41 @@
 {
     "name": "Baberos 38cm²",
     "amount": 10,
-    "resources": {
-        "surface": {
+    "resources": [
+        {
+            "name": "microfibra",
+            "resource": "surface",
             "amount": 15000,
             "fixedCost": 70
         },
-        "gas": {
+        {
+            "name": "gas",
+            "resource": "gas",
             "mileage": 14,
             "price": 19.7
         },
-        "designer": {
+        {
+            "name": "natalia",
+            "resource": "designer",
             "price": 50
         }
-    },
+    ],
     "components": {
-        "general": {
-            "gas": 5
-        },
-        "perUnit": {
-            "surface": 1444,
-            "designer": 0.166
-        }
+        "general": [
+            {
+                "resource":"gas",
+                "amount": 5
+            }
+        ],
+        "perUnit": [
+            {
+                "resource": "microfibra",
+                "amount": 1444
+            },
+            {
+                "resource": "natalia",
+                "amount": 0.166
+            }
+        ]
     }
 }

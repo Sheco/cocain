@@ -3,10 +3,23 @@ function make_recipe(data) {
     data.errors = [];
     data.cost = 0;
 
+    const findResource = function(name, amount) {
+        for(let resource of data.resources)
+        {
+            if(resource.name!=name)
+                continue;
+            if(resource.amount===undefined)
+                return resource;
+
+            if(resource.amount>amount)
+                return resource;
+        }
+    }
+
     const consume = function (name, amount) {
-        let c = data.resources[name];
+        let c = findResource(name, amount);
         if(c===undefined) {
-            data.errors.push(`No resource for ${name}`);
+            data.errors.push(`Not enough resources of ${name}`);
             return false;
         }
 
@@ -22,8 +35,8 @@ function make_recipe(data) {
     }
 
     const consumeMany = function(components, total) {
-        for(let [name, amount] of Object.entries(components)) {
-            if(!consume(name, amount*total))
+        for(let component of components) {
+            if(!consume(component.resource, component.amount*total))
                 return false;
         }
         return true;
@@ -42,12 +55,12 @@ function make_recipe(data) {
 
     const calculateCost = function() {
         let total = 0;
-        for(let [name, vars] of Object.entries(data.resources)) {
-            let src = require('./resources/'+name);
-            vars.cost = src.fixedCost(vars)+
-                (src.unitCost(vars)*vars.consumed);
+        for(let resource of data.resources) {
+            let src = require('./resources/'+resource.resource);
+            resource.cost = src.fixedCost(resource)+
+                (src.unitCost(resource)*resource.consumed);
 
-            total += vars.cost;
+            total += resource.cost;
         }
         data.cost = total;
     }

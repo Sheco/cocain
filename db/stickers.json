@@ -1,27 +1,43 @@
+
 {
     "name": "Stickers 5.5cm in a 145x100cm canvas",
-    "amount": 480,
-    "resources": {
-        "surface": {
+    "amount": 470,
+    "resources": [
+        {
+            "name":"vinil",
+            "resource": "surface",
             "amount": 14500,
             "fixedCost": 160
         },
-        "gas": {
+        {
+            "name": "gas",
+            "resource": "gas",
             "mileage": 14,
             "price": 19.7
         },
-        "designer": {
+        {
+            "name": "natalia",
+            "resource": "designer",
             "price": 50
         }
-    },
+    ],
     "components": {
-        "general": {
-            "gas": 13,
-            "designer": 0.40
-        },
-        "perUnit": {
-            "surface": 30.25
-        }
+        "general": [
+            {
+                "resource":"gas",
+                "amount": 13
+            },
+            {
+                "resource":"natalia",
+                "amount": 0.40
+            }
+        ],
+        "perUnit": [
+            {
+                "resource":"vinil",
+                "amount": 30.25
+            }
+        ]
     }
 }
 
