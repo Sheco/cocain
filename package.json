@@ -1,12 +1,12 @@
 {
-  "name": "missdetallitos",
-  "version": "1.0.0",
-  "description": "",
+  "name": "costCalculator",
+  "version": "0.1.0",
+  "description": "A simple project cost calculator",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Sergio Duran",
+  "license": "GPL3",
   "dependencies": {}
 }
