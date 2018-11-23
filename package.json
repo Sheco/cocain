@@ -1,12 +1,18 @@
 {
   "name": "costCalculator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple project cost calculator",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Sergio Duran",
-  "license": "GPL3",
-  "dependencies": {}
+  "license": "GPL-3.0",
+  "dependencies": {
+    "handlebars": "^4.0.12",
+    "json-pretty-html": "^1.2.0",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0"
+  }
 }
