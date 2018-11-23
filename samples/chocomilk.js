@@ -5,7 +5,7 @@
         {
             "name":"milk",
             "resource": "liquid",
-            "amount": 5000,
+            "amount": 3000,
             "container": 1000,
             "fixedCost": 15
         },
@@ -23,7 +23,7 @@
         "perUnit": [
             {
                 "resource":"milk",
-                "amount": 400
+                "amount": 240
             },
             {
                 "resource":"chocolate",
