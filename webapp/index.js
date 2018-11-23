@@ -15,7 +15,7 @@ routes.all('/', bodyparser(), async (ctx, next) => {
 
     let src = ctx.request.body.src;
     try {
-        let result = calculate(JSON.parse(src));
+        let result = src && calculate(JSON.parse(src));
         ctx.body = template({
             error: undefined,
             src: src,
