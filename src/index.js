@@ -48,7 +48,7 @@ function make_recipe(data) {
         consumeMany(components.general, 1);
 
         if(data.amount>0)  {
-            return consumeMany(components.perUnit, data.amount);
+            return consumeMany(components.product, data.amount);
         } else {
             let products = 0;
 

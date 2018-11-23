@@ -31,7 +31,7 @@
                 "amount": 0.40
             }
         ],
-        "perUnit": [
+        "product": [
             {
                 "resource":"vinil",
                 "amount": 30.25

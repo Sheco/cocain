@@ -20,7 +20,7 @@
     "components": {
         "general": [
         ],
-        "perUnit": [
+        "product": [
             {
                 "resource":"milk",
                 "amount": 240
