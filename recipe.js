@@ -1,13 +1,12 @@
 
-class Recipe {
-    constructor(data) {
-        this.data = data;
-    }
+function make_recipe(data) {
+    data.errors = [];
+    data.cost = 0;
 
-    consume(name, amount) {
-        let c = this.data.resources[name];
+    const consume = function (name, amount) {
+        let c = data.resources[name];
         if(c===undefined) {
-            console.log(`No resource for ${name}`);
+            data.errors.push(`No resource for ${name}`);
             return false;
         }
 
@@ -18,41 +17,42 @@ class Recipe {
 
             return true;
         }
-        console.log(`${c.amount}>${amount}`);
-        console.log(`Can't consume ${amount.toFixed(2)} of ${name}`);
+        data.errors.push(`Can't consume ${amount.toFixed(2)} of ${name}`);
         return false;
     }
 
-    consumeMany(components, total) {
+    const consumeMany = function(components, total) {
         for(let [name, amount] of Object.entries(components)) {
-            if(!this.consume(name, amount*total))
+            if(!consume(name, amount*total))
                 return false;
         }
         return true;
     }
 
-    make() {
-        let components = this.data.components;
-        if(!this.consumeMany(components.general, 1))
+    const make = function() {
+        let components = data.components;
+        if(!consumeMany(components.general, 1))
             return false;
-        if(!this.consumeMany(components.perUnit, this.data.amount))
+        if(!consumeMany(components.perUnit, data.amount))
             return false;
 
-        this.calculateCost();
+        calculateCost();
         return true;
     }
 
-    calculateCost() {
+    const calculateCost = function() {
         let total = 0;
-        for(let [name, vars] of Object.entries(this.data.resources)) {
+        for(let [name, vars] of Object.entries(data.resources)) {
             let src = require('./resources/'+name);
             vars.cost = src.fixedCost(vars)+
                 (src.unitCost(vars)*vars.consumed);
 
             total += vars.cost;
         }
-        this.data.cost = total;
+        data.cost = total;
     }
+    make();
+    return data;
 }
 
-module.exports = Recipe;
+module.exports = make_recipe;

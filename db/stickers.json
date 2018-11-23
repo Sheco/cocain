@@ -1,0 +1,27 @@
+{
+    "name": "Stickers 5.5cm in a 145x100cm canvas",
+    "amount": 480,
+    "resources": {
+        "surface": {
+            "amount": 14500,
+            "fixedCost": 160
+        },
+        "gas": {
+            "mileage": 14,
+            "price": 19.7
+        },
+        "designer": {
+            "price": 50
+        }
+    },
+    "components": {
+        "general": {
+            "gas": 13,
+            "designer": 0.40
+        },
+        "perUnit": {
+            "surface": 30.25
+        }
+    }
+}
+
