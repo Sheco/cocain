@@ -57,8 +57,25 @@ function make_recipe(data) {
         }
         data.cost = total;
     }
-    make();
-    return data;
+
+    const process = function() {
+        make();
+        let result = [];
+        for(let resource of data.resources) {
+            let src = require('./resources/'+resource.resource);
+            result.push({
+                resource: resource.resource,
+                name: resource.name,
+                cost: resource.cost,
+                amount: resource.amount,
+                consumed: resource.consumed,
+                unit: src.unit,
+            });
+        }
+        return result;
+
+    }
+    return process();
 }
 
 module.exports = make_recipe;
