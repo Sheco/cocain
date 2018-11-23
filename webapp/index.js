@@ -9,32 +9,28 @@ const calculate = require('../src');
 const app = new koa();
 const routes = new router();
 
-routes.all('/', bodyparser(), async (ctx, next) => {
+routes.post('/api', bodyparser(), async (ctx, next) => {
+    try {
+        ctx.body = calculate(JSON.parse(ctx.request.body.src));
+    } catch(e) {
+        ctx.body = {'error':e.toString()};
+    }
+    next();
+});
+
+routes.get('/', bodyparser(), async (ctx, next) => {
     let txt = (await fs.promises.readFile('webapp/index.hbs')).toString();
     let template = handlebars.compile(txt);
-
     let src = ctx.request.body.src;
-    try {
-        let result = src && calculate(JSON.parse(src));
-        ctx.body = template({
-            error: undefined,
-            src: src,
-            result: JSON.stringify(result)
-        });
-    } catch(e) {
-        ctx.body = template({
-            error: e,
-            src: src,
-            result: undefined
-        });
-    }
-        
+    ctx.body = template({
+        src: src,
+    });
+    next();
 
 });
 
 app
     .use(routes.routes())
-    .use(routes.allowedMethods())
+    .use(routes.allowedMethods());
 
-
-module.exports = app;
+app.listen(process.env.PORT || 8000);
