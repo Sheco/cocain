@@ -1,7 +1,8 @@
 {
     "name": "Baberos 38cm²",
+    "amount": 10,
     "resources": {
-        "microfiber": {
+        "surface": {
             "amount": 15000,
             "fixedCost": 70
         },
@@ -18,7 +19,7 @@
             "gas": 5
         },
         "perUnit": {
-            "microfiber": 1444,
+            "surface": 1444,
             "designer": 0.166
         }
     }

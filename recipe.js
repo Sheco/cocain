@@ -28,50 +28,30 @@ class Recipe {
             if(!this.consume(name, amount*total))
                 return false;
         }
-    }
-
-    make(total) {
-        this.cleanup();
-        console.log(`Making ${total} ${this.data.name}`);
-
-        this.consumeMany(this.data.components.general, 1);
-        this.consumeMany(this.data.components.perUnit, total);
-
         return true;
     }
 
-    cleanup() {
-        for(let [name, vars] of Object.entries(this.data.resources)) {
-            vars.consumed = 0;
-        }
+    make() {
+        let components = this.data.components;
+        if(!this.consumeMany(components.general, 1))
+            return false;
+        if(!this.consumeMany(components.perUnit, this.data.amount))
+            return false;
+
+        this.calculateCost();
+        return true;
     }
 
-    report() {
-        console.log('\nReport...');
+    calculateCost() {
         let total = 0;
         for(let [name, vars] of Object.entries(this.data.resources)) {
             let src = require('./resources/'+name);
-            let cost = 0;
-            
-            if(!vars.fixedCostPaid)  {
-                cost = src.fixedCost(vars);
-                if(cost>0) {
-                    vars.fixedCostPaid = true;
-                }
-            }
+            vars.cost = src.fixedCost(vars)+
+                (src.unitCost(vars)*vars.consumed);
 
-            cost += src.unitCost(vars)*vars.consumed;
-            total += cost;
-
-            console.log(`${name}: using ${vars.consumed.toFixed(2)} ${src.unit}: $${cost.toFixed(2)}`)
-
-            
-            if(vars.amount>0) {
-                console.log(`* ${name} still has ${vars.amount.toFixed(2)} ${src.unit} left`);
-            }
+            total += vars.cost;
         }
-        console.log(`\nTotal: $${total.toFixed(2)}`);
-        console.log('');
+        this.data.cost = total;
     }
 }
 
