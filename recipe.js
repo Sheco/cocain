@@ -67,7 +67,7 @@ function make_recipe(data) {
                 resource: resource.resource,
                 name: resource.name,
                 cost: resource.cost,
-                amount: resource.amount,
+                waste: resource.amount,
                 consumed: resource.consumed,
                 unit: src.unit,
             });
