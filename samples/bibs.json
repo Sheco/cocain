@@ -11,6 +11,7 @@
         {
             "name": "gas",
             "resource": "gas",
+            "amount": 7,
             "mileage": 14,
             "price": 19.7
         },
