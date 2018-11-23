@@ -27,17 +27,20 @@
 
                   <form method="post">
                       <div class="form-group">
-                          <label for="src">Enter the json source:</label>
-                          <textarea name="src" id="src" class="form-control" rows="15">{{src}}</textarea>
+                          <p>
+                            You can use a JSON linter to validate the code,
+                            for example: <a href="https://jsonlint.com/" target="_blank">https://jsonlint.com/</a>
+                          </p>
+                          <label for="src">Enter the json code:</label>
+                          <textarea name="src" id="src" class="form-control" rows="15" cols="40">{{src}}</textarea>
                       </div>
                       <button type="submit" class="btn btn-primary">Submit</button>
                         
                   </form>
               </div>
-          </div>
-
-          <div class="row">
-              <div class="col-sm">Result: <pre id="result"></pre></div>
+              <div class="col-sm">
+                  Result:<br> <pre id="result"></pre>
+              </div>
           </div>
         <script>
             var result = JSON.parse('{{{result}}}');
