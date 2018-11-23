@@ -29,6 +29,7 @@ function make_recipe(data) {
             c.amount -= amount;
 
         c.consumed = (c.consumed || 0)+amount;
+        console.log(`Consuming ${amount} of ${name}`);
     }
 
     const consumeMany = function(components, total) {
