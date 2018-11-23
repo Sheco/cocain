@@ -3,7 +3,6 @@ function make_recipe(data) {
     // make a hard copy of the data object,
     // to avoid modifying it directly
     data = {...data}
-    data.cost = 0;
 
     const findResource = function(name, amount) {
         for(let resource of data.resources)
@@ -47,15 +46,11 @@ function make_recipe(data) {
     }
 
     const calculateCost = function() {
-        let total = 0;
         for(let resource of data.resources) {
             let src = require('./resources/'+resource.resource);
             resource.cost = src.fixedCost(resource)+
                 (src.unitCost(resource)*resource.consumed);
-
-            total += resource.cost;
         }
-        data.cost = total;
     }
 
     const process = function() {
