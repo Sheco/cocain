@@ -5,7 +5,7 @@
         {
             "name":"milk",
             "resource": "liquid",
-            "amount": 6000,
+            "amount": 5000,
             "container": 1000,
             "fixedCost": 15
         },
