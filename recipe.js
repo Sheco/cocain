@@ -3,7 +3,6 @@ function make_recipe(data) {
     // make a hard copy of the data object,
     // to avoid modifying it directly
     data = {...data}
-    data.errors = [];
     data.cost = 0;
 
     const findResource = function(name, amount) {
@@ -22,38 +21,29 @@ function make_recipe(data) {
     const consume = function (name, amount) {
         let c = findResource(name, amount);
         if(c===undefined) {
-            data.errors.push(`Not enough resources of ${name}`);
-            return false;
+            throw(`Not enough resources of ${name}`);
         }
 
-        if((c.amount===undefined || c.amount>amount)) {
-            if(c.amount!==undefined) 
-                c.amount -= amount;
-            c.consumed = c.consumed===undefined? amount: c.consumed+amount;
+        if(c.amount!==undefined && c.amount<amount) 
+            throw(`Can't consume ${amount.toFixed(2)} of ${name}`);
 
-            return true;
-        }
-        data.errors.push(`Can't consume ${amount.toFixed(2)} of ${name}`);
-        return false;
+        if(c.amount!==undefined) 
+            c.amount -= amount;
+        c.consumed = c.consumed===undefined? amount: c.consumed+amount;
     }
 
     const consumeMany = function(components, total) {
         for(let component of components) {
-            if(!consume(component.resource, component.amount*total))
-                return false;
+            consume(component.resource, component.amount*total);
         }
-        return true;
     }
 
     const make = function() {
         let components = data.components;
-        if(!consumeMany(components.general, 1))
-            return false;
-        if(!consumeMany(components.perUnit, data.amount))
-            return false;
+        consumeMany(components.general, 1);
+        consumeMany(components.perUnit, data.amount);
 
         calculateCost();
-        return true;
     }
 
     const calculateCost = function() {
