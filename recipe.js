@@ -1,5 +1,8 @@
 
 function make_recipe(data) {
+    // make a hard copy of the data object,
+    // to avoid modifying it directly
+    data = {...data}
     data.errors = [];
     data.cost = 0;
 
