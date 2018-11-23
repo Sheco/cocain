@@ -32,6 +32,9 @@ function make_recipe(data) {
     }
 
     const consumeMany = function(components, total) {
+        if(!components)
+            return 0;
+
         for(let component of components) {
             consume(component.resource, component.amount*total);
         }
@@ -50,8 +53,7 @@ function make_recipe(data) {
             let products = 0;
 
             try {
-                while(true) {
-                    products += consumeMany(components.perUnit, 1);
+                while(products += consumeMany(components.product, 1)) {
                 }
             } catch(e) {
                 console.error('Ran out of resources: '+e);
