@@ -28,7 +28,7 @@ function make_recipe(data) {
         if(c.amount!==undefined) 
             c.amount -= amount;
 
-        c.consumed = c.consumed===undefined? amount: c.consumed+amount;
+        c.consumed = (c.consumed || 0)+amount;
     }
 
     const consumeMany = function(components, total) {
@@ -71,8 +71,8 @@ function make_recipe(data) {
 
     const process = function() {
         let result = {
-            products: make(),
             resources: [],
+            products: make(),
         };
 
         calculateCost();
