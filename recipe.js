@@ -2,23 +2,22 @@
 function make_recipe(data) {
     // make a hard copy of the data object,
     // to avoid modifying it directly
-    data = {...data}
+    data = {...data};
 
     const findResource = function(name, amount) {
         for(let resource of data.resources)
         {
             if(resource.name!=name)
                 continue;
-            if(resource.amount===undefined)
-                return resource;
 
-            if(resource.amount>amount)
+            if(resource.amount===undefined || resource.amount>amount)
                 return resource;
         }
     }
 
     const consume = function (name, amount) {
         let c = findResource(name, amount);
+
         if(c===undefined) {
             throw(`Not enough resources of ${name}`);
         }
@@ -28,6 +27,7 @@ function make_recipe(data) {
 
         if(c.amount!==undefined) 
             c.amount -= amount;
+
         c.consumed = c.consumed===undefined? amount: c.consumed+amount;
     }
 
@@ -35,17 +35,20 @@ function make_recipe(data) {
         for(let component of components) {
             consume(component.resource, component.amount*total);
         }
+
         return total;
     }
 
     const make = function() {
         let components = data.components;
+
         consumeMany(components.general, 1);
+
         if(data.amount>0)  {
             return consumeMany(components.perUnit, data.amount);
-        }
-        else {
+        } else {
             let products = 0;
+
             try {
                 while(true) {
                     products += consumeMany(components.perUnit, 1);
@@ -53,6 +56,7 @@ function make_recipe(data) {
             } catch(e) {
                 console.error('Ran out of resources: '+e);
             }
+
             return products;
         }
     }
@@ -66,13 +70,13 @@ function make_recipe(data) {
     }
 
     const process = function() {
-        let products = make();
-        calculateCost();
-
         let result = {
-            products: products,
+            products: make(),
             resources: [],
         };
+
+        calculateCost();
+
         for(let resource of data.resources) {
             let src = require('./resources/'+resource.resource);
             result.resources.push({
@@ -85,8 +89,8 @@ function make_recipe(data) {
             });
         }
         return result;
-
     }
+
     return process();
 }
 
