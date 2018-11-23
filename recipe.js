@@ -35,21 +35,20 @@ function make_recipe(data) {
         for(let component of components) {
             consume(component.resource, component.amount*total);
         }
+        return total;
     }
 
     const make = function() {
         let components = data.components;
         consumeMany(components.general, 1);
         if(data.amount>0)  {
-            consumeMany(components.perUnit, data.amount);
-            return data.amount;
+            return consumeMany(components.perUnit, data.amount);
         }
         else {
             let products = 0;
             try {
                 while(true) {
-                    consumeMany(components.perUnit, 1);
-                    products++;
+                    products += consumeMany(components.perUnit, 1);
                 }
             } catch(e) {
                 console.error('Ran out of resources: '+e);
