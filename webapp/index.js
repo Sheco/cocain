@@ -14,10 +14,8 @@ routes.all('/', bodyparser(), async (ctx, next) => {
     let template = handlebars.compile(txt);
 
     let src = ctx.request.body.src;
-    console.log(src);
     try {
         let result = calculate(JSON.parse(src));
-        console.log(result);
         ctx.body = template({
             error: undefined,
             src: src,
