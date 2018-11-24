@@ -1,9 +1,9 @@
 {
-    "name": "Baberos 38cm²",
+    "name": "Bibs - 38cm²",
     "amount": 0,
     "resources": [
         {
-            "name": "microfibra",
+            "name": "fabric",
             "resource": "surface",
             "amount": 15000,
             "fixedCost": 70
@@ -16,7 +16,7 @@
             "price": 19.7
         },
         {
-            "name": "natalia",
+            "name": "john",
             "resource": "designer",
             "price": 50
         }
@@ -30,11 +30,11 @@
         ],
         "product": [
             {
-                "resource": "microfibra",
+                "resource": "fabric",
                 "amount": 1444
             },
             {
-                "resource": "natalia",
+                "resource": "john",
                 "amount": 0.166
             }
         ]
