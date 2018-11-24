@@ -76,7 +76,7 @@ module.exports = function(data) {
         for(let resource of data.resources) {
             let src = require('./resources/'+resource.resource);
             resource.cost = Math.round((src.fixedCost(resource)+
-                (src.unitCost(resource)*resource.consumed))*100)/100;
+                (src.unitCost(resource)*resource.consumed))||0*100)/100;
         }
     }
 
