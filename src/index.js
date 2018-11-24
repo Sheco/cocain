@@ -30,7 +30,7 @@ function make_recipe(data) {
         c.consumed = (c.consumed || 0)+amount;
     }
 
-    const consumeMany = function(components, total) {
+    const consumeGroup = function(components, total) {
         if(!components)
             return 0;
 
@@ -49,16 +49,16 @@ function make_recipe(data) {
             products: 0
         }
 
-        consumeMany(components.general, 1);
+        consumeGroup(components.general, 1);
 
         if(data.amount>0)  {
-            ret.products += consumeMany(components.product, data.amount);
+            ret.products += consumeGroup(components.product, data.amount);
         } else {
             let start = new Date().valueOf();
 
             try {
                 while(true) {
-                    ret.products += consumeMany(components.product, 1);
+                    ret.products += consumeGroup(components.product, 1);
 
                     let now = new Date().valueOf();
                     if(now-start>timeLimit) {
@@ -68,7 +68,6 @@ function make_recipe(data) {
             } catch(e) {
                 ret.message = 'Ran out of resources: '+e;
             }
-
         }
         return ret;
     }
