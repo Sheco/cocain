@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const calculate = require('./costCalculator');
+const calculate = require('./src');
 const fs = require('fs');
 
 let source = process.argv[2];
