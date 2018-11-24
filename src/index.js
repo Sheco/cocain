@@ -21,11 +21,8 @@ function make_recipe(data) {
         let c = findResource(name, amount);
 
         if(c===undefined) {
-            throw(`Not enough resources of ${name}`);
+            throw(`Not enough ${name}`);
         }
-
-        if(c.amount!==undefined && c.amount<amount) 
-            throw(`Can't consume ${amount.toFixed(2)} of ${name}`);
 
         if(c.amount!==undefined) 
             c.amount -= amount;
