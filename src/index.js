@@ -46,11 +46,17 @@ function make_recipe(data) {
 
     const make = function() {
         let components = data.components;
+        let ret = {
+            resources: [],
+            message: '',
+            products: 0
+        }
 
         consumeMany(components.general, 1);
 
         if(data.amount>0)  {
-            return consumeMany(components.product, data.amount);
+            consumeMany(components.product, data.amount);
+            ret.products = data.amount;
         } else {
             let products = 0;
             let start = new Date().valueOf();
@@ -63,11 +69,12 @@ function make_recipe(data) {
                     }
                 }
             } catch(e) {
-                console.error('Ran out of resources: '+e);
+                ret.message = 'Ran out of resources: '+e;
             }
 
-            return products;
+            ret.products = products;
         }
+        return ret;
     }
 
     const calculateCost = function() {
@@ -79,10 +86,7 @@ function make_recipe(data) {
     }
 
     const process = function() {
-        let result = {
-            resources: [],
-            products: make(),
-        };
+        let result = make();
 
         calculateCost();
 
