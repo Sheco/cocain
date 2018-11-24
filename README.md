@@ -33,7 +33,7 @@ Web Application
 
 The webapp directory includes a basic web interface that can be used to paste a json recipe and an /api endpoint that receives the json input and returns the json output.
 
-It can be easily deployed to Heroku and it's currently hosted in [https://cost-calc.herokuapp.com/](https://cost-calc.herokuapp.com/)
+It can be easily deployed to Heroku and it's currently hosted in [https://cost-calc-api.herokuapp.com/](https://cost-calc-api.herokuapp.com/)
 
 Input JSON structure
 ====================
