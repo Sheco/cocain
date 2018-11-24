@@ -9,7 +9,6 @@ The calculate.js script can be used on the command line to test the recipes, for
                                                                         
 ```                                                                     
 $ ./calculate.js samples/chocomilk.js                                   
-Ran out of resources: Not enough resources of chocolate                 
 { resources:
    [ { resource: 'liquid',
        name: 'milk',
@@ -23,9 +22,11 @@ Ran out of resources: Not enough resources of chocolate
        waste: 10,
        consumed: 150,
        unit: 'g' } ],
+  message: 'Ran out of resources: Not enough chocolate',
   products: 10,
   totalCost: 63.5,
   costPerProduct: 6.35 }
+
 ```                       
 
 Web API/Application
