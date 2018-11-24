@@ -1,7 +1,7 @@
 // When making as many products as possible, don't let it run for too long
 const timeLimit=2000;
 
-function make_recipe(data) {
+module.exports = function(data) {
     // make a hard copy of the data object,
     // to avoid modifying it directly
     data = {...data};
@@ -104,5 +104,3 @@ function make_recipe(data) {
 
     return process();
 }
-
-module.exports = make_recipe;
