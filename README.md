@@ -28,10 +28,17 @@ Ran out of resources: Not enough resources of chocolate
   costPerProduct: 6.35 }
 ```                       
 
-Web Application
+Web API/Application
 ===============
 
-The webapp directory includes a basic web interface that can be used to paste a json recipe and an /api endpoint that receives the json input and returns the json output.
+The webapp directory includes an API that can be used to send a json recipe, on an /api endpoint which then returns the json output, for example:
+
+```
+$ curl https://cost-calc-api.herokuapp.com/api --data-urlencode src@samples/chocomilk.json
+{"resources":[{"resource":"liquid","name":"milk","cost":45,"waste":360,"consumed":2640,"unit":"mL"},{"resource":"powder","name":"chocolate","cost":18.5,"waste":10,"consumed":150,"unit":"g"}],"message":"Ran out of resources: Not enough chocolate","products":10,"totalCost":63.5,"costPerProduct":6.35}
+```
+
+It also includes a basic web form on the / endpoint, which shows how to use the API in a web form.
 
 It can be easily deployed to Heroku and it's currently hosted in [https://cost-calc-api.herokuapp.com/](https://cost-calc-api.herokuapp.com/)
 
