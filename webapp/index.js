@@ -18,7 +18,7 @@ routes.post('/api', bodyparser(), async (ctx, next) => {
     } catch(e) {
         ctx.body = {'error':e.toString()};
     }
-    next();
+    await next();
 });
 
 routes.get('/', bodyparser(), async (ctx, next) => {
@@ -28,8 +28,7 @@ routes.get('/', bodyparser(), async (ctx, next) => {
     ctx.body = template({
         src: src,
     });
-    next();
-
+    await next();
 });
 
 app
