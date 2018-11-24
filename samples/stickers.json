@@ -3,8 +3,8 @@
     "amount": 0,
     "resources": [
         {
-            "name":"vinil",
-            "resource": "surface",
+            "name":"vinyl",
+            "resource": "2dsurface",
             "amount": 14500,
             "fixedCost": 160
         },
@@ -15,8 +15,8 @@
             "price": 19.7
         },
         {
-            "name": "natalia",
-            "resource": "designer",
+            "name": "john",
+            "resource": "worker",
             "price": 50
         }
     ],
@@ -27,13 +27,13 @@
                 "amount": 13
             },
             {
-                "resource":"natalia",
+                "resource":"john",
                 "amount": 0.40
             }
         ],
         "product": [
             {
-                "resource":"vinil",
+                "resource":"vinyl",
                 "amount": 30.25
             }
         ]

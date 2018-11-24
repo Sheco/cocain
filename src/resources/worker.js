@@ -4,6 +4,6 @@ module.exports = {
         return vars.fixedCost || 0;
     },
     unitCost: function(vars) {
-        return vars.unitCost || 50;
+        return vars.unitCost || 0;
     }
 }
