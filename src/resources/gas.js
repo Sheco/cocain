@@ -9,15 +9,15 @@
  *  it will be considered in the cost
  */
 module.exports = {
-    unit: 'km',
-    fixedCost: function(vars) {
-        if(vars.amount>0) {
-            return Math.round((vars.price/vars.mileage)
-                *vars.amount*100)/100;
-        }
-        return vars.fixedCost || 0;
-    },
-    unitCost: function(vars) {
-        return Math.round((vars.price/vars.mileage)*100)/100;
+  unit: 'km',
+  fixedCost: function (vars) {
+    if (vars.amount > 0) {
+      return Math.round((vars.price / vars.mileage) *
+        vars.amount * 100) / 100
     }
+    return vars.fixedCost || 0
+  },
+  unitCost: function (vars) {
+    return Math.round((vars.price / vars.mileage) * 100) / 100
+  }
 }

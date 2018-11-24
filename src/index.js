@@ -1,106 +1,110 @@
 // When making as many products as possible, don't let it run for too long
-const timeLimit=2000;
+const timeLimit = 2000
 
-module.exports = function(data) {
-    // make a hard copy of the data object,
-    // to avoid modifying it directly
-    data = {...data};
+module.exports = function (data) {
+  // make a hard copy of the data object,
+  // to avoid modifying it directly
+  data = { ...data }
 
-    const findResource = function(name, amount) {
-        for(let resource of data.resources)
-        {
-            if(resource.name!=name)
-                continue;
+  const findResource = function (name, amount) {
+    for (let resource of data.resources) {
+      if (resource.name !== name) {
+        continue
+      }
 
-            if(resource.amount===undefined || resource.amount>amount)
-                return resource;
-        }
+      if (resource.amount === undefined || resource.amount >= amount) {
+        return resource
+      }
+    }
+  }
+
+  const consume = function (name, amount) {
+    let c = findResource(name, amount)
+
+    if (c === undefined) {
+      throw (Error(`Not enough ${name}`))
     }
 
-    const consume = function (name, amount) {
-        let c = findResource(name, amount);
-
-        if(c===undefined) {
-            throw(`Not enough ${name}`);
-        }
-
-        if(c.amount!==undefined) 
-            c.amount -= amount;
-
-        c.consumed = (c.consumed || 0)+amount;
+    if (c.amount !== undefined) {
+      c.amount -= amount
     }
 
-    const consumeGroup = function(components, total) {
-        if(!components)
-            return 0;
+    c.consumed = (c.consumed || 0) + amount
+  }
 
-        for(let component of components) {
-            consume(component.resource, component.amount*total);
-        }
-
-        return total;
+  const consumeGroup = function (components, total) {
+    if (!components) {
+      return 0
     }
 
-    const make = function() {
-        let components = data.components;
-        let ret = {
-            resources: [],
-            message: '',
-            products: 0
-        }
-
-        consumeGroup(components.general, 1);
-
-        if(data.amount>0)  {
-            ret.products += consumeGroup(components.product, data.amount);
-        } else {
-            let start = new Date().valueOf();
-
-            try {
-                while(true) {
-                    ret.products += consumeGroup(components.product, 1);
-
-                    let now = new Date().valueOf();
-                    if(now-start>timeLimit) {
-                        throw(`It took longer than ${timeLimit}ms`);
-                    }
-                }
-            } catch(e) {
-                ret.message = 'Ran out of resources: '+e;
-            }
-        }
-        return ret;
+    for (let component of components) {
+      consume(component.resource, component.amount * total)
     }
 
-    const calculateCost = function() {
-        for(let resource of data.resources) {
-            let src = require('./resources/'+resource.resource);
-            resource.cost = Math.round((src.fixedCost(resource)+
-                (src.unitCost(resource)*resource.consumed))||0*100)/100;
-        }
+    return total
+  }
+
+  const make = function () {
+    let components = data.components
+    let ret = {
+      resources: [],
+      message: '',
+      products: 0
     }
 
-    const process = function() {
-        let result = make();
+    consumeGroup(components.general, 1)
 
-        calculateCost();
+    if (data.amount > 0) {
+      ret.products += consumeGroup(components.product, data.amount)
+    } else {
+      let start = new Date().valueOf()
 
-        for(let resource of data.resources) {
-            let src = require('./resources/'+resource.resource);
-            result.resources.push({
-                resource: resource.resource,
-                name: resource.name,
-                cost: resource.cost,
-                waste: resource.amount,
-                consumed: resource.consumed,
-                unit: src.unit,
-            });
+      try {
+        while (true) {
+          ret.products += consumeGroup(components.product, 1)
+
+          let now = new Date().valueOf()
+          if (now - start > timeLimit) {
+            throw (Error(`It took longer than ${timeLimit}ms`))
+          }
         }
-        result.totalCost = Math.round(result.resources
-            .reduce((total,res) => total+res.cost, 0)*100)/100;
-        result.costPerProduct = Math.round(result.totalCost/result.products*100)/100;
-        return result;
+      } catch (e) {
+        ret.message = 'Ran out of resources: ' + e
+      }
     }
+    return ret
+  }
 
-    return process();
+  const calculateCost = function () {
+    for (let resource of data.resources) {
+      let src = require('./resources/' + resource.resource)
+      resource.cost = (Math.round((src.fixedCost(resource) +
+        (src.unitCost(resource) * resource.consumed)) * 100) / 100) || 0
+    }
+  }
+
+  const process = function () {
+    let result = make()
+
+    calculateCost()
+
+    for (let resource of data.resources) {
+      let src = require('./resources/' + resource.resource)
+      result.resources.push({
+        resource: resource.resource,
+        name: resource.name,
+        cost: resource.cost,
+        waste: resource.amount,
+        consumed: resource.consumed,
+        unit: src.unit
+      })
+    }
+    result.totalCost = Math.round(result.resources
+      .reduce((total, res) => total + res.cost, 0) * 100) / 100
+    result.costPerProduct = Math.round(result.totalCost /
+        result.products * 100) / 100
+    return result
+  }
+
+  return process()
 }

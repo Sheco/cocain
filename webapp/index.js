@@ -1,38 +1,38 @@
-const koa = require('koa');
-const router = require('koa-router');
-const bodyparser = require('koa-bodyparser');
-const handlebars = require('handlebars');
-const fs = require('fs');
+const Koa = require('koa')
+const Router = require('koa-router')
+const bodyparser = require('koa-bodyparser')
+const handlebars = require('handlebars')
+const fs = require('fs')
 
-const calculate = require('../src');
+const calculate = require('../src')
 
-const app = new koa();
-const routes = new router();
+const app = new Koa()
+const router = new Router()
 
-routes.post('/api', bodyparser(), async (ctx, next) => {
-    ctx.set({
-        'Access-Control-Allow-Origin': '*'
-    });
-    try {
-        ctx.body = calculate(JSON.parse(ctx.request.body.src));
-    } catch(e) {
-        ctx.body = {'error':e.toString()};
-    }
-    await next();
-});
+router.post('/api', bodyparser(), async (ctx, next) => {
+  ctx.set({
+    'Access-Control-Allow-Origin': '*'
+  })
+  try {
+    ctx.body = calculate(JSON.parse(ctx.request.body.src))
+  } catch (e) {
+    ctx.body = { 'error': e.toString() }
+  }
+  await next()
+})
 
-routes.get('/', bodyparser(), async (ctx, next) => {
-    let txt = (await fs.promises.readFile('webapp/index.hbs')).toString();
-    let template = handlebars.compile(txt);
-    let src = ctx.request.body.src;
-    ctx.body = template({
-        src: src,
-    });
-    await next();
-});
+router.get('/', bodyparser(), async (ctx, next) => {
+  let txt = (await fs.promises.readFile('webapp/index.hbs')).toString()
+  let template = handlebars.compile(txt)
+  let src = ctx.request.body.src
+  ctx.body = template({
+    src: src
+  })
+  await next()
+})
 
 app
-    .use(routes.routes())
-    .use(routes.allowedMethods());
+  .use(router.routes())
+  .use(router.allowedMethods())
 
-app.listen(process.env.PORT || 8000);
+app.listen(process.env.PORT || 8000)
