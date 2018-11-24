@@ -10,6 +10,9 @@ const app = new koa();
 const routes = new router();
 
 routes.post('/api', bodyparser(), async (ctx, next) => {
+    ctx.set({
+        'Access-Control-Allow-Origin': '*'
+    });
     try {
         ctx.body = calculate(JSON.parse(ctx.request.body.src));
     } catch(e) {
