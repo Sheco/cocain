@@ -1,3 +1,5 @@
+// When making as many products as possible, don't let it run for too long
+const timeLimit=2000;
 
 function make_recipe(data) {
     // make a hard copy of the data object,
@@ -29,7 +31,6 @@ function make_recipe(data) {
             c.amount -= amount;
 
         c.consumed = (c.consumed || 0)+amount;
-        console.log(`Consuming ${amount} of ${name}`);
     }
 
     const consumeMany = function(components, total) {
@@ -52,9 +53,14 @@ function make_recipe(data) {
             return consumeMany(components.product, data.amount);
         } else {
             let products = 0;
+            let start = new Date().valueOf();
 
             try {
                 while(products += consumeMany(components.product, 1)) {
+                    let now = new Date().valueOf();
+                    if(now-start>timeLimit) {
+                        throw(`It took longer than ${timeLimit}ms`);
+                    }
                 }
             } catch(e) {
                 console.error('Ran out of resources: '+e);
