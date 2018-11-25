@@ -8,25 +8,30 @@ Command line interface
 The calculate.js script can be used on the command line to test the recipes, for example:                                                   
                                                                         
 ```                                                                     
-$ ./calculate.js samples/chocomilk.js                                   
-{ resources:
-   [ { resource: 'liquid',
-       name: 'milk',
-       cost: 45,
-       waste: 360,
-       consumed: 2640,
-       unit: 'mL' },
-     { resource: 'powder',
-       name: 'chocolate',
-       cost: 18.5,
-       waste: 10,
-       consumed: 150,
-       unit: 'g' } ],
-  message: 'Ran out of resources: Not enough chocolate',
-  products: 10,
-  totalCost: 63.5,
-  costPerProduct: 6.35 }
-
+$ ./calculate.js samples/chocomilk.json  | json
+(node:26887) ExperimentalWarning: The fs.promises API is experimental
+{
+  "products": 0,
+  "message": "Ran out of resources: Error: Not enough milk",
+  "totalCost": 0,
+  "costPerProduct": null,
+  "resources": [
+    {
+      "type": "liquid",
+      "name": "milk",
+      "cost": 0,
+      "waste": 0,
+      "unit": "mL"
+    },
+    {
+      "type": "powder",
+      "name": "chocolate",
+      "cost": 0,
+      "waste": 160,
+      "unit": "g"
+    }
+  ]
+}
 ```                       
 
 Web API/Application
