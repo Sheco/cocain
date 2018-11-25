@@ -87,46 +87,52 @@ module.exports = function (data) {
     }
   }
 
-  const loadType = function (type) {
-    type = type || 'standard'
+  const cost = function (resource) {
+    let type = resource.type || 'standard'
 
     // the type must be alphanumeric (and it can have a dash)
     if (type === undefined || !/^[\w-]+$/.test(type)) {
       throw (Error('Invalid resource type: ' + type))
     }
 
-    return require('./types/' + type)
-  }
+    let result = require('./types/' + type)(resource)
 
-  const calculateCost = function (resource) {
-    let cost = loadType(resource.type)
-    resource.cost = Math.round((cost(resource) || 0) * 100) / 100
+    return Math.round(result * 100) / 100
   }
 
   const process = function () {
     let result = make()
-
     let resources = []
-    for (let resource of data.resources) {
-      let src = loadType(resource.type)
-      calculateCost(resource)
 
-      resources.push({
+    for (let resource of data.resources) {
+      let r = {
         type: resource.type,
         name: resource.name,
         amount: resource.amount,
-        cost: resource.cost,
-        waste: resource.waste,
-        waste_pcnt: Math.round(resource.waste / resource.capacity * 100),
-        consumed: resource.consumed,
-        unit: src.unit
-      })
+        cost: cost(resource),
+        consumed: resource.consumed
+      }
+
+      if (resource.waste >= 0) {
+        r.waste = resource.waste
+        r.wastePcnt = Math.round(resource.waste / resource.capacity * 100)
+      }
+      resources.push(r)
     }
+
     result.total = Math.round(resources
       .reduce((total, res) => total + res.cost, 0) * 100) / 100
+
     result.costPerProduct = Math.round(result.total /
         result.products * 100) / 100
+
+    let wastePcnt = resources.filter(resource => resource.wastePcnt >= 0)
+    result.wastePcnt = wastePcnt.reduce(
+      (total, x) => total + x.wastePcnt, 0) /
+      wastePcnt.length
+
     result.resources = resources
+
     return result
   }
 
