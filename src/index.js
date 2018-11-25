@@ -75,9 +75,18 @@ module.exports = function (data) {
     }
   }
 
+  const loadType = function (type) {
+    // the type must be alphanumeric (and it can have a dash)
+    if (type === undefined || !/^[\w-]+$/.test(type)) {
+      throw (Error('Invalid resource type: ' + type))
+    }
+
+    return require('./types/' + type)
+  }
+
   const calculateCost = function () {
     for (let resource of data.resources) {
-      let src = require('./types/' + resource.type)
+      let src = loadType(resource.type)
       resource.cost = (Math.round((src.fixedCost(resource) +
         (src.unitCost(resource) * resource.consumed)) * 100) / 100) || 0
     }
@@ -90,7 +99,7 @@ module.exports = function (data) {
 
     let resources = []
     for (let resource of data.resources) {
-      let src = require('./types/' + resource.type)
+      let src = loadType(resource.type)
       resources.push({
         type: resource.type,
         name: resource.name,
