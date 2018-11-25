@@ -46,17 +46,17 @@ module.exports = function (data) {
 
   const make = function () {
     let components = data.components
-    let ret = {
-      resources: [],
-      message: '',
-      products: 0
-    }
 
     consumeGroup(components.general, 1)
 
     if (data.amount > 0) {
-      ret.products += consumeGroup(components.product, data.amount)
+      return {
+        products: consumeGroup(components.product, data.amount)
+      }
     } else {
+      let ret = {
+        products: 0
+      }
       let start = new Date().valueOf()
 
       try {
@@ -71,8 +71,8 @@ module.exports = function (data) {
       } catch (e) {
         ret.message = 'Ran out of resources: ' + e
       }
+      return ret
     }
-    return ret
   }
 
   const calculateCost = function () {
@@ -88,9 +88,10 @@ module.exports = function (data) {
 
     calculateCost()
 
+    let resources = []
     for (let resource of data.resources) {
       let src = require('./types/' + resource.type)
-      result.resources.push({
+      resources.push({
         type: resource.type,
         name: resource.name,
         cost: resource.cost,
@@ -99,10 +100,11 @@ module.exports = function (data) {
         unit: src.unit
       })
     }
-    result.totalCost = Math.round(result.resources
+    result.totalCost = Math.round(resources
       .reduce((total, res) => total + res.cost, 0) * 100) / 100
     result.costPerProduct = Math.round(result.totalCost /
         result.products * 100) / 100
+    result.resources = resources
     return result
   }
 
