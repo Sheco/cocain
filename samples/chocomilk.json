@@ -1,17 +1,15 @@
 {
     "name": "Chocomilk",
-    "amount": 0,
+    "amount": 60,
     "resources": [
         {
             "name":"milk",
             "capacity": 1000,
-            "amount": 3,
             "cost": 15
         },
         {
             "name": "chocolate",
             "capacity": 160,
-            "amount": 1,
             "cost": 18.5
         }
     ],

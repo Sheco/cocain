@@ -114,15 +114,16 @@ module.exports = function (data) {
       resources.push({
         type: resource.type,
         name: resource.name,
+        amount: resource.amount,
         cost: resource.cost,
         waste: resource.waste,
         consumed: resource.consumed,
         unit: src.unit
       })
     }
-    result.totalCost = Math.round(resources
+    result.total = Math.round(resources
       .reduce((total, res) => total + res.cost, 0) * 100) / 100
-    result.costPerProduct = Math.round(result.totalCost /
+    result.costPerProduct = Math.round(result.total /
         result.products * 100) / 100
     result.resources = resources
     return result

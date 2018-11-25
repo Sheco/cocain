@@ -1,14 +1,17 @@
 /* Gas
  *
  * mandatory variables:
- * price: price per unit (liter/galon)
+ * cost: cost per unit (liter/galon)
  * mileage: vehicle's mileage
  *
  * optional variables:
- * amount: the amount of gas you prepurchased, if there's any wasted gas
- *  it will be considered in the cost
+ * amount: the maximum amount of gas available
  */
 module.exports = function (vars) {
+  if (vars.amount === undefined) {
+    vars.amount = vars.consumed
+  }
+
   if (vars.amount > 0) {
     return Math.round((vars.cost / vars.mileage) *
       vars.amount * 100) / 100

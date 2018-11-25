@@ -4,29 +4,26 @@
     "resources": [
         {
             "name": "fabric",
-            "type": "standard",
             "capacity": 15000,
             "amount": 1,
             "cost": 70
         },
         {
             "name": "gas",
-            "type": "gas",
-            "amount": 7,
+            "type": "gas-per-distance",
             "mileage": 14,
             "cost": 19.7
         },
         {
             "name": "john",
-            "type": "standard",
-            "cost": 50
+            "cost": 0.083
         }
     ],
     "components": {
         "general": [
             {
                 "resource":"gas",
-                "amount": 5
+                "amount": 2
             }
         ],
         "product": [
@@ -36,7 +33,7 @@
             },
             {
                 "resource": "john",
-                "amount": 0.166
+                "amount": 5
             }
         ]
     }
