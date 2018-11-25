@@ -16,7 +16,7 @@ router.post('/api', bodyparser(), async (ctx, next) => {
   try {
     ctx.body = calculate(JSON.parse(ctx.request.body.src))
   } catch (e) {
-    ctx.body = { 'error': e.toString() }
+    ctx.body = { 'error': e.message }
   }
   await next()
 })
