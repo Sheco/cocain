@@ -117,6 +117,7 @@ module.exports = function (data) {
         amount: resource.amount,
         cost: resource.cost,
         waste: resource.waste,
+        waste_pcnt: Math.round(resource.waste / resource.capacity * 100),
         consumed: resource.consumed,
         unit: src.unit
       })
