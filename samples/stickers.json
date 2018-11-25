@@ -9,8 +9,8 @@
             "cost": 160
         },
         {
-            "name": "gas-per-distance",
-            "type": "gas",
+            "name": "gas",
+            "type": "gas-per-distance",
             "mileage": 14,
             "cost": 19.7
         },
