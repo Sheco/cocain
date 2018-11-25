@@ -69,7 +69,7 @@ module.exports = function (data) {
           }
         }
       } catch (e) {
-        ret.message = 'Ran out of resources: ' + e
+        ret.message = e.message
       }
       return ret
     }
