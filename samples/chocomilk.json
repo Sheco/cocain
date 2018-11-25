@@ -4,14 +4,14 @@
     "resources": [
         {
             "name":"milk",
-            "resource": "liquid",
+            "type": "liquid",
             "amount": 0,
             "container": 1000,
             "fixedCost": 15
         },
         {
             "name": "chocolate",
-            "resource": "powder",
+            "type": "powder",
             "amount": 160,
             "container": 160,
             "fixedCost": 18.5

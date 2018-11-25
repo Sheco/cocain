@@ -77,7 +77,7 @@ module.exports = function (data) {
 
   const calculateCost = function () {
     for (let resource of data.resources) {
-      let src = require('./resources/' + resource.resource)
+      let src = require('./types/' + resource.type)
       resource.cost = (Math.round((src.fixedCost(resource) +
         (src.unitCost(resource) * resource.consumed)) * 100) / 100) || 0
     }
@@ -89,9 +89,9 @@ module.exports = function (data) {
     calculateCost()
 
     for (let resource of data.resources) {
-      let src = require('./resources/' + resource.resource)
+      let src = require('./types/' + resource.type)
       result.resources.push({
-        resource: resource.resource,
+        type: resource.type,
         name: resource.name,
         cost: resource.cost,
         waste: resource.amount,

@@ -4,19 +4,19 @@
     "resources": [
         {
             "name":"vinyl",
-            "resource": "2dsurface",
+            "type": "2dsurface",
             "amount": 14500,
             "fixedCost": 160
         },
         {
             "name": "gas",
-            "resource": "gas",
+            "type": "gas",
             "mileage": 14,
             "price": 19.7
         },
         {
             "name": "john",
-            "resource": "worker",
+            "type": "worker",
             "price": 50
         }
     ],
