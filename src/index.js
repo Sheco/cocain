@@ -84,22 +84,20 @@ module.exports = function (data) {
     return require('./types/' + type)
   }
 
-  const calculateCost = function () {
-    for (let resource of data.resources) {
-      let src = loadType(resource.type)
-      resource.cost = (Math.round((src.fixedCost(resource) +
-        (src.unitCost(resource) * resource.consumed)) * 100) / 100) || 0
-    }
+  const calculateCost = function (resource) {
+    let src = loadType(resource.type)
+    resource.cost = (Math.round((src.fixedCost(resource) +
+      (src.unitCost(resource) * resource.consumed)) * 100) / 100) || 0
   }
 
   const process = function () {
     let result = make()
 
-    calculateCost()
-
     let resources = []
     for (let resource of data.resources) {
       let src = loadType(resource.type)
+      calculateCost(resource)
+
       resources.push({
         type: resource.type,
         name: resource.name,
