@@ -4,20 +4,19 @@
     "resources": [
         {
             "name":"vinyl",
-            "type": "2dsurface",
-            "amount": 14500,
-            "fixedCost": 160
+            "capacity": 14500,
+            "amount": 1,
+            "cost": 160
         },
         {
             "name": "gas",
             "type": "gas",
             "mileage": 14,
-            "price": 19.7
+            "cost": 19.7
         },
         {
             "name": "john",
-            "type": "worker",
-            "price": 50
+            "cost": 50
         }
     ],
     "components": {

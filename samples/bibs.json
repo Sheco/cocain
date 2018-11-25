@@ -4,21 +4,22 @@
     "resources": [
         {
             "name": "fabric",
-            "type": "2dsurface",
-            "amount": 15000,
-            "fixedCost": 70
+            "type": "standard",
+            "capacity": 15000,
+            "amount": 1,
+            "cost": 70
         },
         {
             "name": "gas",
             "type": "gas",
             "amount": 7,
             "mileage": 14,
-            "price": 19.7
+            "cost": 19.7
         },
         {
             "name": "john",
-            "type": "worker",
-            "price": 50
+            "type": "standard",
+            "cost": 50
         }
     ],
     "components": {

@@ -12,7 +12,8 @@ module.exports = function (data) {
         continue
       }
 
-      if (resource.amount === undefined || resource.amount >= amount) {
+      if (resource.waste === undefined ||
+        resource.waste >= amount) {
         return resource
       }
     }
@@ -25,8 +26,8 @@ module.exports = function (data) {
       throw (Error(`Not enough ${name}`))
     }
 
-    if (c.amount !== undefined) {
-      c.amount -= amount
+    if (c.waste !== undefined) {
+      c.waste -= amount
     }
 
     c.consumed = (c.consumed || 0) + amount
@@ -44,7 +45,18 @@ module.exports = function (data) {
     return total
   }
 
+  const setup = function () {
+    for (let resource of data.resources) {
+      if (resource.amount === undefined) {
+        resource.waste = undefined
+        continue
+      }
+      resource.waste = resource.amount * (resource.capacity || 1)
+    }
+  }
+
   const make = function () {
+    setup()
     let components = data.components
 
     consumeGroup(components.general, 1)
@@ -76,6 +88,8 @@ module.exports = function (data) {
   }
 
   const loadType = function (type) {
+    type = type || 'standard'
+
     // the type must be alphanumeric (and it can have a dash)
     if (type === undefined || !/^[\w-]+$/.test(type)) {
       throw (Error('Invalid resource type: ' + type))
@@ -85,9 +99,8 @@ module.exports = function (data) {
   }
 
   const calculateCost = function (resource) {
-    let src = loadType(resource.type)
-    resource.cost = (Math.round((src.fixedCost(resource) +
-      (src.unitCost(resource) * resource.consumed)) * 100) / 100) || 0
+    let cost = loadType(resource.type)
+    resource.cost = Math.round((cost(resource) || 0) * 100) / 100
   }
 
   const process = function () {
@@ -102,7 +115,7 @@ module.exports = function (data) {
         type: resource.type,
         name: resource.name,
         cost: resource.cost,
-        waste: resource.amount,
+        waste: resource.waste,
         consumed: resource.consumed,
         unit: src.unit
       })
