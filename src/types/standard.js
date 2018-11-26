@@ -15,7 +15,9 @@ module.exports = function (vars) {
   }
 
   /* if it doesn't have any waste and it has a capacity
-   * then it consumed all of the containers */
+   * then it consumed all of the containers,
+   * this happens when the resource is specified with a capacity
+   * but without a given amount of containers */
   if (vars.waste === undefined) {
     vars.amount = Math.ceil(vars.consumed / vars.capacity)
     vars.waste = (vars.amount * vars.capacity) - vars.consumed
