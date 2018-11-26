@@ -105,11 +105,12 @@ module.exports = function (data) {
     let resources = []
 
     for (let resource of data.resources) {
+      resource.cost = cost(resource)
       let r = {
         type: resource.type,
         name: resource.name,
         amount: resource.amount,
-        cost: cost(resource),
+        cost: resource.cost,
         consumed: resource.consumed
       }
 
