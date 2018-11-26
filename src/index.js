@@ -113,7 +113,7 @@ module.exports = function (data) {
         consumed: resource.consumed
       }
 
-      if (resource.waste >= 0) {
+      if (resource.waste >= 0 && resource.capacity) {
         r.waste = resource.waste
         r.wastePcnt = Math.round(resource.waste / resource.capacity * 100)
       }
