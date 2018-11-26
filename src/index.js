@@ -87,7 +87,7 @@ module.exports = function (data) {
     }
   }
 
-  const cost = function (resource) {
+  const calculate = function (resource) {
     let type = resource.type || 'standard'
 
     // the type must be alphanumeric (and it can have a dash)
@@ -105,7 +105,7 @@ module.exports = function (data) {
     let resources = []
 
     for (let resource of data.resources) {
-      resource.cost = cost(resource)
+      calculate(resource)
       let r = {
         type: resource.type,
         name: resource.name,

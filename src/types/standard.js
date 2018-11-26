@@ -1,28 +1,33 @@
 /* standard cost calculator
  *
  * Mandatory variables:
- * capacity: the capacity for each container of this resource
  * cost: if the object has a capacity, the cost is per container
  *   otherwise, the cost is per unit consumed
  *
  * Optional variables:
- * amount: the maximum amount of containers available
+ * capacity: the capacity for each container of this resource
+ * amount: if it has a capacity, amount is the amount of containers
+ *   otherwise it is the amount of units available
+ *   if the amount is undefined, it means it's infinite so it will
+ *   use as many as it can
  * type: the type of resource (defaults to 'standard')
  */
 module.exports = function (vars) {
   if (!vars.capacity) {
-    return Math.round(((vars.cost * vars.consumed) || 0) * 1e2) / 1e2
+    if (vars.amount === undefined) {
+      vars.amount = vars.consumed
+    }
+    vars.cost = Math.round(((vars.cost * vars.consumed) || 0) * 1e2) / 1e2
+    return
   }
 
-  /* if it doesn't have any waste and it has a capacity
-   * then it consumed all of the containers,
-   * this happens when the resource is specified with a capacity
-   * but without a given amount of containers */
-  if (vars.waste === undefined) {
+  /* if the amount is undefined, we'll calculate the amount of containers
+   * spent and the leftover waste */
+  if (vars.amount === undefined) {
     vars.amount = Math.ceil(vars.consumed / vars.capacity)
     vars.waste = (vars.amount * vars.capacity) - vars.consumed
   }
 
-  /* if it has a capacity, the cost is that of the amount of containers */
-  return Math.round(((vars.cost * vars.amount) || 0) * 1e2) / 1e2
+  /* The cost is that of the amount of containers */
+  vars.cost = Math.round(((vars.cost * vars.amount) || 0) * 1e2) / 1e2
 }
