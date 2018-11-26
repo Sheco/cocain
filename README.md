@@ -11,27 +11,28 @@ The calculate.js script can be used on the command line to test the recipes, for
 $ ./calculate.js samples/chocomilk.json  | json
 (node:26887) ExperimentalWarning: The fs.promises API is experimental
 {
-  "products": 0,
-  "message": "Ran out of resources: Error: Not enough milk",
-  "totalCost": 0,
-  "costPerProduct": null,
+  "products": 60,
+  "total": 336,
+  "costPerProduct": 5.6,
+  "wastePcnt": 49,
   "resources": [
     {
-      "type": "liquid",
       "name": "milk",
-      "cost": 0,
-      "waste": 0,
-      "unit": "mL"
+      "cost": 225,
+      "consumed": 14400,
+      "waste": 600,
+      "wastePcnt": 60
     },
     {
-      "type": "powder",
       "name": "chocolate",
-      "cost": 0,
-      "waste": 160,
-      "unit": "g"
+      "cost": 111,
+      "consumed": 900,
+      "waste": 60,
+      "wastePcnt": 38
     }
   ]
 }
+
 ```                       
 
 Web API/Application
@@ -46,27 +47,28 @@ $ curl https://cost-calc-api.herokuapp.com/api --data-urlencode src@samples/choc
                                  Dload  Upload   Total   Spent    Left  Speed
 100  1905  100   253  100  1652    698   4563 --:--:-- --:--:-- --:--:--  5247
 {
-  "products": 0,
-  "message": "Ran out of resources: Error: Not enough milk",
-  "totalCost": 0,
-  "costPerProduct": null,
+  "products": 60,
+  "total": 336,
+  "costPerProduct": 5.6,
+  "wastePcnt": 49,
   "resources": [
     {
-      "type": "liquid",
       "name": "milk",
-      "cost": 0,
-      "waste": 0,
-      "unit": "mL"
+      "cost": 225,
+      "consumed": 14400,
+      "waste": 600,
+      "wastePcnt": 60
     },
     {
-      "type": "powder",
       "name": "chocolate",
-      "cost": 0,
-      "waste": 160,
-      "unit": "g"
+      "cost": 111,
+      "consumed": 900,
+      "waste": 60,
+      "wastePcnt": 38
     }
   ]
 }
+
 
 ```
 
@@ -98,33 +100,29 @@ The comments here are just for documentation, they are not valid JSON contents.
             "name":"milk",
             // the resource is the type of resource, there are some different types
             // that behave differently, their behavior is described in the src/resources directory
-            // for example, liquid:
-            "resource": "liquid",
-            // amount is the total amount of liquid acquired, in mL.
+            // standard is the default and the following line might be omited:
+            "type": "standard",
+            // container is the size of the container, how many units fit in this resource
+            "capacity": 1000,
+            // amount is the total units this resource has
+            // if it has a capacity, then it's amount*capacity
             // if the amount is not specified, the resource is infinite
-            // so be careful when not specifying a number of products.
             "amount": 3000,
-            // container is the size of the container, in mL.
-            "container": 1000,
-            // fixedCost is the cost of each container
-            "fixedCost": 15
+            // if the resource has a capacity cost is the price per container
+            // otherwise it is the price per unit
+            "cost": 15
         },
-        // powder behaves very similarly to liquids, but the units are in grams
-        {
-            "name": "chocolate",
-            "resource": "powder",
-            "amount": 160,
-            "container": 160,
-            "fixedCost": 18.5
-        },
-        // gas has a very particular behaviour, kilometers are consumed instead of liters
+        // gas has a very particular behaviour, disance is consumed instead of liters
         // to make it easier to measure trips, to make this work, we need to specify the price per liter
         // and the vehicle's mileage
         {
           "name": "gas",
-          "resource": "gas",
+          "type": "gas-per-distance",
+          // like above, the amount is optional
           "amount": 5,
-          "price": 19,
+          // cost per liter or galon
+          "cost": 19,
+          // mileage is the distance per liter or galon
           "mileage": 14
         }
     ],
