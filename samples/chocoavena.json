@@ -1,0 +1,46 @@
+{
+    "amount": 0,
+    "resources": [
+        {
+            "name": "milk",
+            "capacity": 1000,
+            "cost": 15
+        },
+        {
+            "name": "water",
+            "cost": 0.001
+        },
+        {
+             "name": "sugar",  
+             "capacity": 1000,
+             "cost": 30
+        },
+        {
+            "name": "chocoavena",
+            "capacity": 400,
+            "amount": 5,
+            "cost": 38
+        }
+    ],
+    "components": {
+        "product": [
+            {
+                "resource": "milk",
+                "amount": 200
+            },
+            {
+                "resource": "water",
+                "amount": 600
+            },
+            {
+                "resource": "sugar",
+                "amount": 15
+            },
+            {
+                "resource": "chocoavena",
+                "amount": 75
+            }
+        ]
+    }
+}
+

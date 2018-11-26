@@ -1,0 +1,65 @@
+{
+    "name": "Arbol de navidad",
+    "amount": 1,
+    "resources": [
+        {
+            "name":"fieltro",
+            "capacity": 15000,
+            "cost": 40
+        },
+        {
+            "name":"liston",
+            "capacity": 200,
+            "cost": 8
+        },  
+        {
+             "name":"papel",
+             "capacity":10000,
+             "cost":75
+        },
+        {
+            "name": "natalia",
+            "cost": 50
+        },
+        {
+            "name":"planchado",
+            "cost": 20
+        },
+        {
+             "name": "gas",
+             "type": "gas-per-distance",
+             "mileage":14,
+             "cost":19
+         }
+    ],
+    "components": {
+        "general": [
+             {
+                "resource":"gas",
+                "amount": 11
+              }
+        ],
+        "product": [
+            {
+                "resource":"fieltro",
+                "amount": 10000
+            },
+            {
+                "resource":"papel",
+                "amount": 10000
+            },
+            {
+                 "resource":"natalia",
+                 "amount":1
+            },
+            {
+                "resource":"planchado",
+                "amount":1
+             },
+             {
+                 "resource":"liston",
+                 "amount": 200
+             }
+        ]
+    }
+}
