@@ -52,14 +52,13 @@
                           <div class="input-group">
                               <input class="form-control" type="text" name="url" id="url">
                               <div class="input-group-append">
-                                  <button class="btn btn-outline-secondary" onclick="loadJSON()">Load</button>
+                                  <button class="btn btn-outline-secondary" onclick="loadJSON($("#url").val())">Load</button>
                               </div>
                           </div>
                   </div>
                   </form>
                   Samples:
-                  <ul id="samples">
-                  </ul>
+                  <ul id="samples"></ul>
               </div>
               <div class="col-sm">
                   Result:<br> <pre id="result"></pre>
@@ -80,9 +79,6 @@
         }
 
         function loadJSON(url) {
-            if (url !== undefined) $("#url").val(url);
-
-            url = $("#url").val()
             $.get(url, function(json) {
                 $("#src").val(json)
                 calculate()
@@ -91,17 +87,17 @@
         }
 
         $(function() {
+            let root = 'https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/'
             let samples = {
-                'Bibs': 'https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/bibs.json',
-                'Chocomilk': 'https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/chocomilk.json',
-                'Stickers': 'https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/stickers.json'
+                'Bibs': root+'bibs.json',
+                'Chocomilk': root+'chocomilk.json',
+                'Stickers': root+'stickers.json'
             };
 
             let samples_ul = $("#samples");
             for (let [name, url] of Object.entries(samples)) {
                 samples_ul.append($(`<li><a href="${url}" onclick="return loadJSON('${url}')">${name}</a></li>`));
             }
-
         });
     </script>
   </body>
