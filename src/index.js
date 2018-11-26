@@ -129,8 +129,7 @@ module.exports = function (data) {
 
     let wastePcnt = resources.filter(resource => resource.wastePcnt >= 0)
     result.wastePcnt = wastePcnt.reduce(
-      (total, x) => total + x.wastePcnt, 0) /
-      wastePcnt.length
+      (total, x) => total + x.wastePcnt, 0) / wastePcnt.length
 
     result.resources = resources
 
