@@ -11,7 +11,7 @@
  */
 module.exports = function (vars) {
   if (!vars.capacity) {
-    return Math.round(((vars.cost * vars.consumed) || 0) * 100) / 100
+    return Math.round(((vars.cost * vars.consumed) || 0) * 1e2) / 1e2
   }
 
   /* if it doesn't have any waste and it has a capacity
@@ -24,5 +24,5 @@ module.exports = function (vars) {
   }
 
   /* if it has a capacity, the cost is that of the amount of containers */
-  return Math.round(((vars.cost * vars.amount) || 0) * 100) / 100
+  return Math.round(((vars.cost * vars.amount) || 0) * 1e2) / 1e2
 }

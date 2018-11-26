@@ -97,7 +97,7 @@ module.exports = function (data) {
 
     let result = require('./types/' + type)(resource)
 
-    return Math.round(result * 100) / 100
+    return Math.round(result * 1e2) / 1e2
   }
 
   const process = function () {
@@ -121,10 +121,10 @@ module.exports = function (data) {
     }
 
     result.total = Math.round(resources
-      .reduce((total, res) => total + res.cost, 0) * 100) / 100
+      .reduce((total, res) => total + res.cost, 0) * 1e2) / 1e2
 
     result.costPerProduct = Math.round(result.total /
-        result.products * 100) / 100
+        result.products * 1e2) / 1e2
 
     let wastePcnt = resources.filter(resource => resource.wastePcnt >= 0)
     result.wastePcnt = wastePcnt.reduce(

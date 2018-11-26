@@ -14,7 +14,7 @@ module.exports = function (vars) {
 
   if (vars.amount > 0) {
     return Math.round((vars.cost / vars.mileage) *
-      vars.amount * 100) / 100
+      vars.amount * 1e2) / 1e2
   }
   return vars.cost || 0
 }
