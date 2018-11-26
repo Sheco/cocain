@@ -43,6 +43,23 @@
                       </div>
                       <button class="btn btn-primary" onclick="return calculate()">Calculate</button>
                   </form>
+
+                  <br>
+
+                  <form>
+                      <div class="form-group">
+                      <label for="url">Load JSON from a URL:</label>
+                          <div class="input-group">
+                              <input class="form-control" type="text" name="url" id="url">
+                              <div class="input-group-append">
+                                  <button class="btn btn-outline-secondary" onclick="loadJSON()">Load</button>
+                              </div>
+                          </div>
+                  </div>
+                  </form>
+                  Samples:
+                  <ul id="samples">
+                  </ul>
               </div>
               <div class="col-sm">
                   Result:<br> <pre id="result"></pre>
@@ -51,14 +68,41 @@
       </div>
     <script>
         function calculate() {
-            $("#result").html('Loading...');
+            $("#result").html('Loading...')
+
             $.post('/api', {
                 src: $("#src").val()
             }, function(data) {
-                $("#result").html(prettyPrintJson.toHtml(data));
-            }, "json");
+                $("#result").html(prettyPrintJson.toHtml(data))
+            }, "json")
+
+            return false
+        }
+
+        function loadJSON(url) {
+            if (url !== undefined) $("#url").val(url);
+
+            url = $("#url").val()
+            $.get(url, function(json) {
+                $("#src").val(json)
+                calculate()
+            });
             return false;
         }
+
+        $(function() {
+            let samples = {
+                'Bibs': 'https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/bibs.json',
+                'Chocomilk': 'https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/chocomilk.json',
+                'Stickers': 'https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/stickers.json'
+            };
+
+            let samples_ul = $("#samples");
+            for (let [name, url] of Object.entries(samples)) {
+                samples_ul.append($(`<li><a href="${url}" onclick="return loadJSON('${url}')">${name}</a></li>`));
+            }
+
+        });
     </script>
   </body>
 </html>
