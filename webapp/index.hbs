@@ -20,12 +20,19 @@
           <div class="row">
               <div class="col-sm">
                   <p>This is a simple cost calculator, written by Sergio Duran</p>
+                  <p>This app can calculate the costs for a project, how many products you can make, and how many resources you need to buy. It can automatically fill in the amounts if needed.<br>
+                  For example, you can use it to calculate:<br>
+                  <ul>
+                      <li>How much it would cost to make 5 glasses of chocolate milk, and how much milk and chocolate you would need.</li>
+                      <li>How much it would cost to make as many glasses of chocolate milk using 5 liters of milk, and how much chocolate you need.</li>
+                 </ul>
+                 </p>
                   <p>
                     The source code is available at <a href="https://github.com/Sheco/costCalculator">https://github.com/Sheco/costCalculator</a>
                     There you will find this app's documentation.
                   </p>
                   <p>
-                    You can use a JSON linter to validate the code,
+                    You need to use valid JSON code, the syntax is simple but writing it can be a little daunting at first, you can use a JSON linter to validate the code,
                     for example: <a href="https://jsonlint.com/" target="_blank">https://jsonlint.com/</a>
                   </p>
 
@@ -53,12 +60,12 @@
                           <div class="input-group">
                               <input class="form-control" type="text" name="url" id="url">
                               <div class="input-group-append">
-                                  <button class="btn btn-outline-secondary" onclick="loadJSON($("#url").val())">Load</button>
+                                  <button class="btn btn-outline-secondary" onclick="return loadJSON($('#url').val())">Load</button>
                               </div>
                           </div>
                   </div>
                   </form>
-                  Samples:
+                  Load JSON from one of the predefined samples:
                   <ul id="samples"></ul>
               </div>
               <div class="col-sm">
