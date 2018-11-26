@@ -41,7 +41,6 @@ Web API/Application
 The webapp directory includes an API that can be used to send a json recipe, on an /api endpoint which then returns the json output, for example:
 
 ```
-$ curl https://cost-calc-api.herokuapp.com/api --data-urlencode src@samples/chocomilk.json
 $ curl https://cost-calc-api.herokuapp.com/api --data-urlencode src@samples/chocomilk.json | json
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
