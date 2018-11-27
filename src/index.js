@@ -9,8 +9,8 @@ module.exports = function (data) {
         continue
       }
 
-      if (resource.waste === undefined ||
-        resource.waste >= amount) {
+      if (resource.left === undefined ||
+        resource.left >= amount) {
         return resource
       }
     }
@@ -23,8 +23,8 @@ module.exports = function (data) {
       throw (Error(`Not enough ${name}`))
     }
 
-    if (c.waste !== undefined) {
-      c.waste -= amount
+    if (c.left !== undefined) {
+      c.left -= amount
     }
 
     c.consumed = (c.consumed || 0) + amount
@@ -45,10 +45,10 @@ module.exports = function (data) {
   const setup = function () {
     for (let resource of data.resources) {
       if (resource.amount === undefined) {
-        resource.waste = undefined
+        resource.left = undefined
         continue
       }
-      resource.waste = resource.amount * (resource.capacity || 1)
+      resource.left = resource.amount * (resource.capacity || 1)
     }
   }
 
@@ -58,10 +58,10 @@ module.exports = function (data) {
     // build an array of the max amount of resources per name
     let resources = {}
     for (let resource of data.resources) {
-      if (!resource.waste) continue
+      if (!resource.left) continue
 
       resources[resource.name] = (resources[resource.name] || 0) +
-        resource.waste
+        resource.left
     }
 
     // substract the general components
@@ -118,9 +118,9 @@ module.exports = function (data) {
         consumed: resource.consumed
       }
 
-      if (resource.waste >= 0 && resource.capacity) {
-        r.waste = resource.waste
-        r.wastePcnt = Math.round(resource.waste / resource.capacity * 100)
+      if (resource.left >= 0 && resource.capacity) {
+        r.left = resource.left
+        r.wastePcnt = Math.round(resource.left / resource.capacity * 100)
       }
       resources.push(r)
     }

@@ -25,7 +25,7 @@ module.exports = function (vars) {
    * spent and the leftover waste */
   if (vars.amount === undefined) {
     vars.amount = Math.ceil(vars.consumed / vars.capacity)
-    vars.waste = (vars.amount * vars.capacity) - vars.consumed
+    vars.left = (vars.amount * vars.capacity) - vars.consumed
   }
 
   /* The cost is that of the amount of containers */
