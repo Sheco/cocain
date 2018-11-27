@@ -1,0 +1,31 @@
+{
+    "name": "Chocomilk",
+    "amount": 0,
+    "resources": [
+        {
+            "name":"milk",
+            "capacity": 1000,
+            "amount": 5,
+            "cost": 15
+        },
+        {
+            "name": "chocolate",
+            "capacity": 160,
+            "cost": 18.5
+        }
+    ],
+    "components": {
+        "product": [
+            {
+                "resource":"milk",
+                "amount": 240
+            },
+            {
+                "resource":"chocolate",
+                "amount": 15
+            }
+        ]
+    }
+}
+
+
