@@ -55,36 +55,45 @@ module.exports = function (data) {
     }
   }
 
+  /* calculate the maximum amount of products that can be made
+   * given the allocated resources */
+  const maxProducts = function () {
+    // build an array of the max amount of resources per name
+    let resources = {}
+    for (let resource of data.resources) {
+      if (!resource.waste) continue
+
+      resources[resource.name] = (resources[resource.name] || 0) +
+        resource.waste
+    }
+
+    // substract the general components
+    for (let component of data.components.general || []) {
+      resources[component.resource] -= component.amount
+    }
+
+    // divide the left over resource by the amount it needs per product
+    let max
+    for (let component of data.components.product || []) {
+      if (resources[component.resource] === undefined) continue
+
+      let thisMax = Math.floor(resources[component.resource] /
+        component.amount)
+
+      if (max === undefined || thisMax < max) max = thisMax
+    }
+
+    return max
+  }
+
   const make = function () {
     setup()
+    if (!data.amount) data.amount = maxProducts()
+
     let components = data.components
 
     consumeGroup(components.general, 1)
-
-    if (data.amount > 0) {
-      return {
-        products: consumeGroup(components.product, data.amount)
-      }
-    } else {
-      let ret = {
-        products: 0
-      }
-      let start = new Date().valueOf()
-
-      try {
-        while (true) {
-          ret.products += consumeGroup(components.product, 1)
-
-          let now = new Date().valueOf()
-          if (now - start > timeLimit) {
-            throw (Error(`It took longer than ${timeLimit}ms`))
-          }
-        }
-      } catch (e) {
-        ret.message = e.message
-      }
-      return ret
-    }
+    consumeGroup(components.product, data.amount)
   }
 
   const calculate = function (resource) {
@@ -101,7 +110,7 @@ module.exports = function (data) {
   }
 
   const process = function () {
-    let result = make()
+    make()
     let resources = []
 
     for (let resource of data.resources) {
@@ -121,20 +130,27 @@ module.exports = function (data) {
       resources.push(r)
     }
 
-    result.total = Math.round(resources
+    let products = data.amount
+    let total = Math.round(resources
       .reduce((total, res) => total + res.cost, 0) * 1e2) / 1e2
 
-    result.costPerProduct = Math.round(result.total /
-        result.products * 1e2) / 1e2
+    let costPerProduct = Math.round(total / products * 1e2) / 1e2
 
+    // to calculate the waste percentage, filter only those resources
+    // that have a wastePcnt, then divide the sum of all of those
+    // by the number of elements
     let wastePcnt = resources.filter(resource => resource.wastePcnt >= 0)
-    result.wastePcnt = Math.round((wastePcnt.reduce(
+    wastePcnt = Math.round((wastePcnt.reduce(
       (total, x) => total + x.wastePcnt, 0) / wastePcnt.length
     ) * 100) / 100
 
-    result.resources = resources
-
-    return result
+    return {
+      products: products,
+      total: total,
+      costPerProduct: costPerProduct,
+      wastePcnt: wastePcnt,
+      resources: resources
+    }
   }
 
   return process()
