@@ -1,6 +1,3 @@
-// When making as many products as possible, don't let it run for too long
-const timeLimit = 2000
-
 module.exports = function (data) {
   // make a hard copy of the data object,
   // to avoid modifying it directly
@@ -90,10 +87,8 @@ module.exports = function (data) {
     setup()
     if (!data.amount) data.amount = maxProducts()
 
-    let components = data.components
-
-    consumeGroup(components.general, 1)
-    consumeGroup(components.product, data.amount)
+    consumeGroup(data.components.general, 1)
+    consumeGroup(data.components.product, data.amount)
   }
 
   const calculate = function (resource) {
