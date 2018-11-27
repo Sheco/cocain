@@ -19,13 +19,13 @@
       <div class="container">
           <div class="row">
               <div class="col-sm">
-                      This app can calculate the costs for a project, how many products you can make, and how many resources you need to buy. It can automatically fill in the amounts if needed.<br>
-                      For example, you can use it to calculate:<br>
-                      <ul>
-                          <li>How much it would cost to <a href="#" onclick="return loadJSON('https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/chocomilk.json')">make 60 glasses of chocolate milk</a>, and how much milk and chocolate you would need.</li>
-                          <li>How much it would cost to <a href="#" onclick="return loadJSON('https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/chocomilk5liters.json')">make as many glasses of chocolate milk as possible, using only 5 liters of milk</a>, and how much chocolate you need.</li>
-                     </ul>
-                 </p>
+                  <h1>Simple cost calculator</h1>
+                  This app can calculate the costs for a project, how many products you can make, and how many resources you need to buy. It can automatically fill in the amounts if needed.<br>
+                  For example, you can use it to calculate:<br>
+                  <ul>
+                      <li>How much it would cost to <a href="#" onclick="return loadJSON('https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/chocomilk.json')">make 60 glasses of chocolate milk</a>, and how much milk and chocolate you would need.</li>
+                      <li>How much it would cost to <a href="#" onclick="return loadJSON('https://raw.githubusercontent.com/Sheco/costCalculator/master/samples/chocomilk5liters.json')">make as many glasses of chocolate milk as possible, using only 5 liters of milk</a>, and how much chocolate you need.</li>
+                 </ul>
                   <p>
                     You need to use valid JSON code, the syntax is simple but writing it can be a little daunting at first, you can use a JSON linter to validate the code,
                     for example: <a href="https://jsonlint.com/" target="_blank">https://jsonlint.com/</a>
@@ -34,39 +34,54 @@
               </div>
           </div>
 
-          <div class="row">
-              <div class="col-sm">
-                  <form>
-                      <div class="form-group">
-                          <label for="src">Enter the JSON code:</label>
-                          <textarea name="src" id="src" class="form-control" rows="15" cols="40">{{src}}</textarea>
-                      </div>
-                      <button class="btn btn-primary" onclick="return calculate()">Calculate</button>
-                  </form>
-
-                  <br>
-
-                  <form>
-                      <div class="form-group">
-                      <label for="url">Load JSON from a URL:</label>
-                          <div class="input-group">
-                              <input class="form-control" type="text" name="url" id="url">
-                              <div class="input-group-append">
-                                  <button class="btn btn-outline-secondary" onclick="return loadJSON($('#url').val())">Load</button>
-                              </div>
-                          </div>
+          <div class="card-deck mb-2">
+              <div class="card mb-4 box-shadow">
+                  <div class="card-header">
+                      Enter the JSON code
                   </div>
-                  </form>
-                  Load JSON from one of the predefined samples, from <a href="https://github.com/Sheco/costCalculator/tree/master/samples">https://github.com/Sheco/costCalculator/tree/master/samples</a>, it's worth mentioning that the prices there are in Mexican pesos.
-                  <ul id="samples"></ul>
+                  <div class="card-body">
+
+                      <form>
+                          <div class="form-group">
+                              <textarea name="src" id="src" class="form-control" rows="15" cols="40">{{src}}</textarea>
+                          </div>
+                          <button class="btn btn-lg btn-block btn-primary" onclick="return calculate()">Calculate</button>
+                      </form>
+
+                      <br>
+
+                      <form>
+                          <div class="form-group">
+                          <label for="url">Load JSON from a URL:</label>
+                              <div class="input-group">
+                                  <input class="form-control" type="text" name="url" id="url">
+                                  <div class="input-group-append">
+                                      <button class="btn btn-outline-secondary" onclick="return loadJSON($('#url').val())">Load</button>
+                                  </div>
+                              </div>
+                      </div>
+                      </form>
+                   </div>
               </div>
-              <div class="col-sm">
-                  Result:<br> <pre id="result"></pre>
+
+              <div class="card mb-4 box-shadow">
+                  <div class="card-header">
+                      Result
+                  </div>
+
+                  <div class="card-body">
+                      <pre id="result"></pre>
+                  </div>
               </div>
           </div>
 
           <div class="row">
               <div class="col-sm">
+                  <p>
+                      Load JSON from one of the predefined samples, from <a href="https://github.com/Sheco/costCalculator/tree/master/samples">https://github.com/Sheco/costCalculator/tree/master/samples</a>, it's worth mentioning that the prices there are in Mexican pesos.
+                      <ul id="samples"></ul>
+                  </p>
+
                   <p>
                     The source code is available at <a href="https://github.com/Sheco/costCalculator">https://github.com/Sheco/costCalculator</a>
                     There you will find this app's documentation.
