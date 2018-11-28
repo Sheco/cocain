@@ -3,6 +3,7 @@ module.exports = function (data) {
   // to avoid modifying it directly
   data = { ...data }
 
+  // find the first resource with a given name, only if it has contents left
   const findResource = function (name, amount) {
     for (let resource of data.resources) {
       if (resource.name !== name) {
@@ -15,51 +16,49 @@ module.exports = function (data) {
     }
   }
 
+  // consume a certain amount of resources of a given name
   const consume = function (name, amount) {
     // loop while we still haven't satisfied the amount required
     while (amount > 0) {
-      let c = findResource(name, amount)
+      let resource = findResource(name, amount)
 
-      if (c === undefined) {
+      if (resource === undefined) {
         throw (Error(`Not enough ${name}`))
       }
 
-      if (c.left === undefined) {
+      if (resource.left === undefined) {
         // unlimited resource, just consume it.
-        c.consumed = (c.consumed || 0) + amount
+        resource.consumed = (resource.consumed || 0) + amount
         return
       }
 
       let consumed
-      if (amount > c.left) {
+      if (amount > resource.left) {
         // consume everything it has left
-        consumed = c.left
+        consumed = resource.left
 
-        amount -= c.left
-        c.left = 0
+        amount -= resource.left
+        resource.left = 0
       } else {
         // we'll have some resources left
         consumed = amount
 
-        c.left -= amount
+        resource.left -= amount
         amount = 0
       }
-      c.consumed = (c.consumed || 0) + consumed
+      resource.consumed = (resource.consumed || 0) + consumed
     }
   }
 
   const consumeGroup = function (components, total) {
-    if (!components) {
-      return 0
-    }
+    if (!components) return
 
     for (let component of components) {
       consume(component.resource, component.amount * total)
     }
-
-    return total
   }
 
+  // run though the data and update some records where needed
   const setup = function () {
     for (let resource of data.resources) {
       if (resource.amount === undefined) {
@@ -68,6 +67,7 @@ module.exports = function (data) {
       }
       resource.left = resource.amount * (resource.capacity || 1)
     }
+    if (!data.amount) data.amount = maxProducts()
   }
 
   /* calculate the maximum amount of products that can be made
@@ -102,9 +102,6 @@ module.exports = function (data) {
   }
 
   const make = function () {
-    setup()
-    if (!data.amount) data.amount = maxProducts()
-
     consumeGroup(data.components.general, 1)
     consumeGroup(data.components.product, data.amount)
   }
@@ -117,12 +114,11 @@ module.exports = function (data) {
       throw (Error('Invalid resource type: ' + type))
     }
 
-    let result = require('./types/' + type)(resource)
-
-    return Math.round(result * 1e2) / 1e2
+    require('./types/' + type)(resource)
   }
 
   const process = function () {
+    setup()
     make()
     let resources = []
 
