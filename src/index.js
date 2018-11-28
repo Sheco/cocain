@@ -115,6 +115,10 @@ module.exports = function (data) {
     }
 
     require('./types/' + type)(resource)
+
+    if (resource.left >= 0 && resource.capacity) {
+      resource.wastePcnt = Math.round(resource.left / resource.capacity * 100)
+    }
   }
 
   const process = function () {
@@ -129,13 +133,11 @@ module.exports = function (data) {
         name: resource.name,
         amount: resource.amount,
         cost: resource.cost,
-        consumed: resource.consumed
+        consumed: resource.consumed,
+        left: resource.left,
+        wastePcnt: resource.wastePcnt
       }
 
-      if (resource.left >= 0 && resource.capacity) {
-        r.left = resource.left
-        r.wastePcnt = Math.round(resource.left / resource.capacity * 100)
-      }
       resources.push(r)
     }
 
