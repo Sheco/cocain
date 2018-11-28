@@ -142,10 +142,10 @@ module.exports = function (data) {
     }
 
     let products = data.amount
-    let total = Math.round(resources
+    let cost = Math.round(resources
       .reduce((total, res) => total + res.cost, 0) * 1e2) / 1e2
 
-    let costPerProduct = Math.round(total / products * 1e2) / 1e2
+    let costPerProduct = Math.round(cost / products * 1e2) / 1e2
 
     // to calculate the waste percentage, filter only those resources
     // that have a wastePcnt, then divide the sum of all of those
@@ -157,7 +157,7 @@ module.exports = function (data) {
 
     return {
       products: products,
-      total: total,
+      cost: cost,
       costPerProduct: costPerProduct,
       wastePcnt: wastePcnt,
       resources: resources
