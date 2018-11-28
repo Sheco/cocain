@@ -69,12 +69,12 @@ class Calculator {
       resource.consumed = 0
       resource.left = resource.amount * (resource.capacity || 1)
     }
-    if (!this.data.amount) this.data.amount = this.maxProducts()
+    if (!this.data.amount) this.data.amount = this.maxProducts
   }
 
   /* calculate the maximum amount of products that can be made
    * given the allocated resources */
-  maxProducts () {
+  get maxProducts () {
     // build an array of the max amount of resources per name
     let resources = {}
     for (let resource of this.data.resources) {
