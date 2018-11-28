@@ -19,22 +19,20 @@
             "cost": 0.083
         }
     ],
-    "components": {
-        "general": [
-            {
-                "resource":"gas",
-                "amount": 2
-            }
-        ],
-        "product": [
-            {
-                "resource": "fabric",
-                "amount": 1444
-            },
-            {
-                "resource": "john",
-                "amount": 5
-            }
-        ]
-    }
+    "setup": [
+        {
+            "resource":"gas",
+            "amount": 2
+        }
+    ],
+    "product": [
+        {
+            "resource": "fabric",
+            "amount": 1444
+        },
+        {
+            "resource": "john",
+            "amount": 5
+        }
+    ]
 }

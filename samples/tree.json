@@ -32,34 +32,32 @@
              "cost":19
          }
     ],
-    "components": {
-        "general": [
-             {
-                "resource":"gas",
-                "amount": 11
-              }
-        ],
-        "product": [
-            {
-                "resource":"fieltro",
-                "amount": 10000
-            },
-            {
-                "resource":"papel",
-                "amount": 10000
-            },
-            {
-                 "resource":"natalia",
-                 "amount":1
-            },
-            {
-                "resource":"planchado",
-                "amount":1
-             },
-             {
-                 "resource":"liston",
-                 "amount": 200
-             }
-        ]
-    }
+    "setup": [
+         {
+            "resource":"gas",
+            "amount": 11
+          }
+    ],
+    "product": [
+        {
+            "resource":"fieltro",
+            "amount": 10000
+        },
+        {
+            "resource":"papel",
+            "amount": 10000
+        },
+        {
+             "resource":"natalia",
+             "amount":1
+        },
+        {
+            "resource":"planchado",
+            "amount":1
+         },
+         {
+             "resource":"liston",
+             "amount": 200
+         }
+    ]
 }

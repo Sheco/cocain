@@ -22,25 +22,23 @@
             "cost": 38
         }
     ],
-    "components": {
-        "product": [
-            {
-                "resource": "milk",
-                "amount": 200
-            },
-            {
-                "resource": "water",
-                "amount": 600
-            },
-            {
-                "resource": "sugar",
-                "amount": 15
-            },
-            {
-                "resource": "chocoavena",
-                "amount": 75
-            }
-        ]
-    }
+    "product": [
+        {
+            "resource": "milk",
+            "amount": 200
+        },
+        {
+            "resource": "water",
+            "amount": 600
+        },
+        {
+            "resource": "sugar",
+            "amount": 15
+        },
+        {
+            "resource": "chocoavena",
+            "amount": 75
+        }
+    ]
 }
 

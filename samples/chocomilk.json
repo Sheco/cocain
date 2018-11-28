@@ -13,18 +13,16 @@
             "cost": 18.5
         }
     ],
-    "components": {
-        "product": [
-            {
-                "resource":"milk",
-                "amount": 240
-            },
-            {
-                "resource":"chocolate",
-                "amount": 15
-            }
-        ]
-    }
+    "product": [
+        {
+            "resource":"milk",
+            "amount": 240
+        },
+        {
+            "resource":"chocolate",
+            "amount": 15
+        }
+    ]
 }
 
 

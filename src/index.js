@@ -84,14 +84,14 @@ class Calculator {
         resource.left
     }
 
-    // substract the general components
-    for (let component of this.data.components.general || []) {
+    // substract the components using when setting up first
+    for (let component of this.data.setup || []) {
       resources[component.resource] -= component.amount
     }
 
     // divide the left over resource by the amount it needs per product
     let max
-    for (let component of this.data.components.product || []) {
+    for (let component of this.data.product || []) {
       if (resources[component.resource] === undefined) continue
 
       let thisMax = Math.floor(resources[component.resource] /
@@ -104,8 +104,8 @@ class Calculator {
   }
 
   make () {
-    this.consumeGroup(this.data.components.general, 1)
-    this.consumeGroup(this.data.components.product, this.data.amount)
+    this.consumeGroup(this.data.setup, 1)
+    this.consumeGroup(this.data.product, this.data.amount)
   }
 
   calculate (resource) {

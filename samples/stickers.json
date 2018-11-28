@@ -19,23 +19,21 @@
             "cost": 50
         }
     ],
-    "components": {
-        "general": [
-            {
-                "resource":"gas",
-                "amount": 13
-            },
-            {
-                "resource":"john",
-                "amount": 0.40
-            }
-        ],
-        "product": [
-            {
-                "resource":"vinyl",
-                "amount": 30.25
-            }
-        ]
-    }
+    "setup": [
+        {
+            "resource":"gas",
+            "amount": 13
+        },
+        {
+            "resource":"john",
+            "amount": 0.40
+        }
+    ],
+    "product": [
+        {
+            "resource":"vinyl",
+            "amount": 30.25
+        }
+    ]
 }
 
