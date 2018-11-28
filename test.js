@@ -5,31 +5,26 @@ const assert = require('chai').assert
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
 
-async function assertJSON (file, result) {
-  return readFile(file)
+function assertJSON (file, result) {
+  readFile(file)
     .then(data => JSON.parse(data))
     .then(data => calculate(data))
     .then(data => JSON.stringify(data))
     .then(data => assert.equal(data, result))
-    .then(data => {
-      console.log(file + ' OK')
-    })
-    .catch(e => {
-      console.error(file + ' Fail')
-      console.error(e.message)
-    })
+    .then(data => console.log(file + ' OK'))
+    .catch(e => console.error(`${file} ${e}`))
 }
 
 // test the csv convertor
 const convertCsv = require('./src/convertCsv')
-async function assertCsv (file, result) {
+function assertCsv (file, result) {
   convertCsv(fs.createReadStream(file))
-    .then(data => {
-      assert.equal(JSON.stringify(data), result)
-      console.log(file + ' OK')
-    })
-    .catch(err => console.error(`${file} Failed\n${err}`))
+    .then(data => JSON.stringify(data))
+    .then(data => assert.equal(data, result))
+    .then(data => console.log(file + ' OK'))
+    .catch(e => console.error(`${file} Failed\n${e}`))
 }
+
 assertCsv('samples/chocomilk.csv', '{"resources":[{"name":"milk","capacity":"1000","amount":"0","cost":"15"},{"name":"chocolate","capacity":"160","amount":"0","cost":"18.5"}],"setup":[],"product":[{"resource":"milk","amount":"240","":""},{"resource":"chocolate","amount":"15","":""}],"name":"chocomilk","amount":"60"}')
 
 // test the json samples
