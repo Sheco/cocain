@@ -32,21 +32,19 @@ module.exports = function (data) {
         return
       }
 
-      let consumed
       if (amount > resource.left) {
         // consume everything it has left
-        consumed = resource.left
+        resource.consumed = resource.left
 
         amount -= resource.left
         resource.left = 0
       } else {
         // we'll have some resources left
-        consumed = amount
+        resource.consumed = amount
 
         resource.left -= amount
         amount = 0
       }
-      resource.consumed = (resource.consumed || 0) + consumed
     }
   }
 
@@ -65,6 +63,8 @@ module.exports = function (data) {
         resource.left = undefined
         continue
       }
+
+      resource.consumed = 0
       resource.left = resource.amount * (resource.capacity || 1)
     }
     if (!data.amount) data.amount = maxProducts()
