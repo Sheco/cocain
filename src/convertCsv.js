@@ -19,12 +19,12 @@ function convert (stream, cb) {
         record.shift() // remove empty first column
         let recordData = {}
         record.forEach((value, index) => {
+          if (!meta.columns[index]) return
           recordData[meta.columns[index]] = value
         })
 
-        // TODO if the record is invalid, we're currently ignoring it
-        if (data[meta.record])
-          data[meta.record].push(recordData)
+        // if the record is invalid, we're currently silently ignoring it
+        if (data[meta.record]) data[meta.record].push(recordData)
         continue
       }
 
@@ -37,7 +37,7 @@ function convert (stream, cb) {
       // otherwise we have a destination header
       meta = {
         record: record.shift(),
-        columns: record
+        columns: record.filter(x => x)
       }
     }
   }).on('end', function () {
