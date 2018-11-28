@@ -1,11 +1,13 @@
-module.exports = function (data) {
-  // make a hard copy of the data object,
-  // to avoid modifying it directly
-  data = { ...data }
+class Calculator {
+  constructor (data) {
+    // make a hard copy of the data object,
+    // to avoid modifying it directly
+    this.data = { ...data }
+  }
 
   // find the first resource with a given name, only if it has contents left
-  const findResource = function (name, amount) {
-    for (let resource of data.resources) {
+  findResource (name, amount) {
+    for (let resource of this.data.resources) {
       if (resource.name !== name) {
         continue
       }
@@ -17,10 +19,10 @@ module.exports = function (data) {
   }
 
   // consume a certain amount of resources of a given name
-  const consume = function (name, amount) {
+  consume (name, amount) {
     // loop while we still haven't satisfied the amount required
     while (amount > 0) {
-      let resource = findResource(name, amount)
+      let resource = this.findResource(name, amount)
 
       if (resource === undefined) {
         throw (Error(`Not enough ${name}`))
@@ -48,17 +50,17 @@ module.exports = function (data) {
     }
   }
 
-  const consumeGroup = function (components, total) {
+  consumeGroup (components, total) {
     if (!components) return
 
     for (let component of components) {
-      consume(component.resource, component.amount * total)
+      this.consume(component.resource, component.amount * total)
     }
   }
 
   // run though the data and update some records where needed
-  const setup = function () {
-    for (let resource of data.resources) {
+  setup () {
+    for (let resource of this.data.resources) {
       if (resource.amount === undefined) {
         resource.left = undefined
         continue
@@ -67,15 +69,15 @@ module.exports = function (data) {
       resource.consumed = 0
       resource.left = resource.amount * (resource.capacity || 1)
     }
-    if (!data.amount) data.amount = maxProducts()
+    if (!this.data.amount) this.data.amount = this.maxProducts()
   }
 
   /* calculate the maximum amount of products that can be made
    * given the allocated resources */
-  const maxProducts = function () {
+  maxProducts () {
     // build an array of the max amount of resources per name
     let resources = {}
-    for (let resource of data.resources) {
+    for (let resource of this.data.resources) {
       if (!resource.left) continue
 
       resources[resource.name] = (resources[resource.name] || 0) +
@@ -83,13 +85,13 @@ module.exports = function (data) {
     }
 
     // substract the general components
-    for (let component of data.components.general || []) {
+    for (let component of this.data.components.general || []) {
       resources[component.resource] -= component.amount
     }
 
     // divide the left over resource by the amount it needs per product
     let max
-    for (let component of data.components.product || []) {
+    for (let component of this.data.components.product || []) {
       if (resources[component.resource] === undefined) continue
 
       let thisMax = Math.floor(resources[component.resource] /
@@ -101,12 +103,12 @@ module.exports = function (data) {
     return max
   }
 
-  const make = function () {
-    consumeGroup(data.components.general, 1)
-    consumeGroup(data.components.product, data.amount)
+  make () {
+    this.consumeGroup(this.data.components.general, 1)
+    this.consumeGroup(this.data.components.product, this.data.amount)
   }
 
-  const calculate = function (resource) {
+  calculate (resource) {
     let type = resource.type || 'standard'
 
     // the type must be alphanumeric (and it can have a dash)
@@ -121,13 +123,13 @@ module.exports = function (data) {
     }
   }
 
-  const process = function () {
-    setup()
-    make()
+  process () {
+    this.setup()
+    this.make()
     let resources = []
 
-    for (let resource of data.resources) {
-      calculate(resource)
+    for (let resource of this.data.resources) {
+      this.calculate(resource)
       let r = {
         type: resource.type,
         name: resource.name,
@@ -141,7 +143,7 @@ module.exports = function (data) {
       resources.push(r)
     }
 
-    let products = data.amount
+    let products = this.data.amount
     let cost = Math.round(resources
       .reduce((total, res) => total + res.cost, 0) * 1e2) / 1e2
 
@@ -163,6 +165,9 @@ module.exports = function (data) {
       resources: resources
     }
   }
+}
 
-  return process()
+module.exports = function (data) {
+  let calculator = new Calculator(data)
+  return calculator.process()
 }
