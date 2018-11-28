@@ -12,7 +12,7 @@ $ ./calculate.js samples/chocomilk.json  | json
 (node:26887) ExperimentalWarning: The fs.promises API is experimental
 {
   "products": 60,
-  "total": 336,
+  "cost": 336,
   "costPerProduct": 5.6,
   "wastePcnt": 49,
   "resources": [
@@ -47,7 +47,7 @@ $ curl https://cost-calc-api.herokuapp.com/api --data-urlencode src@samples/choc
 100  1905  100   253  100  1652    698   4563 --:--:-- --:--:-- --:--:--  5247
 {
   "products": 60,
-  "total": 336,
+  "cost": 336,
   "costPerProduct": 5.6,
   "wastePcnt": 49,
   "resources": [
