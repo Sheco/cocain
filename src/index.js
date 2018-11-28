@@ -9,25 +9,43 @@ module.exports = function (data) {
         continue
       }
 
-      if (resource.left === undefined ||
-        resource.left >= amount) {
+      if (resource.left === undefined || resource.left) {
         return resource
       }
     }
   }
 
   const consume = function (name, amount) {
-    let c = findResource(name, amount)
+    // loop while we still haven't satisfied the amount required
+    while (amount > 0) {
+      let c = findResource(name, amount)
 
-    if (c === undefined) {
-      throw (Error(`Not enough ${name}`))
+      if (c === undefined) {
+        throw (Error(`Not enough ${name}`))
+      }
+
+      if (c.left === undefined) {
+        // unlimited resource, just consume it.
+        c.consumed = (c.consumed || 0) + amount
+        return
+      }
+
+      let consumed
+      if (amount > c.left) {
+        // consume everything it has left
+        consumed = c.left
+
+        amount -= c.left
+        c.left = 0
+      } else {
+        // we'll have some resources left
+        consumed = amount
+
+        c.left -= amount
+        amount = 0
+      }
+      c.consumed = (c.consumed || 0) + consumed
     }
-
-    if (c.left !== undefined) {
-      c.left -= amount
-    }
-
-    c.consumed = (c.consumed || 0) + amount
   }
 
   const consumeGroup = function (components, total) {
