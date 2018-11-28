@@ -2,9 +2,11 @@
 const calculate = require('./src')
 const fs = require('fs')
 const assert = require('chai').assert
+const util = require('util')
+const readFile = util.promisify(fs.readFile)
 
 async function assertJSON (file, result) {
-  return fs.promises.readFile(file)
+  return readFile(file)
     .then(data => JSON.parse(data))
     .then(data => calculate(data))
     .then(data => JSON.stringify(data))
