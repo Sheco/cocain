@@ -61,6 +61,13 @@
                               </div>
                       </div>
                       </form>
+
+                      <form method="post" action="/convertCsv" enctype="multipart/form-data">
+                          <div class="form-group">
+                              <label for="csv">Upload a CSV file</label>
+                              <input class="form-control-file" type="file" name="csv" id="csv">
+                              <button class="btn btn-outline-secondary" onclick="return convertCsv()">Upload</button>
+                          </div>
                    </div>
               </div>
 
@@ -111,6 +118,24 @@
                 $("#src").val(json)
                 calculate()
             });
+            return false;
+        }
+
+        function convertCsv() {
+            let formData = new FormData()
+            formData.append('csv', $("#csv").get(0).files[0])
+            
+            $.ajax({               
+                url: '/convertCsv',
+                data: formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function( data ){
+                    $("#src").val(data)
+                    calculate()
+                }
+            });      
             return false;
         }
 

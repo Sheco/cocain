@@ -60,15 +60,33 @@ class Calculator {
 
   // run though the data and update some records where needed
   setup () {
+    this.data.amount = parseInt(this.data.amount)
     for (let resource of this.data.resources) {
-      if (resource.amount === undefined) {
+      if (!resource.amount) {
         resource.left = undefined
         continue
       }
 
+      resource.amount = Number(resource.amount)
+      if (!resource.amount) {
+        resource.amount = undefined
+        resource.left = undefined
+      } else {
+        resource.left = resource.amount * (resource.capacity || 1)
+      }
+      resource.capacity = Number(resource.capacity)
+      resource.cost = Number(resource.cost)
+
       resource.consumed = 0
-      resource.left = resource.amount * (resource.capacity || 1)
     }
+
+    for (let component of this.data.setup || []) {
+      component.amount = Number(component.amount)
+    }
+    for (let component of this.data.product) {
+      component.amount = Number(component.amount)
+    }
+
     if (!this.data.amount) this.data.amount = this.maxProducts
   }
 

@@ -1,10 +1,12 @@
 const Koa = require('koa')
 const Router = require('koa-router')
 const bodyparser = require('koa-bodyparser')
+const body = require('koa-body')
 const handlebars = require('handlebars')
 const fs = require('fs')
 
 const calculate = require('../src')
+const convertCsv = require('../src/convertCsv')
 
 const app = new Koa()
 const router = new Router()
@@ -19,6 +21,12 @@ router.post('/api', bodyparser(), async (ctx, next) => {
     ctx.body = { 'error': e.message }
   }
   await next()
+})
+
+router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
+  const stream = fs.createReadStream(ctx.request.files.csv.path)
+  let json = await convertCsv(stream)
+  ctx.body = JSON.stringify(json)
 })
 
 router.get('/', bodyparser(), async (ctx, next) => {

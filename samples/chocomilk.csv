@@ -1,0 +1,7 @@
+info,chocomilk,60,,
+resources,name,capacity,amount,cost
+,milk,1000,0,15
+,chocolate,160,0,18.5
+product,resource,amount,,
+,milk,240,,
+,chocolate,15,,
