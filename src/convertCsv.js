@@ -2,6 +2,8 @@ const parse = require('csv-parse')
 
 function convert (stream, cb) {
   let data = {
+    name: '',
+    amount: undefined,
     resources: [],
     setup: [],
     product: []

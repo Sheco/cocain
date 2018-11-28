@@ -25,7 +25,7 @@ function assertCsv (file, result) {
     .catch(e => console.error(`${file} Failed\n${e}`))
 }
 
-assertCsv('samples/chocomilk.csv', '{"resources":[{"name":"milk","capacity":"1000","amount":"0","cost":"15"},{"name":"chocolate","capacity":"160","amount":"0","cost":"18.5"}],"setup":[],"product":[{"resource":"milk","amount":"240"},{"resource":"chocolate","amount":"15"}],"name":"chocomilk","amount":"60"}')
+assertCsv('samples/chocomilk.csv', '{"name":"chocomilk","amount":"55","resources":[{"name":"milk","capacity":"1000","amount":"0","cost":"15"},{"name":"chocolate","capacity":"160","amount":"0","cost":"18.5"}],"setup":[],"product":[{"resource":"milk","amount":"240"},{"resource":"chocolate","amount":"15"}]}')
 
 // test the json samples
 // for f in samples/*; do echo "assertJSON('$f', '$(./calculate.js $f)')"; done 2>/dev/null
