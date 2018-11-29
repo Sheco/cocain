@@ -68,13 +68,13 @@ class Calculator {
       }
 
       resource.amount = Number(resource.amount)
+      resource.capacity = Number(resource.capacity)
       if (!resource.amount) {
         resource.amount = undefined
         resource.left = undefined
       } else {
         resource.left = resource.amount * (resource.capacity || 1)
       }
-      resource.capacity = Number(resource.capacity)
       resource.cost = Number(resource.cost)
 
       resource.consumed = 0
