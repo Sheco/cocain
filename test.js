@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const calculate = require('./src')
 const fs = require('fs')
-const assert = require('chai').assert
+const assert = require('assert').strict
 const util = require('util')
 const readFile = util.promisify(fs.readFile)
 
