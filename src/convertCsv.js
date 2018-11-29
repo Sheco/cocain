@@ -1,6 +1,33 @@
 const parse = require('csv-parse')
 
+// This function converts a readStream containing a specific
+// cvs layout into a valid JSON object usable in this project
+//
+// the CSV has to have this layout:
+//
+// A line whose first column is "info" will extract and use:
+//   the second column into data.name
+//   the third column into data.amount
+//
+// A line whose first column is not empty will start the
+// resource definition parsing, the columns next to it will
+// indicate the property into which each column's values will
+// written to
+//
+//   For example (padded to make it easier to read):
+//   resources,name     ,capacity,amount,cost
+//            ,chocolate,1000    ,10    ,30
+//
+//   This will add push a item into data.resources:
+//      {
+//        name: 'chocolate',
+//        capacity: 1000,
+//        amount: 10,
+//        cost: 30
+//      }
+//
 function convert (stream, cb) {
+  // initialize the default empty object
   let data = {
     name: '',
     amount: undefined,
@@ -8,6 +35,7 @@ function convert (stream, cb) {
     setup: [],
     product: []
   }
+
   let meta
 
   let parser = parse({
@@ -15,32 +43,40 @@ function convert (stream, cb) {
   }).on('readable', function () {
     let record
     while ((record = this.read())) {
-      // if the first record is empty, we're getting data
-      if (record[0] === '') {
-        if (!meta) continue
-        record.shift() // remove empty first column
-        let recordData = {}
-        record.forEach((value, index) => {
-          if (!meta.columns[index]) return
-          recordData[meta.columns[index]] = value
-        })
-
-        // if the record is invalid, we're currently silently ignoring it
-        if (data[meta.record]) data[meta.record].push(recordData)
-        continue
-      }
-
+      // if the first record is info, get the name and amount
       if (record[0] === 'info') {
         data.name = record[1]
         data.amount = record[2]
         continue
       }
 
-      // otherwise we have a destination header
-      meta = {
-        record: record.shift(),
-        columns: record.filter(x => x)
+      // if the first record is not empty, get the column definitions
+      // filter out any columns without a value
+      if (record[0] !== '') {
+        meta = {
+          record: record.shift(),
+          columns: record.filter(x => x)
+        }
+        continue
       }
+
+      if (meta === undefined) continue
+
+      // remove the first column, which is empty
+      record.shift()
+
+      // if the first column was empty, the data is on the
+      // other columns, using the previously defined definitions
+      let recordData = {}
+      record.forEach((value, index) => {
+        if (!meta.columns[index]) return
+        recordData[meta.columns[index]] = value
+      })
+
+      // if the record is invalid, we're currently silently ignoring it
+      if (!data[meta.record]) continue
+
+      data[meta.record].push(recordData)
     }
   }).on('end', function () {
     cb(null, data)
