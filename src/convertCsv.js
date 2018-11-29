@@ -55,6 +55,7 @@ module.exports = function (stream, cb) {
   if (!cb) {
     // if no callback given, promisify the return value
     return new Promise((resolve, reject) => {
+      stream.on('error', err => reject(err))
       convert(stream, (err, data) => {
         if (err) reject(err)
         resolve(data)
@@ -63,5 +64,6 @@ module.exports = function (stream, cb) {
   }
 
   // otherwise, call the convert function normally
+  stream.on('error', err => cb(err, null))
   convert(stream, cb)
 }

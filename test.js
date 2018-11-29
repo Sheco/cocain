@@ -22,13 +22,15 @@ function assertCsv (file, result) {
     .then(data => JSON.stringify(data))
     .then(data => assert.equal(data, result))
     .then(data => console.log(file + ' OK'))
-    .catch(e => console.error(`${file} Failed\n${e}`))
+    .catch(e => console.error(`${file} ${e}`))
 }
 
+assertCsv('nosuchfile.csv', '')
 assertCsv('samples/chocomilk.csv', '{"name":"chocomilk","amount":"55","resources":[{"name":"milk","capacity":"1000","amount":"0","cost":"15"},{"name":"chocolate","capacity":"160","amount":"0","cost":"18.5"}],"setup":[],"product":[{"resource":"milk","amount":"240"},{"resource":"chocolate","amount":"15"}]}')
 
 // test the json samples
 // for f in samples/*; do echo "assertJSON('$f', '$(./calculate.js $f)')"; done 2>/dev/null
+assertJSON('nosuchfile.json', '')
 assertJSON('samples/bibs.json', '{"products":10,"cost":76.96,"costPerProduct":7.7,"wastePcnt":4,"resources":[{"name":"fabric","amount":1,"cost":70,"consumed":14440,"left":560,"wastePcnt":4},{"type":"gas-per-distance","name":"gas","amount":2,"cost":2.81,"consumed":2},{"name":"john","amount":50,"cost":4.15,"consumed":50}]}')
 assertJSON('samples/chocoavena.json', '{"products":26,"cost":325.6,"costPerProduct":12.52,"wastePcnt":51.33,"resources":[{"name":"milk","amount":6,"cost":90,"consumed":5200,"left":800,"wastePcnt":80},{"name":"water","amount":15600,"cost":15.6,"consumed":15600},{"name":"sugar","amount":1,"cost":30,"consumed":390,"left":610,"wastePcnt":61},{"name":"chocoavena","amount":5,"cost":190,"consumed":1950,"left":50,"wastePcnt":13}]}')
 assertJSON('samples/chocomilk5liters.json', '{"products":20,"cost":112,"costPerProduct":5.6,"wastePcnt":16.5,"resources":[{"name":"milk","amount":5,"cost":75,"consumed":4800,"left":200,"wastePcnt":20},{"name":"chocolate","amount":2,"cost":37,"consumed":300,"left":20,"wastePcnt":13}]}')
