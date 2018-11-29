@@ -114,6 +114,9 @@
             }, function(data) {
                 $("#result").html(prettyPrintJson.toHtml(data))
                 document.getElementById("result").scrollIntoView()
+
+                // flash the result pane
+                $("#result").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
             }, "json")
 
             return false
