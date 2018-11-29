@@ -23,7 +23,7 @@ function assertPromise (method, file, value) {
   tests[method](file)
     .then(data => assert.equal(data, value))
     .then(() => console.log(`${file}: Ok`))
-    .catch(err => console.error(`${file} ${err.message}!!`))
+    .catch(err => console.error(`${file} ${err.message}`))
 }
 
 // assert some errors
