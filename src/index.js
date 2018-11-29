@@ -28,25 +28,20 @@ class Calculator {
         throw (Error(`Not enough ${name}`))
       }
 
+      // unlimited resource, just consume it.
       if (resource.left === undefined) {
-        // unlimited resource, just consume it.
-        resource.consumed = (resource.consumed || 0) + amount
+        resource.consumed += amount
         return
       }
 
-      if (amount > resource.left) {
-        // consume everything it has left
-        resource.consumed = resource.left
+      // consume as much as possible
+      let consumed = amount > resource.left
+        ? resource.left
+        : amount
 
-        amount -= resource.left
-        resource.left = 0
-      } else {
-        // we'll have some resources left
-        resource.consumed = amount
-
-        resource.left -= amount
-        amount = 0
-      }
+      amount -= consumed
+      resource.consumed += consumed
+      resource.left -= consumed
     }
   }
 
@@ -62,22 +57,17 @@ class Calculator {
   setup () {
     this.data.amount = parseInt(this.data.amount)
     for (let resource of this.data.resources) {
-      if (!resource.amount) {
-        resource.left = undefined
-        continue
-      }
-
-      resource.amount = Number(resource.amount)
       resource.capacity = Number(resource.capacity)
+      resource.cost = Number(resource.cost)
+      resource.amount = Number(resource.amount)
+      resource.consumed = 0
+
       if (!resource.amount) {
         resource.amount = undefined
         resource.left = undefined
       } else {
         resource.left = resource.amount * (resource.capacity || 1)
       }
-      resource.cost = Number(resource.cost)
-
-      resource.consumed = 0
     }
 
     for (let component of this.data.setup || []) {
