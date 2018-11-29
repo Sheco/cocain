@@ -9,6 +9,7 @@
     <title>Simple Cost Calculator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-print-json@0.0/dist/pretty-print-json.css">
+    <link rel="stylesheet" href="/assets/bs-callouts.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -41,6 +42,7 @@
                   </div>
                   <div class="card-body">
 
+                      <div class="bs-callout bs-callout-primary">
                       <form>
                           <div class="form-group">
                               <textarea name="src" id="src" class="form-control" rows="15" cols="40">{{src}}</textarea>
@@ -49,7 +51,9 @@
                       </form>
 
                       <br>
+                      </div>
 
+                      <div class="bs-callout bs-callout-secondary">
                       <form>
                           <div class="form-group">
                           <label for="url">Load JSON from a URL:</label>
@@ -61,18 +65,17 @@
                               </div>
                       </div>
                       </form>
+                      </div>
 
+                      <div class="bs-callout bs-callout-success">
                       <form method="post" action="/convertCsv" enctype="multipart/form-data">
-                          <div class="input-group">
-                          <div class="custom-file">
-                              <input class="custom-control-file" type="file" name="csv" id="csv">
-                              <label class="custom-file-label" for="csv">Process a CSV file</label>
+                          <div class="form-group">
+                              <label for="csv">Process a CSV file</label>
+                              <input class="form-control-file" type="file" name="csv" id="csv">
                           </div>
-                          <div class="input-group-append">
                           <button class="btn btn-outline-success" onclick="return convertCsv()">Process</button>
-                          </div>
-                          </div>
                       </form>
+                      </div>
                    </div>
               </div>
 

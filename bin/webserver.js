@@ -1,5 +1,7 @@
 const Koa = require('koa')
 const Router = require('koa-router')
+const mount = require('koa-mount')
+const assets = require('koa-static')
 const bodyparser = require('koa-bodyparser')
 const body = require('koa-body')
 const handlebars = require('handlebars')
@@ -46,5 +48,6 @@ router.get('/', bodyparser(), async (ctx, next) => {
 app
   .use(router.routes())
   .use(router.allowedMethods())
+  .use(mount('/assets', assets('assets')))
 
 app.listen(process.env.PORT || 8000)
