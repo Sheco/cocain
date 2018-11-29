@@ -59,6 +59,7 @@
                               <label for="csv">Process a CSV file</label>
                               <input class="form-control-file" type="file" name="csv" id="csv" aria-describedby="csvHelp">
                           </div>
+
                           <small class="form-text text-muted" id="csvHelp">
                               You can use the 
                               <a href="https://github.com/Sheco/cocain/blob/master/samples/chocomilk.csv">sample CSV</a>
@@ -77,7 +78,10 @@
                   </div>
 
                   <div class="card-body">
-                      <pre id="result"></pre>
+                        <div class="progress" id="progress" style="display: none">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                        </div>
+                        <pre id="result"></pre>
                   </div>
               </div>
           </div>
@@ -102,13 +106,14 @@
       </div>
     <script>
         function calculate() {
-            $("#result").html('Loading...')
+            $("#progress").show()
+            document.getElementById("progress").scrollIntoView()
 
             $.post('/api', {
                 src: $("#src").val()
             }, function(data) {
                 $("#result").html(prettyPrintJson.toHtml(data))
-                document.getElementById("result").scrollIntoView()
+                $("#progress").hide()
 
                 // flash the result pane
                 $("#result").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
