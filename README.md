@@ -175,13 +175,15 @@ The structure of the CSV is quite simple:
  resource definition parsing, in simple terms, they describe the
  columns for the data below them.
 
-For example (padded to make it easier to read):
-```
-info     ,name     ,amount
-         ,chokoko  ,0
-resources,name     ,capacity,amount,cost
-         ,chocolate,1000    ,10    ,30
-```
+For example:
+
+|           |            |          |        |      |
+| --------- | ---------- | -------- | ------ | ---- |
+| info      | name       | amount   |        |      |
+|           | chokoko    | 0        |        |      |
+| resources | name       | capacity | amount | cost |
+|           | chocolate  | 1000     | 10     | 30   |
+
 The first line, info describes a name and an amount columns, these will
 be placed in the JSON's root
 
