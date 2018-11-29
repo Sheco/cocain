@@ -14,7 +14,7 @@ const parse = require('csv-parse')
 //   resources,name     ,capacity,amount,cost
 //            ,chocolate,1000    ,10    ,30
 //
-//   This will add push a item into data.resources:
+//   This will push an item into data.resources:
 //      {
 //        name: 'chocolate',
 //        capacity: 1000,
