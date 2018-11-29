@@ -24,6 +24,10 @@ router.post('/api', bodyparser(), async (ctx, next) => {
 })
 
 router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
+  if (!ctx.request.files.csv) {
+    ctx.body = ''
+    return
+  }
   const stream = fs.createReadStream(ctx.request.files.csv.path)
   let json = await convertCsv(stream)
   ctx.body = JSON.stringify(json, null, 2)
