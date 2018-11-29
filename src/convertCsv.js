@@ -5,10 +5,6 @@ const parse = require('csv-parse')
 //
 // the CSV has to have this layout:
 //
-// A line whose first column is "info" will extract and use:
-//   the second column into data.name
-//   the third column into data.amount
-//
 // A line whose first column is not empty will start the
 // resource definition parsing, the columns next to it will
 // indicate the property into which each column's values will
@@ -26,6 +22,11 @@ const parse = require('csv-parse')
 //        cost: 30
 //      }
 //
+//  The valid root property names are resources, setup and product
+//
+//  If the first column is anything other than that, each of the values
+//  will be saved to the root of the data object
+//
 function convert (stream, cb) {
   // initialize the default empty object
   let data = {
@@ -41,13 +42,6 @@ function convert (stream, cb) {
   const convert = function () {
     let record
     while ((record = this.read())) {
-      // if the first record is info, get the name and amount
-      if (record[0] === 'info') {
-        data.name = record[1]
-        data.amount = record[2]
-        continue
-      }
-
       // if the first record is not empty, get the column definitions
       // filter out any columns without a value
       if (record[0] !== '') {
@@ -58,6 +52,7 @@ function convert (stream, cb) {
         continue
       }
 
+      // Ignore data if we haven't seen a definition row
       if (meta === undefined) continue
 
       // remove the first column, which is empty
@@ -71,10 +66,17 @@ function convert (stream, cb) {
         recordData[meta.columns[index]] = value
       })
 
-      // if the record is invalid, we're currently silently ignoring it
-      if (!data[meta.record]) continue
+      // if there is a property matching the meta record name,
+      // then assume it's an array and push the data into it
+      if (data[meta.record]) {
+        data[meta.record].push(recordData)
+        continue
+      }
 
-      data[meta.record].push(recordData)
+      // otherwise, write the data properties to the root of the return object
+      for (let [key, value] of Object.entries(recordData)) {
+        data[key] = value
+      }
     }
   }
 
