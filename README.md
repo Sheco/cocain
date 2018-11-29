@@ -1,6 +1,20 @@
-This is a simple cost calculator, it can be used to calculate the cost of different kinds of projects, taking into account the needed resources and how much of each resource is needed for each resulting product.
+# Cost Calculator Interface
+
+This is a simple cost calculator interface, it can be used to calculate the cost of different kinds of projects, taking into account the needed resources and how much of each resource is needed for each resulting product.
 
 It uses a JSON file as input and returns a JSON string as output.
+
+It's mostly an experiment so I could learn Javascript and Node.js, it has been fun.
+
+I used multiple different techniques and technologies, for example:
+
+- Koa for the webserver (using multiple MiddleWares), it uses a handlebar template.
+- the src/index.js file uses Javascript classes (recent feature)
+- the src/convert.js reads from a stream object and it's exposed both using a callback style and a promise too (promises are also a recent feature)
+- The files in bin use chained promises, which look interesting
+- There's a basic test suite in bin/test.js
+- It can be published to Heroku
+
 Command line interface
 ======================
 
