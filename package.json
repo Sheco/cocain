@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node bin/test.js",
-    "start": "node webapp/server.js"
+    "start": "node bin/webserver.js"
   },
   "author": "Sergio Duran",
   "license": "GPL-3.0",

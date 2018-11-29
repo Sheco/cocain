@@ -34,7 +34,7 @@ router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
 })
 
 router.get('/', bodyparser(), async (ctx, next) => {
-  let txt = (await fs.promises.readFile('webapp/index.hbs')).toString()
+  let txt = (await fs.promises.readFile('templates/index.hbs')).toString()
   let template = handlebars.compile(txt)
   let src = ctx.request.body.src
   ctx.body = template({
