@@ -56,17 +56,20 @@
                       <div class="bs-callout bs-callout-success">
                       <form method="post" action="/convertCsv" enctype="multipart/form-data">
                           <div class="form-group">
-                              <label for="csv">Process a CSV file</label>
+                              <label for="csv">Convert a CSV file into JSON</label>
                               <input class="form-control-file" type="file" name="csv" id="csv" aria-describedby="csvHelp">
                           </div>
 
                           <small class="form-text text-muted" id="csvHelp">
+                              This way you can upload a simple CSV and have it
+                              converted to JSON and then calculated.
+                              <br>
                               You can use the 
                               <a target="_blank" href="https://github.com/Sheco/cocain/blob/master/samples/chocomilk.csv">sample CSV</a>
                               for reference, or check the documentation
                               in the project's github page.
                           </small>
-                          <button class="btn btn-block btn-outline-success" onclick="return convertCsv()">Process</button>
+                          <button class="btn btn-block btn-outline-success" onclick="return convertCsv()">Convert and calculate</button>
                       </form>
                       </div>
                    </div>
