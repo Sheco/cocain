@@ -38,9 +38,7 @@ function convert (stream, cb) {
 
   let meta
 
-  let parser = parse({
-    relax_column_count: true
-  }).on('readable', function () {
+  const convert = function () {
     let record
     while ((record = this.read())) {
       // if the first record is info, get the name and amount
@@ -78,13 +76,13 @@ function convert (stream, cb) {
 
       data[meta.record].push(recordData)
     }
-  }).on('end', function () {
-    cb(null, data)
-  }).on('error', function (error) {
-    cb(error, null)
-  })
+  }
 
-  stream.pipe(parser)
+  stream.pipe(parse({ relax_column_count: true })
+    .on('readable', convert)
+    .on('end', () => cb(null, data))
+    .on('error', error => cb(error, null))
+  )
 }
 
 module.exports = function (stream, cb) {
