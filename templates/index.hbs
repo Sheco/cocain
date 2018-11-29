@@ -57,8 +57,14 @@
                       <form method="post" action="/convertCsv" enctype="multipart/form-data">
                           <div class="form-group">
                               <label for="csv">Process a CSV file</label>
-                              <input class="form-control-file" type="file" name="csv" id="csv">
+                              <input class="form-control-file" type="file" name="csv" id="csv" aria-describedby="csvHelp">
                           </div>
+                          <small class="form-text text-muted" id="csvHelp">
+                              You can use the 
+                              <a href="https://github.com/Sheco/cocain/blob/master/samples/chocomilk.csv">sample CSV</a>
+                              for reference, or check the documentation
+                              in the project's github page.
+                          </small>
                           <button class="btn btn-outline-success" onclick="return convertCsv()">Process</button>
                       </form>
                       </div>
