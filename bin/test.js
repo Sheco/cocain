@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const calculate = require('../src')
+const calculator = require('../src/calculator')
 const convertCsv = require('../src/convertCsv')
 const fs = require('fs')
 const assert = require('assert').strict
@@ -10,7 +10,7 @@ const tests = {
   json: function (file) {
     return readFile(file)
       .then(data => JSON.parse(data))
-      .then(data => calculate(data))
+      .then(data => calculator(data))
       .then(data => JSON.stringify(data))
   },
   csv: function (file) {

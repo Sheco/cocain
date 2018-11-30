@@ -6,7 +6,7 @@ const body = require('koa-body')
 const fs = require('fs')
 const util = require('util')
 
-const calculate = require('../src')
+const calculator = require('../src/calculator')
 const convertCsv = require('../src/convertCsv')
 
 const app = new Koa()
@@ -19,7 +19,7 @@ router.post('/api', body(), async (ctx, next) => {
   })
 
   try {
-    ctx.body = calculate(JSON.parse(ctx.request.body.src))
+    ctx.body = calculator(JSON.parse(ctx.request.body.src))
   } catch (e) {
     ctx.body = { 'error': e.message }
   }
