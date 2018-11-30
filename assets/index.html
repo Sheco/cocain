@@ -24,8 +24,8 @@
                   This app can calculate the costs for a project, how many products you can make, and how many resources you need to buy. It can automatically fill in the amounts if needed.<br>
                   For example, you can use it to calculate:<br>
                   <ul>
-                      <li>How much it would cost to <a href="#" onclick="return loadJSON('https://raw.githubusercontent.com/Sheco/cocain/master/samples/chocomilk.json')">make 60 glasses of chocolate milk</a>, and how much milk and chocolate you would need.</li>
-                      <li>How much it would cost to <a href="#" onclick="return loadJSON('https://raw.githubusercontent.com/Sheco/cocain/master/samples/chocomilk5liters.json')">make as many glasses of chocolate milk as possible, using only 5 liters of milk</a>, and how much chocolate you need.</li>
+                      <li>How much it would cost to <a href="#" onclick="loadJSON('https://raw.githubusercontent.com/Sheco/cocain/master/samples/chocomilk.json'); return false">make 60 glasses of chocolate milk</a>, and how much milk and chocolate you would need.</li>
+                      <li>How much it would cost to <a href="#" onclick="loadJSON('https://raw.githubusercontent.com/Sheco/cocain/master/samples/chocomilk5liters.json'); return false">make as many glasses of chocolate milk as possible, using only 5 liters of milk</a>, and how much chocolate you need.</li>
                  </ul>
                   <p>
                     You need to use valid JSON code, the syntax is simple but writing it can be a little daunting at first, you can use a JSON linter to validate the code,
@@ -46,7 +46,7 @@
                           <div class="form-group">
                               <textarea name="src" id="src" class="form-control" rows="15" cols="40"></textarea>
                           </div>
-                          <button class="btn btn-block btn-primary" onclick="return calculate()">Calculate</button>
+                          <button class="btn btn-block btn-primary" onclick="calculate()">Calculate</button>
 
                       <br>
                       </div>
@@ -66,7 +66,7 @@
                               for reference, or check the documentation
                               in the project's github page.
                           </small>
-                          <button class="btn btn-block btn-outline-success" onclick="return convertCsv()">Convert and calculate</button>
+                          <button class="btn btn-block btn-outline-success" onclick="convertCsv()">Convert and calculate</button>
                       </div>
                    </div>
               </div>
