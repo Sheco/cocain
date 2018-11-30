@@ -35,9 +35,7 @@ class Calculator {
       }
 
       // consume as much as possible
-      let consumed = amount > resource.left
-        ? resource.left
-        : amount
+      let consumed = Math.min(amount, resource.left)
 
       amount -= consumed
       resource.consumed += consumed
