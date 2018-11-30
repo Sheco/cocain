@@ -4,7 +4,6 @@ const mount = require('koa-mount')
 const assets = require('koa-static')
 const bodyparser = require('koa-bodyparser')
 const body = require('koa-body')
-const handlebars = require('handlebars')
 const fs = require('fs')
 const util = require('util')
 
@@ -37,12 +36,10 @@ router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
   ctx.body = JSON.stringify(json, null, 2)
 })
 
-router.get('/', bodyparser(), async (ctx, next) => {
-  let txt = (await readFile('templates/index.hbs')).toString()
-  let template = handlebars.compile(txt)
-  let src = ctx.request.body.src
-  ctx.body = template({
-    src: src
+router.get('/', async (ctx, next) => {
+  ctx.body = await readFile('assets/index.html')
+  ctx.set({
+    'Content-Type': 'text/html'
   })
   await next()
 })
