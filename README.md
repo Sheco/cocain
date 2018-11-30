@@ -21,7 +21,7 @@ Command line interface
 The calculate.js script can be used on the command line to test the recipes, for example:
 
 ```
-$ ./calculate.js samples/chocomilk.json  | json
+$ bin/calculate.js samples/chocomilk.json  | json
 {
   "products": 60,
   "cost": 336,
@@ -55,7 +55,7 @@ Web API/Application
 The webapp directory includes an API that can be used to send a json recipe, on an /api endpoint which then returns the json output, for example:
 
 ```
-$ curl https://cost-calc-api.herokuapp.com/api --data-urlencode src@samples/chocomilk.json | json
+$ curl https://cocain.herokuapp.com/api --data-urlencode src@samples/chocomilk.json | json
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  1905  100   253  100  1652    698   4563 --:--:-- --:--:-- --:--:--  5247
@@ -87,7 +87,7 @@ $ curl https://cost-calc-api.herokuapp.com/api --data-urlencode src@samples/choc
 
 It also includes a basic web form on the / endpoint, which shows how to use the API in a web form.
 
-It can be easily deployed to Heroku and it's currently hosted in [https://cost-calc-api.herokuapp.com/](https://cost-calc-api.herokuapp.com/)
+It can be easily deployed to Heroku and it's currently hosted in [https://cocain.herokuapp.com/](https://cocain.herokuapp.com/)
 
 Input JSON structure
 ====================
