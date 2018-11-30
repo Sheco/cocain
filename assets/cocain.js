@@ -63,6 +63,15 @@ function onLoad () { // eslint-disable-line no-unused-vars
   result = document.getElementById('result')
   src = document.getElementById('src')
   csv = document.getElementById('csv')
+
+  const aLoadJSON = function () {
+    loadJSON(this.href)
+    return false
+  }
+
+  for (let a of document.getElementsByClassName('loadJSON')) {
+    a.onclick = aLoadJSON
+  }
 }
 
 document.addEventListener('DOMContentLoaded', onLoad, false)
