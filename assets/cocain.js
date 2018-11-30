@@ -63,22 +63,6 @@ function onLoad () { // eslint-disable-line no-unused-vars
   result = document.getElementById('result')
   src = document.getElementById('src')
   csv = document.getElementById('csv')
-  let root = 'https://raw.githubusercontent.com/Sheco/cocain/master/samples/'
-  let samples = {
-    'Bibs': root + 'bibs.json',
-    'Chocomilk': root + 'chocomilk.json',
-    'Stickers': root + 'stickers.json',
-    'Chocoavena': root + 'chocoavena.json',
-    'Fabric Tree': root + 'tree.json'
-  }
-
-  let samplesUl = document.getElementById('samples')
-  for (let [name, url] of Object.entries(samples)) {
-    let html = document
-      .createRange()
-      .createContextualFragment(`<li><a href="${url}" onclick="return loadJSON('${url}')">${name}</a></li>`)
-    samplesUl.appendChild(html)
-  }
 }
 
 document.addEventListener('DOMContentLoaded', onLoad, false)
