@@ -15,23 +15,28 @@ function calculate () {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ src: src.value })
   })
-    .then(response => response.json())
+    .then(response => {
+      if (response.status === 200) return response.json()
+      throw Error(`/api returned ${response.status}`)
+    })
     .then(data => {
       result.innerHTML = prettyPrintJson.toHtml(data)
       progress.style.display = 'none'
     })
-
-  return false
+    .catch(error => alert(error.message))
 }
 
 function loadJSON (url) { // eslint-disable-line no-unused-vars
   fetch(url, { method: 'GET' })
-    .then(response => response.text())
+    .then(response => {
+      if (response.status === 200) return response.text()
+      throw Error(`${url} returned ${response.status}`)
+    })
     .then(data => {
       src.value = data
       calculate()
     })
-  return false
+    .catch(error => alert(error.message))
 }
 
 function convertCsv () { // eslint-disable-line no-unused-vars
@@ -42,13 +47,15 @@ function convertCsv () { // eslint-disable-line no-unused-vars
     method: 'POST',
     body: formData
   })
-    .then(response => response.text())
+    .then(response => {
+      if (response.status === 200) return response.text()
+      throw Error(`/convertCsv returned ${response.status}: ${response.statusText}`)
+    })
     .then(data => {
       src.value = data
       calculate()
     })
-
-  return false
+    .catch(error => alert(error.message))
 }
 
 function onLoad () { // eslint-disable-line no-unused-vars
