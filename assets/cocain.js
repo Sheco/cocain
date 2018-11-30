@@ -80,3 +80,5 @@ function onLoad () { // eslint-disable-line no-unused-vars
     samplesUl.appendChild(html)
   }
 }
+
+document.addEventListener('DOMContentLoaded', onLoad, false)
