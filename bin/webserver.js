@@ -2,7 +2,6 @@ const Koa = require('koa')
 const Router = require('koa-router')
 const mount = require('koa-mount')
 const assets = require('koa-static')
-const bodyparser = require('koa-bodyparser')
 const body = require('koa-body')
 const fs = require('fs')
 const util = require('util')
@@ -14,7 +13,7 @@ const app = new Koa()
 const router = new Router()
 const readFile = util.promisify(fs.readFile)
 
-router.post('/api', bodyparser(), async (ctx, next) => {
+router.post('/api', body(), async (ctx, next) => {
   ctx.set({
     'Access-Control-Allow-Origin': '*'
   })
