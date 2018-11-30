@@ -42,18 +42,15 @@
                   <div class="card-body">
 
                       <div class="bs-callout bs-callout-primary">
-                      <form>
                           <div class="form-group">
                               <textarea name="src" id="src" class="form-control" rows="15" cols="40">{{src}}</textarea>
                           </div>
                           <button class="btn btn-block btn-primary" onclick="return calculate()">Calculate</button>
-                      </form>
 
                       <br>
                       </div>
 
                       <div class="bs-callout bs-callout-success">
-                      <form method="post" action="/convertCsv" enctype="multipart/form-data">
                           <div class="form-group">
                               <label for="csv">Convert a CSV file into JSON</label>
                               <input class="form-control-file" type="file" name="csv" id="csv" aria-describedby="csvHelp">
@@ -69,7 +66,6 @@
                               in the project's github page.
                           </small>
                           <button class="btn btn-block btn-outline-success" onclick="return convertCsv()">Convert and calculate</button>
-                      </form>
                       </div>
                    </div>
               </div>
