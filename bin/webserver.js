@@ -6,12 +6,14 @@ const bodyparser = require('koa-bodyparser')
 const body = require('koa-body')
 const handlebars = require('handlebars')
 const fs = require('fs')
+const util = require('util')
 
 const calculate = require('../src')
 const convertCsv = require('../src/convertCsv')
 
 const app = new Koa()
 const router = new Router()
+const readFile = util.promisify(fs.readFile)
 
 router.post('/api', bodyparser(), async (ctx, next) => {
   ctx.set({
@@ -36,7 +38,7 @@ router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
 })
 
 router.get('/', bodyparser(), async (ctx, next) => {
-  let txt = (await fs.promises.readFile('templates/index.hbs')).toString()
+  let txt = (await readFile('templates/index.hbs')).toString()
   let template = handlebars.compile(txt)
   let src = ctx.request.body.src
   ctx.body = template({
