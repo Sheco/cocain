@@ -25,7 +25,7 @@ class Calculator {
       let resource = this.findResource(name, amount)
 
       if (resource === undefined) {
-        throw (Error(`Not enough ${name}`))
+        throw Error(`Not enough ${name}`)
       }
 
       // unlimited resource, just consume it.
@@ -119,7 +119,7 @@ class Calculator {
 
     // the type must be alphanumeric (and it can have a dash)
     if (type === undefined || !/^[\w-]+$/.test(type)) {
-      throw (Error('Invalid resource type: ' + type))
+      throw Error('Invalid resource type: ' + type)
     }
 
     require('./types/' + type)(resource)
