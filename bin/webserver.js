@@ -17,11 +17,13 @@ router.post('/api', body(), async (ctx, next) => {
   ctx.set({
     'Access-Control-Allow-Origin': '*'
   })
+
   try {
     ctx.body = calculate(JSON.parse(ctx.request.body.src))
   } catch (e) {
     ctx.body = { 'error': e.message }
   }
+
   await next()
 })
 
@@ -30,16 +32,21 @@ router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
     ctx.body = ''
     return
   }
+
   const stream = fs.createReadStream(ctx.request.files.csv.path)
   let json = await convertCsv(stream)
   ctx.body = JSON.stringify(json, null, 2)
+
+  await next()
 })
 
 router.get('/', async (ctx, next) => {
-  ctx.body = await readFile('assets/index.html')
   ctx.set({
     'Content-Type': 'text/html'
   })
+
+  ctx.body = await readFile('assets/index.html')
+
   await next()
 })
 
@@ -47,5 +54,4 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
   .use(mount('/assets', assets('assets')))
-
-app.listen(process.env.PORT || 8000)
+  .listen(process.env.PORT || 8000)
