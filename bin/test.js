@@ -19,7 +19,7 @@ const tests = {
   }
 }
 
-function assertPromise (method, file) {
+function test (method, file) {
   readFile(`tests/${file}.json`)
     .then(buffer => {
       tests[method](`samples/${file}`)
@@ -34,16 +34,16 @@ assert.rejects(tests.csv('nosuchfile.csv'))
 assert.rejects(tests.json('nosuchfile.json'))
 
 // test csv results
-assertPromise('csv', 'chocomilk.csv')
+test('csv', 'chocomilk.csv')
 
 // To repopulate the test results recalculating everything, do this
 // (it's not recommended unless you're sure the results are correct)
 // (cd samples; for f in *.json; do ../bin/calculate.js $f > ../tests/$f.json; done)
 
 // test the json samples
-assertPromise('json', 'bibs.json')
-assertPromise('json', 'chocoavena.json')
-assertPromise('json', 'chocomilk5liters.json')
-assertPromise('json', 'chocomilk.json')
-assertPromise('json', 'stickers.json')
-assertPromise('json', 'tree.json')
+test('json', 'bibs.json')
+test('json', 'chocoavena.json')
+test('json', 'chocomilk5liters.json')
+test('json', 'chocomilk.json')
+test('json', 'stickers.json')
+test('json', 'tree.json')
