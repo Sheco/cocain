@@ -13,6 +13,12 @@ const app = new Koa()
 const router = new Router()
 const readFile = util.promisify(fs.readFile)
 
+app
+  .use(router.routes())
+  .use(router.allowedMethods())
+  .use(mount('/assets', assets('assets')))
+  .listen(process.env.PORT || 8000)
+
 router.post('/api', body(), async (ctx, next) => {
   ctx.set({
     'Access-Control-Allow-Origin': '*'
@@ -50,9 +56,3 @@ router.get('/', async (ctx, next) => {
 
   await next()
 })
-
-app
-  .use(router.routes())
-  .use(router.allowedMethods())
-  .use(mount('/assets', assets('assets')))
-  .listen(process.env.PORT || 8000)
