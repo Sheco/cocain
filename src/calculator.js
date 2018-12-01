@@ -55,7 +55,7 @@ class Calculator {
   setup () {
     this.data.amount = parseInt(this.data.amount)
     for (let resource of this.data.resources) {
-      resource.capacity = Number(resource.capacity)
+      resource.capacity = Number(resource.capacity) || 1
       resource.cost = Number(resource.cost)
       resource.amount = Number(resource.amount)
       resource.consumed = 0
@@ -64,7 +64,7 @@ class Calculator {
         resource.amount = undefined
         resource.left = undefined
       } else {
-        resource.left = resource.amount * (resource.capacity || 1)
+        resource.left = resource.amount * resource.capacity
       }
     }
 
@@ -124,8 +124,9 @@ class Calculator {
 
     require('./types/' + type)(resource)
 
-    if (resource.left >= 0 && resource.capacity) {
-      resource.wastePcnt = Math.round(resource.left / resource.capacity * 100)
+    if (resource.left >= 0 && resource.capacity > 1) {
+      resource.wastePcnt = Math.round(resource.left /
+        (resource.amount * resource.capacity) * 100)
     }
   }
 
