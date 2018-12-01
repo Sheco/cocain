@@ -30,6 +30,7 @@ router.post('/api', body(), async (ctx, next) => {
 router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
   if (!ctx.request.files.csv) {
     ctx.body = ''
+    await next()
     return
   }
 
