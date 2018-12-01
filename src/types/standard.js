@@ -28,12 +28,12 @@ module.exports = function (resource) {
     ? Math.ceil(resource.consumed / resource.capacity)
     : resource.amount
 
-  //console.log(resource)
   if (resource.capacity > 1) {
     result.left = (result.amount * resource.capacity) - resource.consumed
   }
 
   /* The cost is that of the amount of containers */
   result.cost = Math.round(((resource.cost * result.amount) || 0) * 1e2) / 1e2
+
   return result
 }

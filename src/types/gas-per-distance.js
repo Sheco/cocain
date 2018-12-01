@@ -20,12 +20,8 @@ module.exports = function (resource) {
     result.amount = resource.consumed
   }
 
-  if (result.left >= 0 && resource.capacity > 1) {
-    result.wastePcnt = Math.round(result.left /
-      (result.amount * resource.capacity) * 100)
-  }
-
   result.cost = Math.round((resource.cost / resource.mileage) *
     result.amount * 1e2) / 1e2
+
   return result
 }
