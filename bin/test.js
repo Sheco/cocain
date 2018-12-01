@@ -23,7 +23,7 @@ function assertPromise (method, file) {
   readFile(`tests/${file}.json`)
     .then(buffer => {
       tests[method](`samples/${file}`)
-        .then(data => assert.equal(data, buffer.toString()))
+        .then(data => assert.equal(data + '\n', buffer.toString()))
         .then(() => console.log(`${file}: Ok`))
         .catch(err => console.error(`${file} ${err.message}`))
     })
