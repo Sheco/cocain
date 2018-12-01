@@ -12,22 +12,28 @@
  *   use as many as it can
  * type: the type of resource (defaults to 'standard')
  */
-module.exports = function (vars) {
-  if (!vars.capacity) {
-    if (vars.amount === undefined) {
-      vars.amount = vars.consumed
-    }
-    vars.cost = Math.round(((vars.cost * vars.consumed) || 0) * 1e2) / 1e2
-    return
+module.exports = function (resource) {
+  let result = {
+    type: resource.type,
+    name: resource.name,
+    amount: resource.amount,
+    cost: undefined,
+    consumed: resource.consumed,
+    left: resource.left
   }
 
   /* if the amount is undefined, we'll calculate the amount of containers
    * spent and the leftover waste */
-  if (vars.amount === undefined) {
-    vars.amount = Math.ceil(vars.consumed / vars.capacity)
-    vars.left = (vars.amount * vars.capacity) - vars.consumed
+  result.amount = resource.amount === undefined
+    ? Math.ceil(resource.consumed / resource.capacity)
+    : resource.amount
+
+  //console.log(resource)
+  if (resource.capacity > 1) {
+    result.left = (result.amount * resource.capacity) - resource.consumed
   }
 
   /* The cost is that of the amount of containers */
-  vars.cost = Math.round(((vars.cost * vars.amount) || 0) * 1e2) / 1e2
+  result.cost = Math.round(((resource.cost * result.amount) || 0) * 1e2) / 1e2
+  return result
 }

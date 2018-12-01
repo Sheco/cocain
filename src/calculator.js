@@ -122,12 +122,13 @@ class Calculator {
       throw Error('Invalid resource type: ' + type)
     }
 
-    require('./types/' + type)(resource)
+    let result = require('./types/' + type)(resource)
 
-    if (resource.left >= 0 && resource.capacity > 1) {
-      resource.wastePcnt = Math.round(resource.left /
-        (resource.amount * resource.capacity) * 100)
+    if (result.left >= 0 && resource.capacity > 1) {
+      result.wastePcnt = Math.round(result.left /
+        (result.amount * resource.capacity) * 100)
     }
+    return result
   }
 
   process () {
@@ -136,18 +137,7 @@ class Calculator {
     let resources = []
 
     for (let resource of this.data.resources) {
-      this.calculate(resource)
-      let r = {
-        type: resource.type,
-        name: resource.name,
-        amount: resource.amount,
-        cost: resource.cost,
-        consumed: resource.consumed,
-        left: resource.left,
-        wastePcnt: resource.wastePcnt
-      }
-
-      resources.push(r)
+      resources.push(this.calculate(resource))
     }
 
     let products = this.data.amount
