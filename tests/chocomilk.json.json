@@ -1,0 +1,1 @@
+{"products":60,"cost":336,"costPerProduct":5.6,"wastePcnt":5,"resources":[{"name":"milk","amount":15,"cost":225,"consumed":14400,"left":600,"wastePcnt":4},{"name":"chocolate","amount":6,"cost":111,"consumed":900,"left":60,"wastePcnt":6}]}
