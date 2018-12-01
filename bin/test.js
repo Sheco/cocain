@@ -52,3 +52,8 @@ test('json', 'chocomilk5liters.json')
 test('json', 'chocomilk.json')
 test('json', 'stickers.json')
 test('json', 'tree.json')
+
+// TODO: add tests for the webserver
+// - load index
+// - test /api with certain payload
+// - test /convertJSON with certain file
