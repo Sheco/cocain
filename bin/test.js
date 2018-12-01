@@ -36,8 +36,11 @@ assert.rejects(tests.json('nosuchfile.json'))
 // test csv results
 assertPromise('csv', 'chocomilk.csv')
 
+// To repopulate the test results recalculating everything, do this
+// (it's not recommended unless you're sure the results are correct)
+// (cd samples; for f in *.json; do ../bin/calculate.js $f > ../tests/$f.json; done)
+
 // test the json samples
-// for f in samples/*; do echo "assertPromise('csv', '$f', '$(./calculate.js $f)')"; done 2>/dev/null
 assertPromise('json', 'bibs.json')
 assertPromise('json', 'chocoavena.json')
 assertPromise('json', 'chocomilk5liters.json')
