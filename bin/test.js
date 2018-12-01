@@ -29,9 +29,14 @@ function test (method, file) {
     })
 }
 
+function testRejects (method, file) {
+  assert.rejects(tests[method](file))
+    .catch(e => console.error(`${file}: ${e.message}`))
+}
+
 // assert some errors
-assert.rejects(tests.csv('nosuchfile.csv'))
-assert.rejects(tests.json('nosuchfile.json'))
+testRejects('csv', 'nosuchfile.csv')
+testRejects('json', 'nosuchfile.json')
 
 // test csv results
 test('csv', 'chocomilk.csv')
