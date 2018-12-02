@@ -5,6 +5,7 @@ const assets = require('koa-static')
 const body = require('koa-body')
 const fs = require('fs')
 const util = require('util')
+const path = require('path')
 
 const calculator = require('../src/calculator')
 const convertCsv = require('../src/convertCsv')
@@ -16,7 +17,7 @@ const readFile = util.promisify(fs.readFile)
 app
   .use(router.routes())
   .use(router.allowedMethods())
-  .use(mount('/assets', assets('assets')))
+  .use(mount('/assets', assets(path.join(__dirname, '/../assets'))))
   .listen(process.env.PORT || 8000)
 
 router.post('/api', body(), async (ctx, next) => {
@@ -52,7 +53,7 @@ router.get('/', async (ctx, next) => {
     'Content-Type': 'text/html'
   })
 
-  ctx.body = await readFile('assets/index.html')
+  ctx.body = await readFile(path.join(__dirname, '/../assets/index.html'))
 
   await next()
 })
