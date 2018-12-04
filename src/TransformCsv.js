@@ -1,8 +1,16 @@
-const parse = require('csv-parse')
-const through2 = require('through2')
+const { Transform } = require('stream')
 
-// This function converts a readStream containing a specific
-// cvs layout into a valid JSON object usable in this project
+// TransformCsv is a Transform stream, it receives a stream
+// of objects, processes each record and stores it in a separate
+// destination array, which is then stringified at the end
+// and fed to the stream output
+//
+// It is currently used when piped after something like this:
+//
+// let stream = ... // something something
+// const parse = require('csv-parse')
+// stream.pipe(parse({ relax_column_count: true}))
+//   .pipe(new TransformCsv())
 //
 // the CSV has to have this layout:
 //
@@ -28,28 +36,40 @@ const through2 = require('through2')
 //  If the first column is anything other than that, each of the values
 //  will be saved to the root of the data object
 //
-module.exports = function () {
-  // initialize the default empty object
-  let data = {
-    name: '',
-    amount: undefined,
-    resources: [],
-    setup: [],
-    product: []
+// TODO this might not work well if the input CSV is too large and
+// and flush() is called more than once, although I am not sure about that
+// we might need to test that.
+
+class TransformCsv extends Transform {
+  constructor (options) {
+    if (options === undefined) options = {}
+    options.objectMode = true
+
+    super(options)
+    this.data = {
+      name: '',
+      amount: undefined,
+      resources: [],
+      setup: [],
+      product: []
+    }
+
+    this.meta = undefined
   }
 
-  let meta
-
-  const convertLine = function (record) {
+  processLine (record) {
     // if the first record is not empty, get the column definitions
     // filter out any columns without a value
     if (record[0] !== '') {
-      meta = {
+      this.meta = {
         record: record.shift(),
         columns: record.filter(x => x)
       }
       return
     }
+
+    let meta = this.meta
+    let data = this.data
 
     // Ignore data if we haven't seen a definition row
     if (meta === undefined) return
@@ -72,9 +92,14 @@ module.exports = function () {
     })
   }
 
-  return parse({ relax_column_count: true })
-    .on('data', line => convertLine(line))
-    .on('end', function () {
-      this.emit('json', data)
-    })
+  _transform (data, enc, next) {
+    this.processLine(data)
+    next()
+  }
+
+  _flush (done) {
+    done(null, JSON.stringify(this.data))
+  }
 }
+
+module.exports = TransformCsv

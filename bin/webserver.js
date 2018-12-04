@@ -6,9 +6,10 @@ const body = require('koa-body')
 const fs = require('fs')
 const util = require('util')
 const path = require('path')
+const csv = require('csv-parse')
 
 const calculator = require('../src/calculator')
-const convertCsv = require('../src/convertCsv')
+const TransformCsv = require('../src/TransformCsv')
 
 const app = new Koa()
 const router = new Router()
@@ -51,8 +52,12 @@ router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
 
       fs.createReadStream(ctx.request.files.csv.path)
         .on('error', error => reject(error))
-        .pipe(convertCsv())
-        .on('json', json => resolve(JSON.stringify(json, null, 2)))
+        .pipe(csv({ relax_column_count: true }))
+        .pipe(new TransformCsv())
+        .on('data', data => {
+          let json = JSON.parse(data)
+          resolve(JSON.stringify(json, null, 2))
+        })
     })
   } catch (error) {
     ctx.throw(400, error.message)

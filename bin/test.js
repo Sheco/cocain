@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const calculator = require('../src/calculator')
-const convertCsv = require('../src/convertCsv')
+const TransformCsv = require('../src/TransformCsv')
+const csv = require('csv-parse')
 const fs = require('fs')
 const assert = require('assert').strict
 const util = require('util')
@@ -17,8 +18,9 @@ const tests = {
     return new Promise((resolve, reject) => {
       fs.createReadStream(file)
         .on('error', error => reject(error))
-        .pipe(convertCsv())
-        .on('json', data => resolve(JSON.stringify(data)))
+        .pipe(csv({ relax_column_count: true }))
+        .pipe(new TransformCsv())
+        .on('data', data => resolve(data))
     })
   }
 }
