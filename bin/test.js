@@ -26,14 +26,12 @@ const tests = {
 }
 
 function test (method, file) {
-  readFile(`tests/${file}.json`)
-    .then(buffer => {
-      tests[method](`samples/${file}`)
-        .then(data => assert.equal(data + '\n', buffer.toString()))
-        .then(() => console.log(`${file}: Ok`))
-        .catch(err => console.error(`${file} ${err.message}`))
-    })
-    .catch(e => console.error(e))
+  let expected = readFile(`tests/${file}.txt`)
+
+  tests[method](`samples/${file}`)
+    .then(async data => assert.equal(data + '\n', (await expected).toString()))
+    .then(() => console.log(`${file}: Ok`))
+    .catch(err => console.error(`${file} ${err.message}`))
 }
 
 function testRejects (method, file) {
