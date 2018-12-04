@@ -1,0 +1,12 @@
+info,name,amount,,,
+,candies,0,,,
+resources,name,capacity,amount,cost,
+,sugar,1000,1,25,bag with 1000 gr
+,coloring,10,0,18,bottle with 10ml 
+,water,1,0,0.00125,$0.00125 per ml of water
+setup,resource,amount,,,
+,water,500,,,wash your hands first
+product,resource,amount,,,
+,sugar,5,,,5gr per candy
+,coloring,0.05,,,1 drop (0.05ml)
+,water,5,,,5ml of water
