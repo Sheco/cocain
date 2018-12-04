@@ -57,25 +57,19 @@ module.exports = function () {
     // remove the first column, which is empty
     record.shift()
 
-    // if the first column was empty, the data is on the
-    // other columns, using the previously defined definitions
-    let recordData = {}
+    // if there is a property matching the meta record name,
+    // then assume it's an array and push the data into it
+    // otherwise just assign the values into the object itself
+    let recordData = data
+    if (data[meta.record]) {
+      recordData = {}
+      data[meta.record].push(recordData)
+    }
+
     record.forEach((value, index) => {
       if (!meta.columns[index]) return
       recordData[meta.columns[index]] = value
     })
-
-    // if there is a property matching the meta record name,
-    // then assume it's an array and push the data into it
-    if (data[meta.record]) {
-      data[meta.record].push(recordData)
-      return
-    }
-
-    // otherwise, write the data properties to the root of the return object
-    for (let [key, value] of Object.entries(recordData)) {
-      data[key] = value
-    }
   }
 
   return parse({ relax_column_count: true })
