@@ -41,15 +41,16 @@ router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
     return
   }
 
-  fs.createReadStream(ctx.request.files.csv.path)
-    .on('error', async error => {
-      ctx.body = { error: error }
-      await next()
+  try {
+    ctx.body = await new Promise((resolve, reject) => {
+      fs.createReadStream(ctx.request.files.csv.path)
+        .on('error', error => reject(error))
+        .pipe(convertCsv())
+        .on('json', json => resolve(JSON.stringify(json, null, 2)))
     })
-    .pipe(convertCsv())
-    .on('json', json => {
-      ctx.body = JSON.stringify(json, null, 2)
-    })
+  } catch (error) {
+    ctx.body = { error: error }
+  }
 
   await next()
 })
