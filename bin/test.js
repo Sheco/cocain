@@ -14,8 +14,12 @@ const tests = {
       .then(data => JSON.stringify(data))
   },
   csv: function (file) {
-    return convertCsv(fs.createReadStream(file))
-      .then(data => JSON.stringify(data))
+    return new Promise((resolve, reject) => {
+      fs.createReadStream(file)
+        .on('error', error => reject(error))
+        .pipe(convertCsv())
+        .on('json', data => resolve(JSON.stringify(data)))
+    })
   }
 }
 

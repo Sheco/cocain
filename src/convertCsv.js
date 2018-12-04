@@ -1,4 +1,5 @@
 const parse = require('csv-parse')
+const through2 = require('through2')
 
 // This function converts a readStream containing a specific
 // cvs layout into a valid JSON object usable in this project
@@ -27,7 +28,7 @@ const parse = require('csv-parse')
 //  If the first column is anything other than that, each of the values
 //  will be saved to the root of the data object
 //
-function convert (stream, cb) {
+module.exports = function () {
   // initialize the default empty object
   let data = {
     name: '',
@@ -39,66 +40,47 @@ function convert (stream, cb) {
 
   let meta
 
-  const convert = function () {
-    let record
-    while ((record = this.read())) {
-      // if the first record is not empty, get the column definitions
-      // filter out any columns without a value
-      if (record[0] !== '') {
-        meta = {
-          record: record.shift(),
-          columns: record.filter(x => x)
-        }
-        continue
+  const convertLine = function (record) {
+    // if the first record is not empty, get the column definitions
+    // filter out any columns without a value
+    if (record[0] !== '') {
+      meta = {
+        record: record.shift(),
+        columns: record.filter(x => x)
       }
+      return
+    }
 
-      // Ignore data if we haven't seen a definition row
-      if (meta === undefined) continue
+    // Ignore data if we haven't seen a definition row
+    if (meta === undefined) return
 
-      // remove the first column, which is empty
-      record.shift()
+    // remove the first column, which is empty
+    record.shift()
 
-      // if the first column was empty, the data is on the
-      // other columns, using the previously defined definitions
-      let recordData = {}
-      record.forEach((value, index) => {
-        if (!meta.columns[index]) return
-        recordData[meta.columns[index]] = value
-      })
+    // if the first column was empty, the data is on the
+    // other columns, using the previously defined definitions
+    let recordData = {}
+    record.forEach((value, index) => {
+      if (!meta.columns[index]) return
+      recordData[meta.columns[index]] = value
+    })
 
-      // if there is a property matching the meta record name,
-      // then assume it's an array and push the data into it
-      if (data[meta.record]) {
-        data[meta.record].push(recordData)
-        continue
-      }
+    // if there is a property matching the meta record name,
+    // then assume it's an array and push the data into it
+    if (data[meta.record]) {
+      data[meta.record].push(recordData)
+      return
+    }
 
-      // otherwise, write the data properties to the root of the return object
-      for (let [key, value] of Object.entries(recordData)) {
-        data[key] = value
-      }
+    // otherwise, write the data properties to the root of the return object
+    for (let [key, value] of Object.entries(recordData)) {
+      data[key] = value
     }
   }
 
-  stream.on('error', error => cb(error, null))
-  stream.pipe(parse({ relax_column_count: true })
-    .on('readable', convert)
-    .on('end', () => cb(null, data))
-    .on('error', error => cb(error, null))
-  )
-}
-
-module.exports = function (stream, cb) {
-  if (!cb) {
-    // if no callback given, promisify the return value
-    return new Promise((resolve, reject) => {
-      convert(stream, (err, data) => {
-        if (err) reject(err)
-        resolve(data)
-      })
+  return parse({ relax_column_count: true })
+    .on('data', line => convertLine(line))
+    .on('end', function () {
+      this.emit('json', data)
     })
-  }
-
-  // otherwise, call the convert function normally
-  convert(stream, cb)
 }

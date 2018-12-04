@@ -41,9 +41,15 @@ router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
     return
   }
 
-  const stream = fs.createReadStream(ctx.request.files.csv.path)
-  let json = await convertCsv(stream)
-  ctx.body = JSON.stringify(json, null, 2)
+  fs.createReadStream(ctx.request.files.csv.path)
+    .on('error', async error => {
+      ctx.body = { error: error }
+      await next()
+    })
+    .pipe(convertCsv())
+    .on('json', json => {
+      ctx.body = JSON.stringify(json, null, 2)
+    })
 
   await next()
 })
