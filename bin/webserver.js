@@ -13,6 +13,7 @@ const convertCsv = require('../src/convertCsv')
 const app = new Koa()
 const router = new Router()
 const readFile = util.promisify(fs.readFile)
+const stat = util.promisify(fs.stat)
 
 app
   .use(router.routes())
@@ -42,14 +43,19 @@ router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
   }
 
   try {
-    ctx.body = await new Promise((resolve, reject) => {
+    ctx.body = await new Promise(async (resolve, reject) => {
+      let csvStats = await stat(ctx.request.files.csv.path)
+      if (csvStats.size > 10 * 1024) {
+        reject(Error(`CSV is too large, ${csvStats.size}>10KB`))
+      }
+
       fs.createReadStream(ctx.request.files.csv.path)
         .on('error', error => reject(error))
         .pipe(convertCsv())
         .on('json', json => resolve(JSON.stringify(json, null, 2)))
     })
   } catch (error) {
-    ctx.body = { error: error }
+    ctx.body = { error: error.message }
   }
 
   await next()
