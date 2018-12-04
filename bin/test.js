@@ -33,6 +33,7 @@ function test (method, file) {
         .then(() => console.log(`${file}: Ok`))
         .catch(err => console.error(`${file} ${err.message}`))
     })
+    .catch(e => console.error(e))
 }
 
 function testRejects (method, file) {
