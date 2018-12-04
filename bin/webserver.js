@@ -37,19 +37,15 @@ router.post('/api', body(), async (ctx, next) => {
 })
 
 router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
-  if (!ctx.request.files.csv) {
-    ctx.body = ''
-    await next()
-    return
-  }
-
   try {
-    ctx.body = await new Promise(async (resolve, reject) => {
-      let csvStats = await stat(ctx.request.files.csv.path)
-      if (csvStats.size > 10 * 1024) {
-        reject(Error(`CSV is too large, ${csvStats.size}>10KB`))
-      }
+    if (!ctx.request.files.csv) throw Error('No file specified')
 
+    let csvStats = await stat(ctx.request.files.csv.path)
+    if (csvStats.size > 10 * 1024) {
+      throw Error(`CSV is too large, ${csvStats.size}>10KB`)
+    }
+
+    ctx.body = await new Promise(async (resolve, reject) => {
       fs.createReadStream(ctx.request.files.csv.path)
         .on('error', error => reject(error))
         .pipe(csv({ relax_column_count: true }))
