@@ -177,50 +177,37 @@ The comments here are just for documentation, they are not valid JSON contents.
 Converting a CSV file into JSON
 ===============================
 
-There's a handy way to write the recipe using a CSV file,
-which means you can use a Spreadsheet app like Microsoft Excel to
-manage the recipe, which is a lot easier than writing the JSON object.
+There's a handy way to write the recipe using a CSV file, which means you can use a Spreadsheet app like Microsoft Excel to manage the recipe, which is a lot easier than writing the JSON object.
 
-There is a sample csv file in the samples directory, called chocomilk.csv
+There is a sample csv file in the samples directory, called candies.csv
 
 The structure of the CSV is quite simple:
 
- A row whose first column is not empty will start the
- resource definition parsing, in simple terms, they describe the
- columns for the data below them.
+A row whose first column is not empty will start the  resource definition parsing, in simple terms, they describe the columns for the data below them.
 
 For example:
 
-|           |            |          |        |      |
-| --------- | ---------- | -------- | ------ | ---- |
-| info      | name       | amount   |        |      |
-|           | chokoko    | 0        |        |      |
-| resources | name       | capacity | amount | cost |
-|           | chocolate  | 1000     | 10     | 30   |
+|           |            |          |        |         |                           |
+| --------- | ---------- | -------- | ------ | ------- | ------------------------- |
+| info      | name       | amount   |        |         |                           |
+|           | candies    | 0        |        |         |                           |
+| resources | name       | capacity | amount | cost    |                           |
+|           | sugar      | 1000     | 1      | 25      | bag with 1000gr           |
+|           | coloring   | 10       | 0      | 18      | bottle with 10ml          |
+|           | water      | 1        | 0      | 0.00125 | the water is chea         |
+| setup     | resource   | amount   |        |         |                           |
+|           | water      | 500      |        |         | wash your hands first     |
+| product   | resource   | amount   |        |         |                           |
+|           | sugar      | 5        |        |         | 5gr per candy             |
+|           | coloring   | 0.05     |        |         | 1 drop (0.05ml)           |
+|           | water      | 5        |        |         | 1ml of water              |
 
-The first line, info describes a name and an amount columns, these will
-be placed in the JSON's root
+The first group, info, describes a name and an amount columns, these will be the recipe basic information, if the amount is 0, then it will be automatically calculated based on the amount of resources, so one of the resources has to have an amount.
 
-```
-{
-  "name": "chokoko",
-  "amount": "0"
-}
-```
+Then the resources group will define the stock resources that will be available for the recipe, in this case, 1 bag with 1000gr of sugar and an undefined number of bottles of food coloring. it's worth pointing out that the last column is completely ignored by the application.
 
-Then the resources line will define the columns for the objects that
-will be added to the resources property:
+If all of the resources have undefined amounts (infinite) then you need to specify an amount of products to make, in the info group.
 
-```
-{
-  resources: [
-    {
-      name: 'chocolate',
-      capacity: 1000,
-      amount: 10,
-      cost: 30
-    }
-  ]
-}
-```
+Then the setup group will define how many resources are going to be spend before starting to make the products.
 
+And finally, the product group will define how many resources are needed for each product.
