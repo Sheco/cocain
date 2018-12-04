@@ -194,7 +194,7 @@ For example:
 | resources | name       | capacity | amount | cost    |                           |
 |           | sugar      | 1000     | 1      | 25      | bag with 1000gr           |
 |           | coloring   | 10       | 0      | 18      | bottle with 10ml          |
-|           | water      | 1        | 0      | 0.00125 | the water is chea         |
+|           | water      | 1        | 0      | 0.00125 | water per ml              |
 | setup     | resource   | amount   |        |         |                           |
 |           | water      | 500      |        |         | wash your hands first     |
 | product   | resource   | amount   |        |         |                           |
