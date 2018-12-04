@@ -29,7 +29,7 @@ router.post('/api', body(), async (ctx, next) => {
   try {
     ctx.body = calculator(JSON.parse(ctx.request.body.src))
   } catch (e) {
-    ctx.body = { 'error': e.message }
+    ctx.throw(400, JSON.stringify({ error: e.message }))
   }
 
   await next()
@@ -55,7 +55,7 @@ router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
         .on('json', json => resolve(JSON.stringify(json, null, 2)))
     })
   } catch (error) {
-    ctx.body = { error: error.message }
+    ctx.throw(400, error.message)
   }
 
   await next()

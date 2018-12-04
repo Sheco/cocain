@@ -15,9 +15,10 @@ function calculate () {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ src: src.value })
   })
-    .then(response => {
-      if (response.status === 200) return response.json()
-      throw Error(`/api returned ${response.status}`)
+    .then(async response => {
+      let json = await response.json()
+      if (response.status === 200) return json
+      throw Error(`/api returned ${response.status}: ${response.statusText}\n\n${json.error}`)
     })
     .then(data => {
       result.innerHTML = prettyPrintJson.toHtml(data)
@@ -28,9 +29,10 @@ function calculate () {
 
 function loadJSON (url) { // eslint-disable-line no-unused-vars
   fetch(url, { method: 'GET' })
-    .then(response => {
-      if (response.status === 200) return response.text()
-      throw Error(`${url} returned ${response.status}`)
+    .then(async response => {
+      let text = await response.text()
+      if (response.status === 200) return text
+      throw Error(`${url} returned ${response.status}: ${response.statusText}\n\n${text}`)
     })
     .then(data => {
       src.value = data
@@ -47,9 +49,10 @@ function convertCsv () { // eslint-disable-line no-unused-vars
     method: 'POST',
     body: formData
   })
-    .then(response => {
-      if (response.status === 200) return response.text()
-      throw Error(`/convertCsv returned ${response.status}: ${response.statusText}`)
+    .then(async response => {
+      let text = await response.text()
+      if (response.status === 200) return text
+      throw Error(`/convertCsv returned ${response.status}: ${response.statusText}\n\n${text}`)
     })
     .then(data => {
       src.value = data
