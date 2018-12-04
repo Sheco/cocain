@@ -46,6 +46,7 @@ testRejects('json', 'nosuchfile.json')
 
 // test csv results
 test('csv', 'chocomilk.csv')
+test('csv', 'candies.csv')
 
 // To repopulate the test results recalculating everything, do this
 // (it's not recommended unless you're sure the results are correct)
