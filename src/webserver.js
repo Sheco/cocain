@@ -20,7 +20,6 @@ app
   .use(router.routes())
   .use(router.allowedMethods())
   .use(mount('/assets', assets(path.join(__dirname, '/../assets'))))
-  .listen(process.env.PORT || 8000)
 
 router.post('/api', body(), async (ctx, next) => {
   ctx.set({
@@ -71,3 +70,5 @@ router.get('/', async (ctx, next) => {
 
   await next()
 })
+
+module.exports = app

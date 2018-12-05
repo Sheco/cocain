@@ -1,10 +1,14 @@
 #!/usr/bin/env node
 const calculator = require('../src/calculator')
 const TransformCsv = require('../src/TransformCsv')
+const webserver = require('../src/webserver')
+
 const csv = require('csv-parse')
 const fs = require('fs')
 const assert = require('assert').strict
+const request = require('request-promise')
 const util = require('util')
+
 const readFile = util.promisify(fs.readFile)
 
 const tests = {
@@ -59,7 +63,50 @@ test('json', 'chocomilk.json')
 test('json', 'stickers.json')
 test('json', 'tree.json')
 
-// TODO: add tests for the webserver
-// - load index
-// - test /api with certain payload
-// - test /convertJSON with certain file
+async function testHttp (label, promise, test) {
+  try {
+    let data = await promise
+    if (test) test(data)
+
+    console.log(`Testing ${label}: Ok`)
+  } catch (error) {
+    console.error(`Testing ${label}: ${error.message}`)
+  }
+}
+
+let port = 9999
+let baseURL = `http://localhost:${port}`
+
+webserver.listen(port, async function () {
+  await testHttp('/', request(baseURL), data => {
+    assert(/Cost Calculator Interface/.test(data))
+  })
+
+  await testHttp('Empty /api', assert.rejects(
+    request.post(baseURL + '/api', { csv: '' })
+  ))
+
+  await testHttp('Invalid /api', assert.rejects(
+    request.post(baseURL + '/api', { csv: 'undefined' })
+  ))
+
+  let src = (await readFile('samples/chocomilk.json')).toString()
+  await testHttp('Valid /api', assert.doesNotReject(
+    request.post(baseURL + '/api').form({ src: src })
+  ))
+
+  await testHttp('Empty /converCSV', assert.rejects(
+    request.post(baseURL + '/convertCsv')
+  ))
+
+  await testHttp('Valid /convertCsv', assert.doesNotReject(
+    request.post({
+      url: baseURL + '/convertCsv',
+      formData: {
+        csv: fs.createReadStream('samples/chocomilk.csv')
+      }
+    })
+  ))
+
+  this.close()
+})

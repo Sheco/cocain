@@ -21,5 +21,8 @@
   "engines": {
     "node": "10.x"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "request": "2.88.0",
+    "request-promise": "4.2.2"
+  }
 }
