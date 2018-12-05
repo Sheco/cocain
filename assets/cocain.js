@@ -22,9 +22,11 @@ function calculate () {
     })
     .then(data => {
       result.innerHTML = prettyPrintJson.toHtml(data)
-      progress.style.display = 'none'
     })
     .catch(error => alert(error.message))
+    .then(() => {
+      progress.style.display = 'none'
+    })
 }
 
 function loadJSON (url) { // eslint-disable-line no-unused-vars
