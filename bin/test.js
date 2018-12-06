@@ -8,19 +8,20 @@ const fs = require('fs')
 const assert = require('assert').strict
 const request = require('request-promise')
 const util = require('util')
+const path = require('path')
 
 const readFile = util.promisify(fs.readFile)
 
 const tests = {
   json: function (file) {
-    return readFile(file)
+    return readFile(path.join(__dirname, '..', file))
       .then(data => JSON.parse(data))
       .then(data => calculator(data))
       .then(data => JSON.stringify(data))
   },
   csv: function (file) {
     return new Promise((resolve, reject) => {
-      fs.createReadStream(file)
+      fs.createReadStream(path.join(__dirname, '..', file))
         .on('error', error => reject(error))
         .pipe(csv({ relax_column_count: true }))
         .pipe(new TransformCsv())
@@ -30,7 +31,7 @@ const tests = {
 }
 
 function test (method, file) {
-  let expected = readFile(`tests/${file}.txt`)
+  let expected = readFile(path.join(__dirname, '..', 'tests', `${file}.txt`))
 
   tests[method](`samples/${file}`)
     .then(async data => assert.equal(data + '\n', (await expected).toString()))
@@ -90,7 +91,8 @@ webserver.listen(port, async function () {
     request.post(baseURL + '/api', { csv: 'undefined' })
   ))
 
-  let src = (await readFile('samples/chocomilk.json')).toString()
+  let src = (await readFile(path.join(__dirname,
+    '..', 'samples', 'chocomilk.json'))).toString()
   await testHttp('Valid /api', assert.doesNotReject(
     request.post(baseURL + '/api').form({ src: src })
   ))
@@ -103,7 +105,8 @@ webserver.listen(port, async function () {
     request.post({
       url: baseURL + '/convertCsv',
       formData: {
-        csv: fs.createReadStream('samples/chocomilk.csv')
+        csv: fs.createReadStream(path.join(__dirname,
+          '..', 'samples', 'chocomilk.csv'))
       }
     })
   ))

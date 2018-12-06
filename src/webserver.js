@@ -19,7 +19,7 @@ const stat = util.promisify(fs.stat)
 app
   .use(router.routes())
   .use(router.allowedMethods())
-  .use(mount('/assets', assets(path.join(__dirname, '/../assets'))))
+  .use(mount('/assets', assets(path.join(__dirname, '..', 'assets'))))
 
 router.post('/api', body(), async (ctx, next) => {
   ctx.set({
@@ -66,7 +66,7 @@ router.get('/', async (ctx, next) => {
     'Content-Type': 'text/html'
   })
 
-  ctx.body = await readFile(path.join(__dirname, '/../assets/index.html'))
+  ctx.body = await readFile(path.join(__dirname, '..', 'assets', 'index.html'))
 
   await next()
 })
