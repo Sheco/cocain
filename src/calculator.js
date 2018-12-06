@@ -8,11 +8,8 @@ class Calculator {
   // find the first resource with a given name, only if it has contents left
   findResource (name, amount) {
     for (let resource of this.data.resources) {
-      if (resource.name !== name) {
-        continue
-      }
-
-      if (resource.left === undefined || resource.left) {
+      if (resource.name === name &&
+        (resource.left === undefined || resource.left)) {
         return resource
       }
     }
@@ -53,7 +50,7 @@ class Calculator {
 
   // run though the data and update some records where needed
   setup () {
-    this.data.amount = parseInt(this.data.amount)
+    this.data.amount = Number(this.data.amount)
     for (let resource of this.data.resources) {
       resource.capacity = Number(resource.capacity) || 1
       resource.cost = Number(resource.cost)
@@ -90,7 +87,7 @@ class Calculator {
         resource.left
     }
 
-    // substract the components using when setting up first
+    // substract the components used when setting up first
     for (let component of this.data.setup || []) {
       resources[component.resource] -= component.amount
     }
@@ -118,7 +115,7 @@ class Calculator {
     let type = resource.type || 'standard'
 
     // the type must be alphanumeric (and it can have a dash)
-    if (type === undefined || !/^[\w-]+$/.test(type)) {
+    if (!/^[\w-]+$/.test(type)) {
       throw Error('Invalid resource type: ' + type)
     }
 
