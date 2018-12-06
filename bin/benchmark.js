@@ -6,10 +6,10 @@ const readFile = util.promisify(fs.readFile)
 
 async function assertJSON (file, result) {
   return readFile(file)
-    .then(data => JSON.parse(data))
-    .then(data => calculator(data))
-    .then(data => JSON.stringify(data))
-    .catch(e => console.error(e))
+    .then(JSON.parse)
+    .then(calculator)
+    .then(JSON.stringify)
+    .catch(console.error)
 }
 
 async function runTests () {

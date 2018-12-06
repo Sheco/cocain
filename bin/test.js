@@ -15,17 +15,17 @@ const readFile = util.promisify(fs.readFile)
 const tests = {
   json: function (file) {
     return readFile(path.join(__dirname, '..', file))
-      .then(data => JSON.parse(data))
-      .then(data => calculator(data))
-      .then(data => JSON.stringify(data))
+      .then(JSON.parse)
+      .then(calculator)
+      .then(JSON.stringify)
   },
   csv: function (file) {
     return new Promise((resolve, reject) => {
       fs.createReadStream(path.join(__dirname, '..', file))
-        .on('error', error => reject(error))
+        .on('error', reject)
         .pipe(csv({ relax_column_count: true }))
         .pipe(new TransformCsv())
-        .on('data', data => resolve(data))
+        .on('data', resolve)
     })
   }
 }
