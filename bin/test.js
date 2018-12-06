@@ -30,78 +30,77 @@ const tests = {
   }
 }
 
-function test (method, file) {
-  let expected = readFile(path.join(__dirname, '..', 'tests', `${file}.txt`))
-
-  tests[method](`samples/${file}`)
-    .then(async data => assert.equal(data + '\n', (await expected).toString()))
-    .then(() => console.log(`${file}: Ok`))
-    .catch(err => console.error(`${file} ${err.message}`))
+async function testPromise (label, promise) {
+  await promise.then(data => {
+    console.log(`Testing ${label}: OK`)
+  }).catch(error => {
+    console.error(`Testing ${label}: ${error.message}`)
+  })
 }
 
-function testRejects (method, file) {
-  assert.rejects(tests[method](file))
-    .catch(e => console.error(`${file}: ${e.message}`))
+function testFile (method, file) {
+  testPromise(file, tests[method](`samples/${file}`)
+    .then(async (data) => {
+      file = path.join(__dirname, '..', 'tests', `${file}.txt`)
+      let expected = readFile(file)
+      assert.equal(data + '\n', (await expected).toString())
+      return data
+    }))
 }
 
 // assert some errors
-testRejects('csv', 'nosuchfile.csv')
-testRejects('json', 'nosuchfile.json')
+testPromise('Invalid CSV', assert.rejects(tests.csv('nosuchfile.csv')))
+testPromise('Invalid JSON', assert.rejects(tests.json('nosuchfile.json')))
 
 // test csv results
-test('csv', 'chocomilk.csv')
-test('csv', 'candies.csv')
+testFile('csv', 'chocomilk.csv')
+testFile('csv', 'candies.csv')
 
 // To repopulate the test results recalculating everything, do this
 // (it's not recommended unless you're sure the results are correct)
 // (cd samples; for f in *.json; do ../bin/calculate.js $f > ../tests/$f.json; done)
 
 // test the json samples
-test('json', 'bibs.json')
-test('json', 'chocoavena.json')
-test('json', 'chocomilk5liters.json')
-test('json', 'chocomilk.json')
-test('json', 'stickers.json')
-test('json', 'tree.json')
-
-async function testHttp (label, promise, test) {
-  try {
-    let data = await promise
-    if (test) test(data)
-
-    console.log(`Testing ${label}: Ok`)
-  } catch (error) {
-    console.error(`Testing ${label}: ${error.message}`)
-  }
-}
+testFile('json', 'bibs.json')
+testFile('json', 'chocoavena.json')
+testFile('json', 'chocomilk5liters.json')
+testFile('json', 'chocomilk.json')
+testFile('json', 'stickers.json')
+testFile('json', 'tree.json')
 
 let port = 9999
 let baseURL = `http://localhost:${port}`
 
-webserver.listen(port, async function () {
-  await testHttp('/', request(baseURL), data => {
-    assert(/Cost Calculator Interface/.test(data))
-  })
+webserver.listen(port, '127.0.0.1', async function () {
+  await testPromise('/', request(baseURL)
+    .then(data => {
+      assert(/Cost Calculator Interface/.test(data))
+      return data
+    })
+  )
 
-  await testHttp('Empty /api', assert.rejects(
+  await testPromise('Empty /api', assert.rejects(
     request.post(baseURL + '/api', { csv: '' })
   ))
 
-  await testHttp('Invalid /api', assert.rejects(
+  await testPromise('Invalid /api', assert.rejects(
     request.post(baseURL + '/api', { csv: 'undefined' })
   ))
 
-  let src = (await readFile(path.join(__dirname,
-    '..', 'samples', 'chocomilk.json'))).toString()
-  await testHttp('Valid /api', assert.doesNotReject(
-    request.post(baseURL + '/api').form({ src: src })
+  await testPromise('Valid /api', assert.doesNotReject(
+    request.post(baseURL + '/api')
+      .form({ src: JSON.stringify({
+        resources: [],
+        product: []
+      })
+      })
   ))
 
-  await testHttp('Empty /converCSV', assert.rejects(
+  await testPromise('Empty /converCSV', assert.rejects(
     request.post(baseURL + '/convertCsv')
   ))
 
-  await testHttp('Valid /convertCsv', assert.doesNotReject(
+  await testPromise('Valid /convertCsv', assert.doesNotReject(
     request.post({
       url: baseURL + '/convertCsv',
       formData: {
@@ -110,6 +109,5 @@ webserver.listen(port, async function () {
       }
     })
   ))
-
   this.close()
 })
