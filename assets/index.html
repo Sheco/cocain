@@ -62,22 +62,23 @@
               >, and how much chocolate you need.
             </li>
           </ul>
-          <p>
-            You need to use valid JSON code, the syntax is simple but writing it
-            can be a little daunting at first, you can use a JSON linter to
-            validate the code, for example:
-            <a href="https://jsonlint.com/" target="_blank"
-              >https://jsonlint.com/</a
-            >
-          </p>
         </div>
       </div>
 
       <div class="card-deck mb-2">
         <div class="card mb-4 box-shadow">
           <div class="card-header">Enter the JSON code</div>
-          <div class="card-body">
+          <div class="card-body" style="padding-top: 0px">
             <div class="bs-callout bs-callout-primary">
+              <p>
+                You need to use valid JSON code, the syntax is simple but writing it
+                can be a little daunting at first, you can use a JSON linter to
+                validate the code, for example:
+                <a href="https://jsonlint.com/" target="_blank"
+                  >https://jsonlint.com/</a
+                >
+              </p>
+
               <div class="form-group">
                 <textarea
                   name="src"
@@ -94,8 +95,23 @@
             </div>
 
             <div class="bs-callout bs-callout-success">
+              <p>
+                This way you can upload a simple CSV and have it converted to
+                JSON and then calculated.
+              </p>
+              
+              <p>
+                You can use the
+                <a
+                  target="_blank"
+                  href="https://github.com/Sheco/cocain/blob/master/samples/candies.csv"
+                  >sample CSV</a
+                >
+                for reference, or check the documentation in the project's
+                github page.
+              </p>
               <div class="form-group">
-                <label for="csv">Convert a CSV file into JSON</label>
+                <label for="csv">Select one or more CSV files:</label>
                 <input
                   class="form-control-file"
                   type="file"
@@ -107,19 +123,9 @@
               </div>
 
               <small class="form-text text-muted" id="csvHelp">
-                This way you can upload a simple CSV and have it converted to
-                JSON and then calculated. <br />
-                You can use the
-                <a
-                  target="_blank"
-                  href="https://github.com/Sheco/cocain/blob/master/samples/candies.csv"
-                  >sample CSV</a
-                >
-                for reference, or check the documentation in the project's
-                github page.
               </small>
               <button
-                class="btn btn-block btn-outline-success"
+                class="btn btn-block btn-success"
                 onclick="convertCsv()"
               >
                 Convert and calculate
