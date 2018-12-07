@@ -1,0 +1,9 @@
+info,name,amount,,,
+,candies,0,,,
+setup,resource,amount,,,
+,water,500,,,wash your hands first
+product,resource,amount,,,
+,sugar,5,,,5gr per candy
+,coloring,0.05,,,1 drop (0.05ml)
+,water,5,,,5ml of water
+
