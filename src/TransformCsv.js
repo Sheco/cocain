@@ -62,7 +62,7 @@ class TransformCsv extends Transform {
     // filter out any columns without a value
     if (record[0] !== '') {
       this.meta = {
-        record: record.shift(),
+        property: record.shift(),
         columns: record.filter(x => x)
       }
       return
@@ -77,11 +77,11 @@ class TransformCsv extends Transform {
     // remove the first column, which is empty
     record.shift()
 
-    // if there is a property matching the meta record name,
+    // if there is a property matching the meta property name,
     // then assume it's an array and push the data into it
     // otherwise just assign the values into the object itself
     let recordData = data
-    if (data[meta.record]) {
+    if (data[meta.property]) {
       recordData = {}
     }
 
@@ -91,8 +91,8 @@ class TransformCsv extends Transform {
     })
 
     // only append items to the array if they are not empty
-    if (data[meta.record] && Object.keys(recordData).length > 0) {
-      data[meta.record].push(recordData)
+    if (data[meta.property] && Object.keys(recordData).length > 0) {
+      data[meta.property].push(recordData)
     }
   }
 
