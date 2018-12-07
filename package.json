@@ -16,7 +16,8 @@
     "koa-body": "4.0.4",
     "koa-mount": "4.0.0",
     "koa-router": "^7.4.0",
-    "koa-static": "5.0.0"
+    "koa-static": "5.0.0",
+    "stream-concat": "0.3.0"
   },
   "engines": {
     "node": "10.x"

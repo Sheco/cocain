@@ -5,6 +5,7 @@ let progress
 let result
 let src
 let csv
+let csv2
 
 function calculate () {
   progress.style.display = ''
@@ -46,6 +47,7 @@ function loadJSON (url) { // eslint-disable-line no-unused-vars
 function convertCsv () { // eslint-disable-line no-unused-vars
   let formData = new FormData()
   formData.append('csv', csv.files[0])
+  formData.append('csv2', csv2.files[0])
 
   fetch('/convertCsv', {
     method: 'POST',
@@ -68,6 +70,7 @@ function onLoad () { // eslint-disable-line no-unused-vars
   result = document.getElementById('result')
   src = document.getElementById('src')
   csv = document.getElementById('csv')
+  csv2 = document.getElementById('csv2')
 
   const aLoadJSON = function () {
     loadJSON(this.href)

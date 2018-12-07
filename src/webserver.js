@@ -7,6 +7,7 @@ const fs = require('fs')
 const util = require('util')
 const path = require('path')
 const csv = require('csv-parse')
+const StreamConcat = require('stream-concat')
 
 const calculator = require('../src/calculator')
 const TransformCsv = require('../src/TransformCsv')
@@ -37,15 +38,21 @@ router.post('/api', body(), async (ctx, next) => {
 
 router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
   try {
-    if (!ctx.request.files.csv) throw Error('No file specified')
+    let files = []
+    if (ctx.request.files.csv) files.push(ctx.request.files.csv.path)
+    if (ctx.request.files.csv2) files.push(ctx.request.files.csv2.path)
 
-    let csvStats = await stat(ctx.request.files.csv.path)
-    if (csvStats.size > 10 * 1024) {
-      throw Error(`CSV is too large, ${csvStats.size}>10KB`)
+    if (files.length === 0) throw Error('No file specified')
+
+    for (let file of files) {
+      let csvStats = await stat(file)
+      if (csvStats.size > 10 * 1024) {
+        throw Error(`CSV is too large, ${csvStats.size}>10KB`)
+      }
     }
 
     ctx.body = await new Promise(async (resolve, reject) => {
-      fs.createReadStream(ctx.request.files.csv.path)
+      new StreamConcat(files.map(file => fs.createReadStream(file)))
         .on('error', error => reject(error))
         .pipe(csv({ relax_column_count: true }))
         .pipe(new TransformCsv())
