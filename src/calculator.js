@@ -156,7 +156,7 @@ class Calculator {
       cost: cost,
       costPerProduct: costPerProduct,
       wastePcnt: wastePcnt,
-      resources: resources
+      resources: resources.filter(resource => resource.consumed > 0)
     }
   }
 }
