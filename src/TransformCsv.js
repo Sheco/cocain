@@ -83,13 +83,17 @@ class TransformCsv extends Transform {
     let recordData = data
     if (data[meta.record]) {
       recordData = {}
-      data[meta.record].push(recordData)
     }
 
     record.forEach((value, index) => {
       if (!meta.columns[index]) return
       recordData[meta.columns[index]] = value
     })
+
+    // only append items to the array if they are not empty
+    if (data[meta.record] && Object.keys(recordData).length > 0) {
+      data[meta.record].push(recordData)
+    }
   }
 
   _transform (data, enc, next) {
