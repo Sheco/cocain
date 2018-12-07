@@ -12,6 +12,8 @@ const path = require('path')
 
 const readFile = util.promisify(fs.readFile)
 
+/* basic tests, they read a file, parse it and return a string
+ * representation of the result */
 const tests = {
   json: function (file) {
     return readFile(path.join(__dirname, '..', file))
@@ -30,6 +32,8 @@ const tests = {
   }
 }
 
+/* Simple promise tester, it only really wraps a promise with
+ * a success message and a failure message */
 function testPromise (label, promise) {
   return promise.then(data => {
     console.log(`Testing ${label}: OK`)
@@ -38,12 +42,13 @@ function testPromise (label, promise) {
   })
 }
 
+/* Makes a promise to read, parse and compare a file to the expected result */
 function testFile (method, file) {
   return testPromise(file, tests[method](`samples/${file}`)
     .then(async (data) => {
       file = path.join(__dirname, '..', 'tests', `${file}.txt`)
       let expected = readFile(file)
-      assert.equal(data + '\n', (await expected).toString())
+      assert.equal(data, (await expected).toString().trim())
       return data
     }))
 }
@@ -97,6 +102,9 @@ webserver.listen(port, '127.0.0.1', function () {
           product: []
         })
         })
+        .then(data => {
+          assert.equal(data, '{"cost":0,"costPerProduct":null,"wastePcnt":null,"resources":[]}')
+        })
     )),
 
     testPromise('Empty /converCSV', assert.rejects(
@@ -108,9 +116,35 @@ webserver.listen(port, '127.0.0.1', function () {
         url: baseURL + '/convertCsv',
         formData: {
           csv: fs.createReadStream(path.join(__dirname,
-            '..', 'samples', 'chocomilk.csv'))
+            '..', 'samples', 'candies.csv'))
         }
       })
+        .then(JSON.parse)
+        .then(JSON.stringify)
+        .then(async data => {
+          let expected = readFile('tests/candies.csv.txt')
+          assert.equal(data, (await expected).toString().trim())
+        })
+    )),
+
+    testPromise('Multifile /convertCsv', assert.doesNotReject(
+      request.post({
+        url: baseURL + '/convertCsv',
+        formData: {
+          csv: [
+            fs.createReadStream(path.join(__dirname, '..', 'samples',
+              'resources.csv')),
+            fs.createReadStream(path.join(__dirname, '..', 'samples',
+              'candies-recipe.csv'))
+          ]
+        }
+      })
+        .then(JSON.parse)
+        .then(JSON.stringify)
+        .then(async data => {
+          let expected = readFile('tests/candies.csv.txt')
+          assert.equal(data, (await expected).toString().trim())
+        })
     ))
   ]).then(() => {
     this.close()
