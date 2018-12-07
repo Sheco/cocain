@@ -87,7 +87,7 @@ class TransformCsv extends Transform {
 
     record.forEach((value, index) => {
       if (!meta.columns[index]) return
-      recordData[meta.columns[index]] = value
+      recordData[meta.columns[index]] = value.trim()
     })
 
     // only append items to the array if they are not empty
