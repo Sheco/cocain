@@ -38,21 +38,22 @@ router.post('/api', body(), async (ctx, next) => {
 
 router.post('/convertCsv', body({ multipart: true }), async (ctx, next) => {
   try {
-    let files = []
-    if (ctx.request.files.csv) files.push(ctx.request.files.csv.path)
-    if (ctx.request.files.csv2) files.push(ctx.request.files.csv2.path)
+    if (!ctx.request.files.csv) throw Error('No file specified')
 
-    if (files.length === 0) throw Error('No file specified')
+    // if there is only a single file, convert that into an array of 1 element
+    let files = ctx.request.files.csv.length
+      ? ctx.request.files.csv
+      : [ ctx.request.files.csv ]
 
     for (let file of files) {
-      let csvStats = await stat(file)
+      let csvStats = await stat(file.path)
       if (csvStats.size > 10 * 1024) {
-        throw Error(`CSV is too large, ${csvStats.size}>10KB`)
+        throw Error(`${file.name} is too large, ${csvStats.size}>10KB`)
       }
     }
 
     ctx.body = await new Promise(async (resolve, reject) => {
-      new StreamConcat(files.map(file => fs.createReadStream(file)))
+      new StreamConcat(files.map(file => fs.createReadStream(file.path)))
         .on('error', error => reject(error))
         .pipe(csv({ relax_column_count: true }))
         .pipe(new TransformCsv())

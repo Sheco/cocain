@@ -46,8 +46,9 @@ function loadJSON (url) { // eslint-disable-line no-unused-vars
 
 function convertCsv () { // eslint-disable-line no-unused-vars
   let formData = new FormData()
-  formData.append('csv', csv.files[0])
-  formData.append('csv2', csv2.files[0])
+  for (let file of csv.files) {
+    formData.append('csv', file)
+  }
 
   fetch('/convertCsv', {
     method: 'POST',
