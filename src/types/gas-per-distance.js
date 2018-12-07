@@ -1,3 +1,5 @@
+'use strict'
+
 /* Gas
  *
  * mandatory variables:

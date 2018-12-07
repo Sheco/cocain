@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+'use strict'
+
 const calculator = require('../src/calculator')
 const TransformCsv = require('../src/TransformCsv')
 const webserver = require('../src/webserver')

@@ -1,3 +1,5 @@
+'use strict'
+
 const Koa = require('koa')
 const Router = require('koa-router')
 const mount = require('koa-mount')

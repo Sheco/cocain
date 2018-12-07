@@ -1,3 +1,5 @@
+'use strict'
+
 const { Transform } = require('stream')
 
 // TransformCsv is a Transform stream, it receives a stream

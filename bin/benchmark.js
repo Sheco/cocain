@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+'use strict'
+
 const calculator = require('../src/calculator')
 const fs = require('fs')
 const util = require('util')

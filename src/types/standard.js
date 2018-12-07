@@ -1,3 +1,5 @@
+'use strict'
+
 /* standard cost calculator
  *
  * Mandatory variables:

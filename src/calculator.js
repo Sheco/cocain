@@ -1,3 +1,5 @@
+'use strict'
+
 class Calculator {
   constructor (data) {
     // make a hard copy of the data object,
