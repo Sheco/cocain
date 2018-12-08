@@ -31,6 +31,7 @@ app.get('/', async (req, res) => {
 app.post('/api', bodyParser.json(),
   async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
+    res.set('Content-Type', 'application/json')
 
     try {
       let src = JSON.parse(req.body.src)
@@ -43,6 +44,7 @@ app.post('/api', bodyParser.json(),
   })
 
 app.post('/convertCsv', upload.array('csv'), async function (req, res) {
+  res.set('Content-Type', 'application/json')
   try {
     if (req.files.length === 0) throw Error('No file specified')
 
@@ -55,18 +57,15 @@ app.post('/convertCsv', upload.array('csv'), async function (req, res) {
 
     let body = await new Promise(async (resolve, reject) => {
       new StreamConcat(req.files.map(file => fs.createReadStream(file.path)))
-        .on('error', error => reject(error))
+        .on('error', reject)
         .pipe(csv({ relax_column_count: true }))
         .pipe(new TransformCsv())
-        .on('data', data => {
-          let json = JSON.parse(data)
-          resolve(JSON.stringify(json, null, 2))
-        })
+        .on('data', resolve)
     })
     res.send(body)
   } catch (error) {
     res.status(400)
-      .send(error.message)
+      .send({ error: error.message })
   }
 })
 

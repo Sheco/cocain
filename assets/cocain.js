@@ -5,7 +5,6 @@ let progress
 let result
 let src
 let csv
-let csv2
 
 function calculate () {
   progress.style.display = ''
@@ -55,9 +54,9 @@ function convertCsv () { // eslint-disable-line no-unused-vars
     body: formData
   })
     .then(async response => {
-      let text = await response.text()
-      if (response.status === 200) return text
-      throw Error(`/convertCsv returned ${response.status}: ${response.statusText}\n\n${text}`)
+      let json = await response.json()
+      if (response.status === 200) return JSON.stringify(json, null, 2)
+      throw Error(`/convertCsv returned ${response.status}: ${response.statusText}\n\n${json.error}`)
     })
     .then(data => {
       src.value = data
