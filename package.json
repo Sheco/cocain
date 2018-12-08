@@ -11,12 +11,14 @@
   "license": "GPL-3.0",
   "dependencies": {
     "csv-parse": "4.0.1",
+    "express": "4.16.4",
     "json-pretty-html": "^1.2.0",
     "koa": "^2.6.2",
     "koa-body": "4.0.4",
     "koa-mount": "4.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "5.0.0",
+    "multer": "1.4.1",
     "stream-concat": "0.3.0"
   },
   "engines": {

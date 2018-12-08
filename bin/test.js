@@ -3,7 +3,7 @@
 
 const calculator = require('../src/calculator')
 const TransformCsv = require('../src/TransformCsv')
-const webserver = require('../src/webserver')
+const webserver = require('../src/expressApp')
 
 const csv = require('csv-parse')
 const fs = require('fs')
@@ -98,14 +98,19 @@ webserver.listen(port, '127.0.0.1', function () {
     )),
 
     testPromise('Valid /api', assert.doesNotReject(
-      request.post(baseURL + '/api')
-        .form({ src: JSON.stringify({
+      request.post({
+        url: baseURL + '/api',
+        json: true,
+        body: { src: JSON.stringify({
           resources: [],
           product: []
         })
-        })
-        .then(data => {
-          assert.equal(data, '{"cost":0,"costPerProduct":null,"wastePcnt":null,"resources":[]}')
+        }
+      })
+        .then(JSON.stringify)
+        .then(async data => {
+          let expected = '{"cost":0,"costPerProduct":null,"wastePcnt":null,"resources":[]}'
+          assert.equal(data, expected)
         })
     )),
 
