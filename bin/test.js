@@ -18,7 +18,7 @@ const readFile = util.promisify(fs.readFile)
  * representation of the result */
 const tests = {
   json: function (file) {
-    return readFile(path.join(__dirname, '..', file))
+    return readFile(path.join(__dirname, '..', file), 'utf8')
       .then(JSON.parse)
       .then(calculator)
       .then(JSON.stringify)
@@ -49,8 +49,8 @@ function testFile (method, file) {
   return testPromise(file, tests[method](`samples/${file}`)
     .then(async (data) => {
       file = path.join(__dirname, '..', 'tests', `${file}.txt`)
-      let expected = readFile(file)
-      assert.equal(data, (await expected).toString().trim())
+      let expected = await readFile(file, 'utf8')
+      assert.equal(data, expected.trim())
       return data
     }))
 }
@@ -129,8 +129,8 @@ webserver.listen(port, '127.0.0.1', function () {
         .then(JSON.parse)
         .then(JSON.stringify)
         .then(async data => {
-          let expected = readFile('tests/candies.csv.txt')
-          assert.equal(data, (await expected).toString().trim())
+          let expected = await readFile('tests/candies.csv.txt', 'utf8')
+          assert.equal(data, expected.trim())
         })
     )),
 
@@ -149,8 +149,8 @@ webserver.listen(port, '127.0.0.1', function () {
         .then(JSON.parse)
         .then(JSON.stringify)
         .then(async data => {
-          let expected = readFile('tests/candies.csv.txt')
-          assert.equal(data, (await expected).toString().trim())
+          let expected = await readFile('tests/candies.csv.txt', 'utf8')
+          assert.equal(data, expected.trim())
         })
     ))
   ]).then(() => {
