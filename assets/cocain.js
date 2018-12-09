@@ -70,7 +70,6 @@ function onLoad () { // eslint-disable-line no-unused-vars
   result = document.getElementById('result')
   src = document.getElementById('src')
   csv = document.getElementById('csv')
-  csv2 = document.getElementById('csv2')
 
   const aLoadJSON = function () {
     loadJSON(this.href)

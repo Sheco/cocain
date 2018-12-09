@@ -1,8 +1,6 @@
 'use strict'
 
 const express = require('express')
-const bodyParser = require('body-parser')
-
 const multer = require('multer')
 
 const fs = require('fs')
@@ -28,23 +26,22 @@ app.get('/', async (req, res) => {
   res.send(await body)
 })
 
-app.post('/api', bodyParser.json(),
+app.post('/api', express.json(),
   async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
-    res.set('Content-Type', 'application/json')
+    res.type('json')
 
     try {
       let src = JSON.parse(req.body.src)
-      let body = JSON.stringify(calculator(src))
-      res.send(body)
+      res.send(calculator(src))
     } catch (e) {
       res.status(400)
-        .send(JSON.stringify({ error: e.message }))
+        .send({ error: e.message })
     }
   })
 
 app.post('/convertCsv', upload.array('csv'), async function (req, res) {
-  res.set('Content-Type', 'application/json')
+  res.type('json')
   try {
     if (req.files.length === 0) throw Error('No file specified')
 

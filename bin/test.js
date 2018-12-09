@@ -90,7 +90,7 @@ webserver.listen(port, '127.0.0.1', function () {
     ),
 
     testPromise('Empty /api', assert.rejects(
-      request.post(baseURL + '/api', { csv: '' })
+      request.post(baseURL + '/api')
     )),
 
     testPromise('Invalid /api', assert.rejects(
@@ -108,7 +108,7 @@ webserver.listen(port, '127.0.0.1', function () {
         }
       })
         .then(JSON.stringify)
-        .then(async data => {
+        .then(data => {
           let expected = '{"cost":0,"costPerProduct":null,"wastePcnt":null,"resources":[]}'
           assert.equal(data, expected)
         })
