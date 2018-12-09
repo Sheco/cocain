@@ -38,11 +38,19 @@ const { Transform } = require('stream')
 //  If the first column is anything other than that, each of the values
 //  will be saved to the root of the data object
 //
-// TODO this might not work well if the input CSV is too large and
-// and flush() is called more than once, although I am not sure about that
-// we might need to test that.
-
+/**
+ * Stream Transformer, which parses a stream of objects, where each object
+ * is an array of fields
+ *
+ * @class
+ */
 class TransformCsv extends Transform {
+  /**
+   * Initialize
+   *
+   * @constructor
+   * @param {Object} options - Options to be sent to the Transform super()
+   */
   constructor (options) {
     if (options === undefined) options = {}
     options.objectMode = true
@@ -59,6 +67,12 @@ class TransformCsv extends Transform {
     this.meta = undefined
   }
 
+  /**
+   * Process a line of input, parse the records and start building up the
+   * result
+   *
+   * @param {Object} record - An array of strings
+   */
   processLine (record) {
     // if the first record is not empty, get the column definitions
     // filter out any columns without a value
@@ -110,6 +124,12 @@ class TransformCsv extends Transform {
 
 module.exports = TransformCsv
 
+/**
+ * Return a simple promise to parse a CSV file
+ *
+ * @param {stream} stream - Stream where we'll get the data
+ * @return {Promise}
+ */
 module.exports.csv = async function (stream) {
   const csv = require('csv-parse')
   return new Promise((resolve, reject) => {
@@ -118,5 +138,6 @@ module.exports.csv = async function (stream) {
       .pipe(csv({ relax_column_count: true }))
       .pipe(new TransformCsv())
       .on('data', resolve)
+      .on('error', reject)
   })
 }

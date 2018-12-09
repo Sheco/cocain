@@ -1,13 +1,30 @@
 'use strict'
 
+/**
+ * Process an object containing a list of resources, along with the recipe
+ * describing how much of each resource is used.
+ *
+ * @class
+ */
 class Calculator {
+  /**
+   * Prepare the data
+   *
+   * @constructor
+   * @param {object} data - An object literal containing the data
+   */
   constructor (data) {
     // make a hard copy of the data object,
     // to avoid modifying it directly
     this.data = { ...data }
   }
 
-  // find the first resource with a given name, only if it has contents left
+  /**
+   * Find the first resource with a given name, only if it has contents left
+   *
+   * @param {string} name - The name of the resource
+   * @param {Number} amount - The amount of resources needed
+   */
   findResource (name, amount) {
     for (let resource of this.data.resources) {
       if (resource.name === name &&
@@ -17,7 +34,12 @@ class Calculator {
     }
   }
 
-  // consume a certain amount of resources of a given name
+  /**
+   * Consume a certain amount of resources of a given name
+   *
+   * @param {string} name - The name of the resource
+   * @param {Number} amount - The amount of resources needed
+   */
   consume (name, amount) {
     // loop while we still haven't satisfied the amount required
     while (amount > 0) {
@@ -42,6 +64,12 @@ class Calculator {
     }
   }
 
+  /**
+   * Runs through an array of components and consume each one of them
+   *
+   * @param {Object[]} components - The list of components to consume
+   * @param {number} total - The total amount of products to aim for
+   */
   consumeGroup (components, total) {
     if (!components) return
 
@@ -50,7 +78,9 @@ class Calculator {
     }
   }
 
-  // run though the data and update some records where needed
+  /**
+   * Make sure everything is properly setup
+   */
   setup () {
     this.data.amount = Number(this.data.amount)
     for (let resource of this.data.resources) {
@@ -77,8 +107,10 @@ class Calculator {
     if (!this.data.amount) this.data.amount = this.maxProducts
   }
 
-  /* calculate the maximum amount of products that can be made
-   * given the allocated resources */
+  /**
+   * Calculate the maximum amount of products that can be made
+   * given the allocated resources
+   */
   get maxProducts () {
     // build an array of the max amount of resources per name
     let resources = {}
@@ -108,11 +140,20 @@ class Calculator {
     return max
   }
 
+  /**
+   * Start using the recipe, consume as much as neeed
+   */
   make () {
     this.consumeGroup(this.data.setup, 1)
     this.consumeGroup(this.data.product, this.data.amount)
   }
 
+  /**
+   * Process one resource to perform some calculations
+   *
+   * @param {Object} resource - The resource with the updated information
+   * about how much of it has been used, after being consumed
+   */
   calculate (resource) {
     let type = resource.type || 'standard'
 
@@ -130,6 +171,9 @@ class Calculator {
     return result
   }
 
+  /**
+   * Handle everything, set things up, consume components and return the result
+   */
   process () {
     this.setup()
     this.make()
