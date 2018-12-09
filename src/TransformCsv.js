@@ -109,3 +109,14 @@ class TransformCsv extends Transform {
 }
 
 module.exports = TransformCsv
+
+module.exports.csv = async function (stream) {
+  const csv = require('csv-parse')
+  return new Promise((resolve, reject) => {
+    stream
+      .on('error', reject)
+      .pipe(csv({ relax_column_count: true }))
+      .pipe(new TransformCsv())
+      .on('data', resolve)
+  })
+}

@@ -5,7 +5,6 @@ const calculator = require('../src/calculator')
 const TransformCsv = require('../src/TransformCsv')
 const webserver = require('../src/expressApp')
 
-const csv = require('csv-parse')
 const fs = require('fs')
 const assert = require('assert').strict
 const request = require('request-promise')
@@ -24,13 +23,7 @@ const tests = {
       .then(JSON.stringify)
   },
   csv: function (file) {
-    return new Promise((resolve, reject) => {
-      fs.createReadStream(path.join(__dirname, '..', file))
-        .on('error', reject)
-        .pipe(csv({ relax_column_count: true }))
-        .pipe(new TransformCsv())
-        .on('data', resolve)
-    })
+    return TransformCsv.csv(file)
   }
 }
 

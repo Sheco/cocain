@@ -6,7 +6,6 @@ const multer = require('multer')
 const fs = require('fs')
 const util = require('util')
 const path = require('path')
-const csv = require('csv-parse')
 const StreamConcat = require('stream-concat')
 
 const readFile = util.promisify(fs.readFile)
@@ -52,13 +51,11 @@ app.post('/convertCsv', upload.array('csv'), async function (req, res) {
       }
     }
 
-    let body = await new Promise(async (resolve, reject) => {
-      new StreamConcat(req.files.map(file => fs.createReadStream(file.path)))
-        .on('error', reject)
-        .pipe(csv({ relax_column_count: true }))
-        .pipe(new TransformCsv())
-        .on('data', resolve)
-    })
+    let inputStream = new StreamConcat(
+      req.files.map(file => fs.createReadStream(file.path))
+    )
+
+    let body = await TransformCsv.csv(inputStream)
     res.send(body)
   } catch (error) {
     res.status(400)
