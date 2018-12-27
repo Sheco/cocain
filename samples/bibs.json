@@ -1,6 +1,4 @@
 {
-    "name": "Bibs - 38cm²",
-    "amount": 0,
     "resources": [
         {
             "name": "fabric",
@@ -19,20 +17,28 @@
             "cost": 0.083
         }
     ],
-    "setup": [
-        {
-            "resource":"gas",
-            "amount": 2
-        }
-    ],
-    "product": [
-        {
-            "resource": "fabric",
-            "amount": 1444
+    "products": [
+      {
+        "info": {
+            "name": "Bibs - 38cm²",
+            "amount": 0
         },
-        {
-            "resource": "john",
-            "amount": 5
-        }
+        "setup": [
+            {
+                "resource":"gas",
+                "amount": 2
+            }
+        ],
+        "recipe": [
+            {
+                "resource": "fabric",
+                "amount": 1444
+            },
+            {
+                "resource": "john",
+                "amount": 5
+            }
+        ]
+      }
     ]
 }

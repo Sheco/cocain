@@ -1,6 +1,6 @@
 {
   "name": "cocain",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "A simple project cost calculator",
   "main": "index.js",
   "scripts": {

@@ -1,6 +1,4 @@
 {
-    "name": "Chocomilk",
-    "amount": 60,
     "resources": [
         {
             "name":"milk",
@@ -13,16 +11,22 @@
             "cost": 18.5
         }
     ],
-    "product": [
+    "products": [
         {
-            "resource":"milk",
-            "amount": 240
-        },
-        {
-            "resource":"chocolate",
-            "amount": 15
+            "info": {
+                "name": "Chocomilk",
+                "amount": 60
+            },
+            "recipe": [
+                {
+                    "resource":"milk",
+                    "amount": 240
+                },
+                {
+                    "resource":"chocolate",
+                    "amount": 15
+                }
+            ]
         }
     ]
 }
-
-

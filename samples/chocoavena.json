@@ -1,5 +1,4 @@
 {
-    "amount": 0,
     "resources": [
         {
             "name": "milk",
@@ -22,23 +21,30 @@
             "cost": 38
         }
     ],
-    "product": [
-        {
-            "resource": "milk",
-            "amount": 200
+    "products": [
+    {
+        "info": {
+          "name": "chocoavena",
+          "amount": 0
         },
-        {
-            "resource": "water",
-            "amount": 600
-        },
-        {
-            "resource": "sugar",
-            "amount": 15
-        },
-        {
-            "resource": "chocoavena",
-            "amount": 75
-        }
-    ]
+        "recipe": [
+            {
+                "resource": "milk",
+                "amount": 200
+            },
+            {
+                "resource": "water",
+                "amount": 600
+            },
+            {
+                "resource": "sugar",
+                "amount": 15
+            },
+            {
+                "resource": "chocoavena",
+                "amount": 75
+            }
+        ]
+    }]
 }
 

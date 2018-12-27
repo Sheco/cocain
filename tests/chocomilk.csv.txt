@@ -1,1 +1,1 @@
-{"name":"chocomilk","amount":"55","resources":[{"name":"milk","capacity":"1000","amount":"0","cost":"15"},{"name":"chocolate","capacity":"160","amount":"0","cost":"18.5"}],"setup":[],"product":[{"resource":"milk","amount":"240"},{"resource":"chocolate","amount":"15"}]}
+{"products":[{"info":{"name":"chocomilk","amount":"55"},"recipe":[{"resource":"milk","amount":"240"},{"resource":"chocolate","amount":"15"}],"setup":[]}],"resources":[{"name":"milk","capacity":"1000","amount":"0","cost":"15"},{"name":"chocolate","capacity":"160","amount":"0","cost":"18.5"}]}

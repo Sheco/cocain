@@ -41,6 +41,8 @@ class Calculator {
    * @param {Number} amount - The amount of resources needed
    */
   consume (name, amount) {
+    let totalUsed = 0
+
     // loop while we still haven't satisfied the amount required
     while (amount > 0) {
       let resource = this.findResource(name, amount)
@@ -52,16 +54,19 @@ class Calculator {
       // unlimited resource, just consume it.
       if (resource.left === undefined) {
         resource.consumed += amount
-        return
+        return amount
       }
 
       // consume as much as possible
       let consumed = Math.min(amount, resource.left)
 
+      totalUsed += consumed
       amount -= consumed
       resource.consumed += consumed
       resource.left -= consumed
     }
+
+    return totalUsed
   }
 
   /**
@@ -74,7 +79,10 @@ class Calculator {
     if (!components) return
 
     for (let component of components) {
-      this.consume(component.resource, component.amount * total)
+      let consumed = this.consume(component.resource,
+        component.amount * total)
+
+      component.consumed = consumed
     }
   }
 
@@ -82,7 +90,6 @@ class Calculator {
    * Make sure everything is properly setup
    */
   setup () {
-    this.data.amount = Number(this.data.amount)
     for (let resource of this.data.resources) {
       resource.capacity = Number(resource.capacity) || 1
       resource.cost = Number(resource.cost)
@@ -97,21 +104,30 @@ class Calculator {
       }
     }
 
-    for (let component of this.data.setup || []) {
-      component.amount = Number(component.amount)
-    }
-    for (let component of this.data.product) {
-      component.amount = Number(component.amount)
-    }
+    for (let product of this.data.products) {
+      if (product.setup === undefined) product.setup = []
+      for (let component of product.setup) {
+        component.amount = Number(component.amount)
+      }
 
-    if (!this.data.amount) this.data.amount = this.maxProducts
+      if (product.recipe === undefined) product.recipe = []
+      for (let component of product.recipe) {
+        component.amount = Number(component.amount)
+      }
+
+      product.info.amount = Number(product.info.amount)
+
+      if (!product.info.amount) {
+        product.info.amount = this.maxProducts(product)
+      }
+    }
   }
 
   /**
    * Calculate the maximum amount of products that can be made
    * given the allocated resources
    */
-  get maxProducts () {
+  maxProducts (product) {
     // build an array of the max amount of resources per name
     let resources = {}
     for (let resource of this.data.resources) {
@@ -122,13 +138,14 @@ class Calculator {
     }
 
     // substract the components used when setting up first
-    for (let component of this.data.setup || []) {
+    for (let component of product.setup) {
+      if (!resources.left) continue
       resources[component.resource] -= component.amount
     }
 
     // divide the left over resource by the amount it needs per product
     let max
-    for (let component of this.data.product || []) {
+    for (let component of product.recipe) {
       if (resources[component.resource] === undefined) continue
 
       let thisMax = Math.floor(resources[component.resource] /
@@ -143,9 +160,9 @@ class Calculator {
   /**
    * Start using the recipe, consume as much as neeed
    */
-  make () {
-    this.consumeGroup(this.data.setup, 1)
-    this.consumeGroup(this.data.product, this.data.amount)
+  make (product) {
+    this.consumeGroup(product.setup, 1)
+    this.consumeGroup(product.recipe, product.info.amount)
   }
 
   /**
@@ -168,6 +185,44 @@ class Calculator {
       result.wastePcnt = Math.round(result.left /
         (result.amount * resource.capacity) * 100)
     }
+
+    result.totalUsed = result.left !== undefined
+      ? result.left + result.consumed
+      : result.consumed
+
+    return result
+  }
+
+  flattenComponents (product, resources) {
+    let result = []
+
+    let flatComponents = {}
+    for (let component of [...product.recipe, ...product.setup]) {
+      if (flatComponents[component.resource] === undefined) {
+        flatComponents[component.resource] = { ...component }
+        continue
+      }
+      flatComponents[component.resource].amount += component.amount
+      flatComponents[component.resource].consumed += component.consumed
+    }
+
+    flatComponents = Object.values(flatComponents)
+    for (let component of flatComponents) {
+      let resource = resources[component.resource]
+      let usagePcnt = resource.consumed / resource.totalUsed
+      let consumedEffective = Math.round(
+        component.consumed / usagePcnt * 1e2) / 1e2
+
+      result.push({
+        resource: component.resource,
+        amount: component.amount,
+        consumed: component.consumed,
+        consumedEffective: consumedEffective,
+        cost: Math.round(resource.cost *
+        (consumedEffective / resource.totalUsed) *
+          1e2) / 1e2
+      })
+    }
     return result
   }
 
@@ -176,33 +231,33 @@ class Calculator {
    */
   process () {
     this.setup()
-    this.make()
-    let resources = []
+    for (let product of this.data.products) this.make(product)
+    let resources = {}
 
     for (let resource of this.data.resources) {
-      resources.push(this.calculate(resource))
+      resources[resource.name] = this.calculate(resource)
     }
 
-    let products = this.data.amount
-    let cost = Math.round(resources
-      .reduce((total, res) => total + res.cost, 0) * 1e2) / 1e2
+    let products = []
+    // calculate price per component
+    for (let product of this.data.products) {
+      let components = this.flattenComponents(product, resources)
+      products.push({
+        name: product.info.name,
+        amount: product.info.amount,
+        cost: Math.round(
+          components.reduce((total, x) => total + x.cost, 0) * 1e2) / 1e2,
+        components: components
+      })
+    }
 
-    let costPerProduct = Math.round(cost / products * 1e2) / 1e2
-
-    // to calculate the waste percentage, filter only those resources
-    // that have a wastePcnt, then divide the sum of all of those
-    // by the number of elements
-    let wastePcnt = resources.filter(resource => resource.wastePcnt >= 0)
-    wastePcnt = Math.round((wastePcnt.reduce(
-      (total, x) => total + x.wastePcnt, 0) / wastePcnt.length
-    ) * 100) / 100
+    // flatten the resources object into an array
+    resources = Object.values(resources)
 
     return {
       products: products,
-      cost: cost,
-      costPerProduct: costPerProduct,
-      wastePcnt: wastePcnt,
       resources: resources.filter(resource => resource.consumed > 0)
+
     }
   }
 }

@@ -57,16 +57,79 @@ class TransformCsv extends Transform {
 
     super(options)
     this.data = {
-      name: '',
-      amount: undefined,
-      resources: [],
-      setup: [],
-      product: []
+      products: [],
+      resources: []
     }
 
     this.meta = undefined
+    this.product = undefined
   }
 
+  setupMeta (record) {
+    this.meta = {
+      property: record.shift(),
+      columns: record.filter(x => x)
+    }
+  }
+
+  // This method prepares the internal parsing...  there's a local save()
+  // function which saves the data in the appropiate array
+  //
+  // It saves internal variables which serve as the working state which is
+  // preserved for every line of the csv
+  //
+  // Each time an 'info' row is received, it creates a new empty product
+  // and adds it to the list of products. Each following row (until a new
+  // 'info' row) will save their info into the last product in the stack
+  //
+  // The 'resources' row is handled separately, the following rows will append
+  // their data to the resources array
+  setupBlock () {
+    try {
+      if (this.meta.property === 'resources') {
+        console.error('resources')
+        this.save = (data) => {
+          this.data.resources.push(data)
+        }
+      } else if (this.meta.property === 'info') {
+        console.error('info')
+        this.product = {
+          info: {},
+          recipe: [],
+          setup: []
+        }
+        this.data.products.push(this.product)
+        this.save = (data) => {
+          this.product.info = data
+        }
+      } else {
+        this.save = (data) => {
+          this.product[this.meta.property].push(data)
+        }
+      }
+    } catch (err) {
+      // something bad happened, it's most likely because the csv is invalid.
+      // though luck, we don't care
+      console.error(err.message())
+    }
+  }
+
+  read (record) {
+    // remove the first column, which is empty
+    record.shift()
+
+    let recordData = {}
+
+    record.forEach((value, index) => {
+      if (!this.meta.columns[index]) return
+      recordData[this.meta.columns[index]] = value.trim()
+    })
+
+    // only append items to the array if they are not empty
+    if (Object.keys(recordData).length > 0) {
+      this.save(recordData)
+    }
+  }
   /**
    * Process a line of input, parse the records and start building up the
    * result
@@ -77,39 +140,15 @@ class TransformCsv extends Transform {
     // if the first record is not empty, get the column definitions
     // filter out any columns without a value
     if (record[0] !== '') {
-      this.meta = {
-        property: record.shift(),
-        columns: record.filter(x => x)
-      }
+      this.setupMeta(record)
+      this.setupBlock()
       return
     }
 
-    let meta = this.meta
-    let data = this.data
-
     // Ignore data if we haven't seen a definition row
-    if (meta === undefined) return
+    if (this.meta === undefined) return
 
-    // remove the first column, which is empty
-    record.shift()
-
-    // if there is a property matching the meta property name,
-    // then assume it's an array and push the data into it
-    // otherwise just assign the values into the object itself
-    let recordData = data
-    if (data[meta.property]) {
-      recordData = {}
-    }
-
-    record.forEach((value, index) => {
-      if (!meta.columns[index]) return
-      recordData[meta.columns[index]] = value.trim()
-    })
-
-    // only append items to the array if they are not empty
-    if (data[meta.property] && Object.keys(recordData).length > 0) {
-      data[meta.property].push(recordData)
-    }
+    this.read(record)
   }
 
   _transform (data, enc, next) {
@@ -136,6 +175,7 @@ module.exports.csv = async function (stream) {
     stream
       .on('error', reject)
       .pipe(csv({ relax_column_count: true }))
+      .on('error', reject)
       .pipe(new TransformCsv())
       .on('data', resolve)
       .on('error', reject)

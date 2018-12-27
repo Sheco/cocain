@@ -1,6 +1,4 @@
 {
-    "name": "Arbol de navidad",
-    "amount": 1,
     "resources": [
         {
             "name":"fieltro",
@@ -32,32 +30,40 @@
              "cost":19
          }
     ],
-    "setup": [
-         {
-            "resource":"gas",
-            "amount": 11
-          }
-    ],
-    "product": [
+    "products": [
         {
-            "resource":"fieltro",
-            "amount": 10000
-        },
-        {
-            "resource":"papel",
-            "amount": 10000
-        },
-        {
-             "resource":"natalia",
-             "amount":1
-        },
-        {
-            "resource":"planchado",
-            "amount":1
-         },
-         {
-             "resource":"liston",
-             "amount": 200
-         }
+            "info": {
+                "name": "Arbol de navidad",
+                "amount": 1
+            },
+            "setup": [
+                 {
+                    "resource":"gas",
+                    "amount": 11
+                  }
+            ],
+            "recipe": [
+                {
+                    "resource":"fieltro",
+                    "amount": 10000
+                },
+                {
+                    "resource":"papel",
+                    "amount": 10000
+                },
+                {
+                     "resource":"natalia",
+                     "amount":1
+                },
+                {
+                    "resource":"planchado",
+                    "amount":1
+                 },
+                 {
+                     "resource":"liston",
+                     "amount": 200
+                 }
+            ]
+        }
     ]
 }
