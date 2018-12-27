@@ -114,7 +114,7 @@ class TransformCsv extends Transform {
     }
   }
 
-  read (record) {
+  parse (record) {
     // remove the first column, which is empty
     record.shift()
 
@@ -148,7 +148,7 @@ class TransformCsv extends Transform {
     // Ignore data if we haven't seen a definition row
     if (this.meta === undefined) return
 
-    this.read(record)
+    this.parse(record)
   }
 
   _transform (data, enc, next) {
