@@ -87,12 +87,10 @@ class TransformCsv extends Transform {
   setupBlock () {
     try {
       if (this.meta.property === 'resources') {
-        console.error('resources')
         this.save = (data) => {
           this.data.resources.push(data)
         }
       } else if (this.meta.property === 'info') {
-        console.error('info')
         this.product = {
           info: {},
           recipe: [],
@@ -104,13 +102,15 @@ class TransformCsv extends Transform {
         }
       } else {
         this.save = (data) => {
-          this.product[this.meta.property].push(data)
+          if (this.product[this.meta.property]) {
+            this.product[this.meta.property].push(data)
+          } else {
+            this.emit('error', Error(`Invalid property: ${this.meta.property}`))
+          }
         }
       }
-    } catch (err) {
-      // something bad happened, it's most likely because the csv is invalid.
-      // though luck, we don't care
-      console.error(err.message())
+    } catch (error) {
+      this.emit('error', error)
     }
   }
 
