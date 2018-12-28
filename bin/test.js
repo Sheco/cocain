@@ -23,7 +23,7 @@ const tests = {
       .then(JSON.stringify)
   },
   csv: function (file) {
-    return TransformCsv.csv(file)
+    return TransformCsv.csv(fs.createReadStream(file))
   }
 }
 
@@ -96,13 +96,13 @@ webserver.listen(port, '127.0.0.1', function () {
         json: true,
         body: { src: JSON.stringify({
           resources: [],
-          product: []
+          products: []
         })
         }
       })
         .then(JSON.stringify)
         .then(data => {
-          let expected = '{"cost":0,"costPerProduct":null,"wastePcnt":null,"resources":[]}'
+          let expected = '{"products":[],"resources":[]}'
           assert.equal(data, expected)
         })
     )),
