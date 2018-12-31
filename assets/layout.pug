@@ -53,13 +53,24 @@ html(lang='en')
           li.nav-item
             a.nav-link(href='/resource') 
               span.oi.oi-plus
-                
+              span &nbsp;
               span Resource
           li.nav-item
             a.nav-link(href='/product')
               span.oi.oi-plus 
-
+              span &nbsp;
               span Product
+          li.nav-item
+            a.nav-link(href='#' onclick="return downloadJSON()") 
+              span.oi.oi-data-transfer-download
+              span &nbsp;
+              span Download...
+          li.nav-item
+            a.nav-link(href='#' onclick="return uploadJSON()")
+              span.oi.oi-file
+              span &nbsp;
+              span Open file...
+
 
     div.container
       block content
