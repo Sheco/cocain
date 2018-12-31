@@ -54,6 +54,18 @@ const formatters = {
   }
 }
 
+function updateValues (parent, data) {
+  for (let element of parent.querySelectorAll('[data-value]')) {
+    let field = element.getAttribute('data-value')
+    let format = element.getAttribute('data-format')
+    let value = format && formatters[format]
+      ? formatters[format](data[field])
+      : data[field]
+
+    element.innerHTML = value
+  }
+}
+
 function showResources (data) {
   resourceRow.innerHTML = ''
 
@@ -70,15 +82,7 @@ function showResources (data) {
     progress.setAttribute('style', `width: ${consumed}%`)
     progress.setAttribute('aria-valuenow', consumed)
 
-    for (let element of card.querySelectorAll('[data-value]')) {
-      let field = element.getAttribute('data-value')
-      let format = element.getAttribute('data-format')
-      let value = format && formatters[format]
-        ? formatters[format](resource[field])
-        : resource[field]
-
-      element.innerHTML = value
-    }
+    updateValues(card, resource)
 
     card.querySelector('button.close').onclick = (ev) => deleteResource(id)
     for (let element of card.querySelectorAll('[data-type=resourceURL]')) {
@@ -106,14 +110,7 @@ function showProducts (data) {
 
     product.info.costPerProduct = product.info.cost / product.info.realAmount
 
-    for (let element of template.querySelectorAll('[data-value]')) {
-      let field = element.getAttribute('data-value')
-      let format = element.getAttribute('data-format')
-      let value = format && formatters[format]
-        ? formatters[format](product.info[field])
-        : product.info[field]
-      element.innerHTML = value
-    }
+    updateValues(template, product.info)
     template.querySelector('button.close').onclick = (ev) => deleteProduct(id)
 
     row.appendChild(template)
@@ -122,15 +119,7 @@ function showProducts (data) {
     template = productComponentTemplate.cloneNode(true)
     for (let component of product.recipe) {
       let block = template.cloneNode(true)
-      for (let element of block.querySelectorAll('[data-value]')) {
-        let field = element.getAttribute('data-value')
-        let format = element.getAttribute('data-format')
-        let value = format && formatters[format]
-          ? formatters[format](component[field])
-          : component[field]
-
-        element.innerHTML = value
-      }
+      updateValues(block, component)
       row.appendChild(block)
     }
 
