@@ -3,7 +3,7 @@ extends layout.pug
 block content
   h5 Resources
   #resources.row
-    .col-3#resourceTemplate
+    .col-lg-3#resourceTemplate
       .card
         .card-header
           a(
@@ -49,7 +49,7 @@ block content
   .row
     #products.col
       .row
-        .col-3#productInfoTemplate
+        .col-lg-3#productInfoTemplate
           .card
             .card-header
               a(
@@ -72,7 +72,7 @@ block content
               tr.font-weight-bold
                 td Cost Per Product:
                 td.text-right(data-value='costPerProduct' data-format='money') 0
-        .col-3#productComponentTemplate
+        .col-lg-3#productComponentTemplate
           .card
             .card-header(data-value='resource') name
             table.table.table-bordered.table-striped(style='margin-bottom: 0px')
