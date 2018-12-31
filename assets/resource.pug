@@ -6,19 +6,18 @@ block content
       .modal-header
         h5.modal-title Resource
       .modal-body
-        form
-          .form-group
-            label(for='name') Name
-            input.form-control(type='text' name='name')
-          .form-group
-            label(for='capacity') Capacity Per Unit
-            input.form-control(type='text' name='capacity')
-          .form-group
-            label(for='amount') Amount of Units
-            input.form-control(type='text' name='amount')
-          .form-group
-            label(for='cost') Cost Per Unit
-            input.form-control(type='text' name='cost')
+        .form-group
+          label(for='name') Name
+          input.form-control(type='text' name='name')
+        .form-group
+          label(for='capacity') Capacity Per Unit
+          input.form-control(type='text' name='capacity')
+        .form-group
+          label(for='amount') Amount of Units
+          input.form-control(type='text' name='amount')
+        .form-group
+          label(for='cost') Cost Per Unit
+          input.form-control(type='text' name='cost')
       .modal-footer
         button#save.btn.btn-primary(type='button') Save
         a#close.btn.btn-secondary(href='/') Cancel
