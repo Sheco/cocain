@@ -32,6 +32,19 @@ function deleteProduct (id) {
   reload()
 }
 
+const formatters = {
+  decimal: function (value) {
+    return Number(value).toLocaleString('us', {
+      minimumFractionDigits: 2, maximumFractionDigits: 2
+    })
+  },
+  integer: function (value) {
+    return Number(value).toLocaleString('us')
+  },
+  money: function (value) {
+    return '$' + formatters.decimal(value)
+  }
+}
 function showResources (data) {
   resourceRow.empty()
 
@@ -51,7 +64,12 @@ function showResources (data) {
     card.find('[data-value]').each((_, element) => {
       element = $(element)
       let field = element.attr('data-value')
-      element.html(resource[field])
+      let format = element.attr('data-format')
+      let value = format && formatters[format]
+        ? formatters[format](resource[field])
+        : resource[field]
+
+      element.html(value)
     })
     card.find('button.close').on('click', (ev) => deleteResource(id))
     card.find('[data-type=resourceURL]').each((_, element) => {
@@ -79,7 +97,11 @@ function showProducts (data) {
     template.find('[data-value]').each((_, element) => {
       element = $(element)
       let field = element.attr('data-value')
-      element.html(product.info[field])
+      let format = element.attr('data-format')
+      let value = format && formatters[format]
+        ? formatters[format](product.info[field])
+        : product.info[field]
+      element.html(value)
     })
     template.find('button.close').on('click', (ev) => deleteProduct(id))
 
@@ -92,7 +114,12 @@ function showProducts (data) {
       block.find('[data-value]').each((_, element) => {
         element = $(element)
         let field = element.attr('data-value')
-        element.html(component[field])
+        let format = element.attr('data-format')
+        let value = format && formatters[format]
+          ? formatters[format](component[field])
+          : component[field]
+
+        element.html(value)
       })
       row.append(block)
     }

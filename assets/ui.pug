@@ -25,25 +25,25 @@ block content
         table.table.table-bordered.table-striped(style='margin-bottom: 0px')
           tr
             td Cost Per Unit:
-            td.text-right(data-value='cost') 0
+            td.text-right(data-value='cost' data-format='money') 0
           tr
             td Capacity:
-            td.text-right(data-value='capacity') 0
+            td.text-right(data-value='capacity' data-format='decimal') 0
           tr
             td Requested Amount:
-            td.text-right(data-value='amount') 0
-          tr
+            td.text-right(data-value='amount' data-format='decimal') 0
+          tr.font-weight-bold
             td Used Amount:
-            td.text-right(data-value='realAmount') 0
-          tr
+            td.text-right(data-value='realAmount' data-format='decimal') 0
+          tr.font-weight-bold
             td Consumed:
-            td.text-right(data-value='consumed') 0
-          tr
+            td.text-right(data-value='consumed' data-format='decimal') 0
+          tr.font-weight-bold
             td Left:
-            td.text-right(data-value='left') 0
-          tr
+            td.text-right(data-value='left' data-format='decimal') 0
+          tr.font-weight-bold
             td Total cost:
-            td.text-right(data-value='finalCost') 0
+            td.text-right(data-value='finalCost' data-format='money') 0
 
   h5 Products
   .row
@@ -62,29 +62,30 @@ block content
             table.table.table-bordered.table-striped(style='margin-bottom: 0px')
               tr
                 td Requested Amount:
-                td.text-right(data-value='amount') 0
-              tr
+                td.text-right(data-value='amount' data-format='decimal') 0
+              tr.font-weight-bold
                 td Used Amount:
-                td.text-right(data-value='realAmount') 0
-              tr
+                td.text-right(data-value='realAmount' data-format='decimal') 0
+              tr.font-weight-bold
                 td Cost:
-                td.text-right(data-value='cost') 0
+                td.text-right(data-value='cost' data-format='money') 0
         .col-3#productComponentTemplate
           .card
             .card-header(data-value='resource') name
             table.table.table-bordered.table-striped(style='margin-bottom: 0px')
               tr
                 td Amount
-                td.text-right(data-value='amount') 0
-              tr
+                td.text-right(data-value='amount' data-format='decimal') 0
+              tr.font-weight-bold
                 td Consumed
-                td.text-right(data-value='consumed') 0
-              tr
+                td.text-right(data-value='consumed' data-format='decimal') 0
+              tr.font-weight-bold
                 td Effective Consumption
-                td.text-right(data-value='consumedEffective') 0
-              tr
+                td.text-right(data-value='consumedEffective' 
+                  data-format='decimal') 0
+              tr.font-weight-bold
                 td Cost
-                td.text-right(data-value='cost') 0
+                td.text-right(data-value='cost' data-format='money') 0
 
   script(src='/assets/ui.js')
 
