@@ -62,7 +62,7 @@ function updateValues (parent, data) {
       ? formatters[format](data[field])
       : data[field]
 
-    element.innerHTML = value
+    element.textContent = value
   }
 }
 
