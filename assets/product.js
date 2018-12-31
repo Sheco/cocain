@@ -35,7 +35,7 @@ function setup (x, addComponentButton) {
   }
 
   document.getElementById('addComponent').onclick = () => {
-    addComponent({ stage: 'product', amount: '' })
+    addComponent({})
   }
 
   edit('save', 'close').then(() => {
@@ -44,6 +44,11 @@ function setup (x, addComponentButton) {
 }
 
 function addComponent (data) {
+  _.defaults(data, {
+    stage: 'product',
+    amount: ''
+  })
+
   let newComponent = componentTemplate.cloneNode(true)
   newComponent.querySelector('.close').onclick = () => {
     newComponent.remove()
@@ -52,12 +57,15 @@ function addComponent (data) {
     let field = element.getAttribute('data-value')
     element.value = data[field]
   }
+
   document.getElementById('data').appendChild(newComponent)
 }
 
 function fillInfo (info) {
-  info = info || {}
-  console.log(info)
+  _.defaults(info, {
+    name: '',
+    amount: ''
+  })
 
   fields.name.value = info.name
   fields.amount.value = info.amount

@@ -8,12 +8,12 @@ let fields = {
 }
 
 function fill (data) {
-  data = data || {
+  _.defaults(data, {
     name: '',
     capacity: '',
     amount: '',
     cost: ''
-  }
+  })
 
   fields.name.value = data.name
   fields.cost.value = data.cost
