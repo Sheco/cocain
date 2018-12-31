@@ -1,4 +1,4 @@
-/* eslint-env browser,jquery */
+/* eslint-env browser */
 
 let resourceRow = document.getElementById('resources')
 let productRow = document.getElementById('products')

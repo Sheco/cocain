@@ -1,4 +1,4 @@
-/* eslint-env jquery, browser */
+/* eslint-env browser */
 
 let fields = {
   name: document.querySelector('input[name=name]'),
