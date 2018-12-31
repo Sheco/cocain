@@ -39,6 +39,18 @@ function sessionEdit (id, save, close) {
       if (id === -1) {
         data.resources.push(newData)
       } else {
+        // if the name was changed, update the products' components
+        if (newData.name !== data.resources[id].name) {
+          for (let product of data.products) {
+            for (let component of product.recipe) {
+              if (component.resource !== data.resources[id].name) {
+                continue
+              }
+              component.resource = newData.name
+            }
+          }
+        }
+
         data.resources[id] = newData
       }
       sessionStorage.setObj('data', data)
