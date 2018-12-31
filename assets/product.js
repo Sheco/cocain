@@ -29,7 +29,7 @@ function setup (x, addComponentButton) {
   })
 
   edit('#save', '#close').then(() => {
-    window.location.href = '/ui'
+    window.location.href = '/'
   })
 }
 
