@@ -44,7 +44,6 @@ function showResources (data) {
       ? 100
       : 100 - (resource.consumed / resource.totalUsed * 100)
 
-    console.log(resource)
     let progress = card.find('[data-type=consumed]')
     progress.attr('style', `width: ${consumed}%`)
     progress.attr('aria-valuenow', consumed)
@@ -55,10 +54,8 @@ function showResources (data) {
       element.html(resource[field])
     })
     card.find('button.close').on('click', (ev) => deleteResource(id))
-    console.log(resource.name)
     card.find('[data-type=resourceURL]').each((_, element) => {
       element = $(element)
-      console.log('resource url:' + id)
       element.attr('href', '/resource?id=' + id)
     })
 

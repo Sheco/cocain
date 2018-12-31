@@ -36,7 +36,6 @@ function sessionEdit (id, save, close) {
 
   return edit(save, close)
     .then(newData => {
-      console.log('saving', newData)
       if (id === -1) {
         data.resources.push(newData)
       } else {

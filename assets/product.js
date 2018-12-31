@@ -25,7 +25,7 @@ function setup (x, addComponentButton) {
   }
 
   $('#addComponent').on('click', () => {
-    addComponent({stage: 'product'})
+    addComponent({ stage: 'product' })
   })
 
   edit('#save', '#close').then(() => {
@@ -42,13 +42,11 @@ function addComponent (data) {
     element = $(element)
     let field = element.attr('data-value')
     element.val(data[field])
-    console.log('field', field, data[field])
   })
   $('#data').append(newComponent)
 }
 
 function fillInfo (info) {
-  console.log('info', info)
   info = info || {}
 
   fields.name.val(info.name)
