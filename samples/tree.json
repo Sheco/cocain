@@ -36,13 +36,12 @@
                 "name": "Arbol de navidad",
                 "amount": 1
             },
-            "setup": [
-                 {
-                    "resource":"gas",
-                    "amount": 11
-                  }
-            ],
             "recipe": [
+                {
+                  "stage": "setup",
+                  "resource":"gas",
+                  "amount": 11
+                }
                 {
                     "resource":"fieltro",
                     "amount": 10000

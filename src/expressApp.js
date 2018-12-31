@@ -7,6 +7,7 @@ const fs = require('fs')
 const util = require('util')
 const path = require('path')
 const StreamConcat = require('stream-concat')
+const pug = require('pug')
 
 const readFile = util.promisify(fs.readFile)
 const stat = util.promisify(fs.stat)
@@ -19,10 +20,25 @@ const upload = multer({ dest: '/tmp' })
 const app = express()
 app.use('/assets', express.static(path.join(__dirname, '..', 'assets')))
 
-app.get('/', async (req, res) => {
+app.get('/old', async (req, res) => {
   let body = readFile(path.join(__dirname, '..', 'assets',
     'index.html'), 'utf8')
   res.send(await body)
+})
+
+app.get('/', async (req, res) => {
+  let file = path.join(__dirname, '..', 'assets', 'ui.pug')
+  res.send(pug.renderFile(file))
+})
+
+app.get('/resource', async (req, res) => {
+  let file = path.join(__dirname, '..', 'assets', 'resource.pug')
+  res.send(pug.renderFile(file, { id: req.query.id || -1 }))
+})
+
+app.get('/product', async (req, res) => {
+  let file = path.join(__dirname, '..', 'assets', 'product.pug')
+  res.send(pug.renderFile(file, { id: req.query.id || -1 }))
 })
 
 app.post('/api', express.json(),

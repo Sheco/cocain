@@ -23,13 +23,12 @@
             "name": "Bibs - 38cm²",
             "amount": 0
         },
-        "setup": [
+        "recipe": [
             {
+                "stage": "setup",
                 "resource":"gas",
                 "amount": 2
-            }
-        ],
-        "recipe": [
+            },
             {
                 "resource": "fabric",
                 "amount": 1444

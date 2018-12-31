@@ -65,20 +65,17 @@ function convertCsv () { // eslint-disable-line no-unused-vars
     .catch(error => alert(error.message))
 }
 
-function onLoad () { // eslint-disable-line no-unused-vars
-  progress = document.getElementById('progress')
-  result = document.getElementById('result')
-  src = document.getElementById('src')
-  csv = document.getElementById('csv')
-
-  const aLoadJSON = function () {
-    loadJSON(this.href)
-    return false
-  }
-
-  for (let a of document.getElementsByClassName('loadJSON')) {
-    a.onclick = aLoadJSON
-  }
+Storage.prototype.setObj = function (key, obj) {
+  return this.setItem(key, JSON.stringify(obj))
+}
+Storage.prototype.getObj = function (key) {
+  return JSON.parse(this.getItem(key))
 }
 
-document.addEventListener('DOMContentLoaded', onLoad, false)
+/* initialize the sessionStorage */
+if (sessionStorage.data === undefined) {
+  sessionStorage.setObj('data', {
+    resources: [],
+    products: []
+  })
+}

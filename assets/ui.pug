@@ -1,0 +1,90 @@
+extends layout.pug
+  
+block content
+  h5 Resources
+  #resources.row
+    .col-3#resourceTemplate
+      .card
+        .card-header
+          a(
+            href='/resource?id=' 
+            data-type='resourceURL'
+            data-value='name'
+          ) Name
+          button(type='button' class='close')
+            span(aria-hidden='true') &times;
+        .progress
+          .progress-bar(
+            data-type='consumed'
+            role='progressbar'
+            style='width: 100%'
+            aria-valuenow='100'
+            aria-valuemin='0'
+            aria-valuemax='100'
+          )
+        table.table.table-bordered.table-striped(style='margin-bottom: 0px')
+          tr
+            td Cost Per Unit:
+            td.text-right(data-value='cost') 0
+          tr
+            td Capacity:
+            td.text-right(data-value='capacity') 0
+          tr
+            td Requested Amount:
+            td.text-right(data-value='amount') 0
+          tr
+            td Used Amount:
+            td.text-right(data-value='realAmount') 0
+          tr
+            td Consumed:
+            td.text-right(data-value='consumed') 0
+          tr
+            td Left:
+            td.text-right(data-value='left') 0
+          tr
+            td Total cost:
+            td.text-right(data-value='finalCost') 0
+
+  h5 Products
+  .row
+    #products.col
+      .row
+        .col-3#productInfoTemplate
+          .card
+            .card-header
+              a(
+                href='/resource?id=' 
+                data-type='resourceURL'
+                data-value='name'
+              ) Name
+              button(type='button' class='close')
+                span(aria-hidden='true') &times;
+            table.table.table-bordered.table-striped(style='margin-bottom: 0px')
+              tr
+                td Requested Amount:
+                td.text-right(data-value='amount') 0
+              tr
+                td Used Amount:
+                td.text-right(data-value='realAmount') 0
+              tr
+                td Cost:
+                td.text-right(data-value='cost') 0
+        .col-3#productComponentTemplate
+          .card
+            .card-header(data-value='resource') name
+            table.table.table-bordered.table-striped(style='margin-bottom: 0px')
+              tr
+                td Amount
+                td.text-right(data-value='amount') 0
+              tr
+                td Consumed
+                td.text-right(data-value='consumed') 0
+              tr
+                td Effective Consumption
+                td.text-right(data-value='consumedEffective') 0
+              tr
+                td Cost
+                td.text-right(data-value='cost') 0
+
+  script(src='/assets/ui.js')
+

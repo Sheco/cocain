@@ -1,0 +1,46 @@
+extends layout.pug
+
+block content
+  .row#data
+    .col-4#infoBlock
+      .card
+        .card-header Product Info
+        .card-body
+          form
+            .form-group
+              label(for='name') Name
+              input.form-control(type='text' name='name')
+            .form-group
+              label(for='amount') Amount of products to make
+              input.form-control(type='text' name='amount')
+        .modal-footer
+          button#save.btn.btn-primary(type='button') Save
+          button#addComponent.btn.btn-success(type='button') + Component
+          a#close.btn.btn-secondary(href='/ui') Cancel
+
+    .col-4#componentTemplate.component
+      .card
+        .card-header Component
+          button.close(type='button')
+            span(aria-hidden='true') &times;
+        .card-body
+          form
+            .form-group
+              label(for='stage') Stage
+              select.form-control(name='stage' data-value='stage')
+                option(value="product") Per Product
+                option(value="setup") One Time Cost
+            .form-group
+              label(for='resource') Resource name
+              input.form-control(type='text' name='resource' data-value='resource')
+            .form-group
+              label(for='amount') Amount
+              input.form-control(type='text' name='amount' data-value='amount')
+    
+
+  script(src='/assets/product.js')
+  script.
+    setup(#{id})
+
+
+

@@ -23,17 +23,17 @@
                 "name": "Stickers 5.5cm in a 145x100cm canvas",
                 "amount": 0
             },
-            "setup": [
+            "recipe": [
                 {
+                    "stage": "setup",
                     "resource":"gas",
                     "amount": 13
                 },
                 {
+                    "stage": "setup",
                     "resource":"john",
                     "amount": 0.40
                 }
-            ],
-            "recipe": [
                 {
                     "resource":"vinyl",
                     "amount": 30.25

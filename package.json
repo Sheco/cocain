@@ -1,6 +1,6 @@
 {
   "name": "cocain",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A simple project cost calculator",
   "main": "index.js",
   "scripts": {
@@ -14,6 +14,7 @@
     "express": "4.16.4",
     "json-pretty-html": "^1.2.0",
     "multer": "1.4.1",
+    "pug": "2.0.3",
     "stream-concat": "0.3.0"
   },
   "engines": {
