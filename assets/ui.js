@@ -94,6 +94,9 @@ function showProducts (data) {
       element = $(element)
       element.attr('href', '/product?id=' + id)
     })
+
+    product.info.costPerProduct = product.info.cost / product.info.realAmount
+
     template.find('[data-value]').each((_, element) => {
       element = $(element)
       let field = element.attr('data-value')
