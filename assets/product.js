@@ -18,6 +18,16 @@ function setup (x, addComponentButton) {
   }
 
   componentTemplate = $('#componentTemplate').clone()
+  let resourceSelect = componentTemplate.find('[data-value=resource]')
+    .first()
+  for (let resource of data.resources.map(x => x.name)) {
+    let option = $(`<option>`)
+    option.attr('value', resource)
+    option.text(resource)
+
+    resourceSelect.append(option)
+  }
+
   $('#componentTemplate').remove()
 
   for (let component of product.recipe) {
@@ -65,7 +75,7 @@ function editPromise (save, close) {
           dom = $(dom)
           return {
             'stage': dom.find('select[name=stage]').val(),
-            'resource': dom.find('input[name=resource]').val(),
+            'resource': dom.find('select[name=resource]').val(),
             'amount': dom.find('input[name=amount]').val()
           }
         }))
