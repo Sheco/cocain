@@ -1,6 +1,28 @@
 extends layout.pug
 
 block content
+  .row
+    .col
+      .modal-header
+        h5 Product management
+
+      p.
+        Products control each recipe, it's where the resources are consumed.
+
+      p. 
+        A product can have an <b>amount</b>, which tells how many products you
+        want to produce. If it is <u>not defined</u>, it means you want to make
+        as many products as possible given the allocated resources.
+
+      p. 
+        Products have <b>components</b>, they are the recipe's structure. There
+        are two stages of consumption, the default <b>Per product</b> means
+        the resource will be consumed for each individual product that's calculated, 
+        while the other option, <b>One Time Cost</b> means the resource is spent once
+        at the beginning of the operation, before working on the products
+        themselves.
+
+
   .row#data
     .col-lg-4#infoBlock
       .card

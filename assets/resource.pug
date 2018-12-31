@@ -22,6 +22,37 @@ block content
       .modal-footer
         button#save.btn.btn-primary(type='button') Save
         a#close.btn.btn-secondary(href='/') Cancel
+    .col-lg-8
+      div.modal-header
+        h5 Information
+
+      p.
+        Resources define your stock of materials, each resource has a cost per
+        unit, an amount of units and a raw capacity.
+
+      p.
+        If the <b>amount</b> is not defined, the resource is infinite, otherwise
+        it is the number of units of this resource that have been purchased, if
+        they're not consumed, it's considered waste, and the cost is divided
+        divided between the products that used the resource.
+
+      p.
+        If <b>capacity</b> is not defined, it is set to 1.
+
+      p.
+        Capacity can be thought of as if the resource were a container and the
+        recipe will be consuming fractions of it.
+
+      p.
+        The <b>cost</b> is per container, it will be divided between the products using
+        the resource. If there are wasted resources, the cost will be divided
+        according to how much each product used.
+
+      p.  
+        <b>For example</b>, a bottle of 1 liter of milk will have a capacity of 1000 (ml),
+        if the amount is 1, it means we bought one 1000ml bottle of milk, the 
+        products will be able to consume milliliters from this resource. 
+
 
   script(src='/assets/resource.js')
   script.
