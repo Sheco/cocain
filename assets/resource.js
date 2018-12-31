@@ -8,6 +8,7 @@ let fields = {
 }
 
 function fill (data) {
+  console.log(data)
   _.defaults(data, {
     name: '',
     capacity: '',
@@ -37,7 +38,7 @@ function edit (save, close) {
 
 function sessionEdit (id, save, close) {
   let data = sessionStorage.getObj('data')
-  fill(data.resources[id])
+  fill(data.resources[id] || {})
 
   return edit(save, close)
     .then(newData => {
