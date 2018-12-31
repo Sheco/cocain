@@ -1,32 +1,37 @@
 /* eslint-env jquery, browser */
 
 let fields = {
-  name: $('input[name=name]'),
-  cost: $('input[name=cost]'),
-  capacity: $('input[name=capacity]'),
-  amount: $('input[name=amount]')
+  name: document.querySelector('input[name=name]'),
+  cost: document.querySelector('input[name=cost]'),
+  capacity: document.querySelector('input[name=capacity]'),
+  amount: document.querySelector('input[name=amount]')
 }
 
 function fill (data) {
-  data = data || {}
+  data = data || {
+    name: '',
+    capacity: '',
+    amount: '',
+    cost: ''
+  }
 
-  fields.name.val(data.name)
-  fields.cost.val(data.cost)
-  fields.capacity.val(data.capacity)
-  fields.amount.val(data.amount)
+  fields.name.value = data.name
+  fields.cost.value = data.cost
+  fields.capacity.value = data.capacity
+  fields.amount.value = data.amount
 }
 
 function edit (save, close) {
   return new Promise((resolve, reject) => {
-    $(save).on('click', function (e) {
+    document.getElementById(save).onclick = function (e) {
       resolve({
-        name: fields.name.val(),
-        cost: fields.cost.val(),
-        capacity: fields.capacity.val(),
-        amount: fields.amount.val()
+        name: fields.name.value,
+        cost: fields.cost.value,
+        capacity: fields.capacity.value,
+        amount: fields.amount.value
       })
-      $(close).click()
-    })
+      document.getElementById(close).click()
+    }
   })
 }
 

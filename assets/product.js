@@ -1,8 +1,8 @@
 /* eslint-env jquery, browser */
 
 let fields = {
-  name: $('input[name=name]'),
-  amount: $('input[name=amount]')
+  name: document.querySelector('input[name=name]'),
+  amount: document.querySelector('input[name=amount]')
 }
 
 let id
@@ -13,75 +13,74 @@ function setup (x, addComponentButton) {
   let data = sessionStorage.getObj('data')
   id = x
   product = data.products[id] || {
-    info: {},
+    info: { name: '', amount: '' },
     recipe: []
   }
 
-  componentTemplate = $('#componentTemplate').clone()
-  let resourceSelect = componentTemplate.find('[data-value=resource]')
-    .first()
+  componentTemplate = document.getElementById('componentTemplate')
+    .cloneNode(true)
+  let resourceSelect = componentTemplate.querySelector('[data-value=resource]')
   for (let resource of data.resources.map(x => x.name)) {
-    let option = $(`<option>`)
-    option.attr('value', resource)
-    option.text(resource)
+    let option = document.createElement('option')
+    option.setAttribute('value', resource)
+    option.textContent = resource
 
     resourceSelect.append(option)
   }
 
-  $('#componentTemplate').remove()
+  document.getElementById('componentTemplate').remove()
 
   for (let component of product.recipe) {
     addComponent(component)
   }
 
-  $('#addComponent').on('click', () => {
-    addComponent({ stage: 'product' })
-  })
+  document.getElementById('addComponent').onclick = () => {
+    addComponent({ stage: 'product', amount: '' })
+  }
 
-  edit('#save', '#close').then(() => {
+  edit('save', 'close').then(() => {
     window.location.href = '/'
   })
 }
 
 function addComponent (data) {
-  let newComponent = componentTemplate.clone()
-  newComponent.find('.close').on('click', () => {
+  let newComponent = componentTemplate.cloneNode(true)
+  newComponent.querySelector('.close').onclick = () => {
     newComponent.remove()
-  })
-  newComponent.find('[data-value]').each((id, element) => {
-    element = $(element)
-    let field = element.attr('data-value')
-    element.val(data[field])
-  })
-  $('#data').append(newComponent)
+  }
+  for (let element of newComponent.querySelectorAll('[data-value]')) {
+    let field = element.getAttribute('data-value')
+    element.value = data[field]
+  }
+  document.getElementById('data').appendChild(newComponent)
 }
 
 function fillInfo (info) {
   info = info || {}
+  console.log(info)
 
-  fields.name.val(info.name)
-  fields.amount.val(info.amount)
+  fields.name.value = info.name
+  fields.amount.value = info.amount
 }
 
 function editPromise (save, close) {
   return new Promise((resolve, reject) => {
-    $(save).on('click', function (e) {
+    document.getElementById(save).onclick = function (e) {
       resolve({
         info: {
-          name: fields.name.val(),
-          amount: fields.amount.val()
+          name: fields.name.value,
+          amount: fields.amount.value
         },
-        recipe: Array.from($('.component').map((id, dom) => {
-          dom = $(dom)
+        recipe: Array.from(document.querySelectorAll('.component')).map(dom => {
           return {
-            'stage': dom.find('select[name=stage]').val(),
-            'resource': dom.find('select[name=resource]').val(),
-            'amount': dom.find('input[name=amount]').val()
+            'stage': dom.querySelector('select[name=stage]').value,
+            'resource': dom.querySelector('select[name=resource]').value,
+            'amount': dom.querySelector('input[name=amount]').value
           }
-        }))
+        })
       })
-      $(close).click()
-    })
+      document.getElementById(close).click()
+    }
   })
 }
 
@@ -99,4 +98,3 @@ function edit (save, close) {
       sessionStorage.setObj('data', data)
     })
 }
-

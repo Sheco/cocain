@@ -1,15 +1,23 @@
 /* eslint-env browser,jquery */
 
-let resourceRow = $('#resources')
-let productRow = $('#products')
+let resourceRow = document.getElementById('resources')
+let productRow = document.getElementById('products')
 
-let resourceTemplate = $('#resourceTemplate').clone()
-let productInfoTemplate = $('#productInfoTemplate').clone()
-let productComponentTemplate = $('#productComponentTemplate').clone()
+let resourceTemplate = document.getElementById('resourceTemplate')
+  .cloneNode(true)
+resourceTemplate.removeAttribute('id')
 
-$('#resourceTemplate').remove()
-$('#productInfoTemplate').remove()
-$('#productComponentTemplate').remove()
+let productInfoTemplate = document.getElementById('productInfoTemplate')
+  .cloneNode(true)
+productInfoTemplate.removeAttribute('id')
+
+let productComponentTemplate = document.getElementById('productComponentTemplate')
+  .cloneNode(true)
+productComponentTemplate.removeAttribute('id')
+
+document.getElementById('resourceTemplate').remove()
+document.getElementById('productInfoTemplate').remove()
+document.getElementById('productComponentTemplate').remove()
 
 async function reload () {
   let data = sessionStorage.getObj('data')
@@ -45,11 +53,12 @@ const formatters = {
     return '$' + formatters.decimal(value)
   }
 }
+
 function showResources (data) {
-  resourceRow.empty()
+  resourceRow.innerHTML = ''
 
   for (let [id, resource] of Object.entries(data.resources)) {
-    let card = resourceTemplate.clone()
+    let card = resourceTemplate.cloneNode(true)
 
     // maybe later I could show a waste progress bar
     // let wasted = 100 - resource.wastePcnt
@@ -57,77 +66,75 @@ function showResources (data) {
       ? 100
       : 100 - (resource.consumed / resource.totalUsed * 100)
 
-    let progress = card.find('[data-type=consumed]')
-    progress.attr('style', `width: ${consumed}%`)
-    progress.attr('aria-valuenow', consumed)
+    let progress = card.querySelector('[data-type=consumed]')
+    progress.setAttribute('style', `width: ${consumed}%`)
+    progress.setAttribute('aria-valuenow', consumed)
 
-    card.find('[data-value]').each((_, element) => {
-      element = $(element)
-      let field = element.attr('data-value')
-      let format = element.attr('data-format')
+    for (let element of card.querySelectorAll('[data-value]')) {
+      let field = element.getAttribute('data-value')
+      let format = element.getAttribute('data-format')
       let value = format && formatters[format]
         ? formatters[format](resource[field])
         : resource[field]
 
-      element.html(value)
-    })
-    card.find('button.close').on('click', (ev) => deleteResource(id))
-    card.find('[data-type=resourceURL]').each((_, element) => {
-      element = $(element)
-      element.attr('href', '/resource?id=' + id)
-    })
+      element.innerHTML = value
+    }
 
-    resourceRow.append(card)
+    card.querySelector('button.close').onclick = (ev) => deleteResource(id)
+    for (let element of card.querySelectorAll('[data-type=resourceURL]')) {
+      element.setAttribute('href', '/resource?id=' + id)
+    }
+
+    resourceRow.appendChild(card)
   }
 }
 
 function showProducts (data) {
-  productRow.empty()
+  productRow.innerHTML = ''
 
   for (let [id, product] of Object.entries(data.products)) {
-    let row = $('<div class="row">')
+    let row = document.createElement('div')
+    row.setAttribute('class', 'row')
 
     // fill info block
-    let template = productInfoTemplate.clone()
+    let template = productInfoTemplate.cloneNode(true)
+    console.log(product)
 
-    template.find('[data-type=resourceURL]').each((_, element) => {
-      element = $(element)
-      element.attr('href', '/product?id=' + id)
-    })
+    for (let element of template.querySelectorAll('[data-type=resourceURL]')) {
+      element.setAttribute('href', '/product?id=' + id)
+    }
 
     product.info.costPerProduct = product.info.cost / product.info.realAmount
 
-    template.find('[data-value]').each((_, element) => {
-      element = $(element)
-      let field = element.attr('data-value')
-      let format = element.attr('data-format')
+    for (let element of template.querySelectorAll('[data-value]')) {
+      let field = element.getAttribute('data-value')
+      let format = element.getAttribute('data-format')
       let value = format && formatters[format]
         ? formatters[format](product.info[field])
         : product.info[field]
-      element.html(value)
-    })
-    template.find('button.close').on('click', (ev) => deleteProduct(id))
+      element.innerHTML = value
+    }
+    template.querySelector('button.close').onclick = (ev) => deleteProduct(id)
 
-    row.append(template)
+    row.appendChild(template)
 
     // work on the components
-    template = productComponentTemplate.clone()
+    template = productComponentTemplate.cloneNode(true)
     for (let component of product.recipe) {
-      let block = template.clone()
-      block.find('[data-value]').each((_, element) => {
-        element = $(element)
-        let field = element.attr('data-value')
-        let format = element.attr('data-format')
+      let block = template.cloneNode(true)
+      for (let element of block.querySelectorAll('[data-value]')) {
+        let field = element.getAttribute('data-value')
+        let format = element.getAttribute('data-format')
         let value = format && formatters[format]
           ? formatters[format](component[field])
           : component[field]
 
-        element.html(value)
-      })
-      row.append(block)
+        element.innerHTML = value
+      }
+      row.appendChild(block)
     }
 
-    productRow.append(row)
+    productRow.appendChild(row)
   }
 }
 
