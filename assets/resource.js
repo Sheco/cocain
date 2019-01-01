@@ -9,7 +9,6 @@ let fields = {
 }
 
 function fill (data) {
-  console.log(data)
   _.defaults(data, {
     name: '',
     unit: '',
