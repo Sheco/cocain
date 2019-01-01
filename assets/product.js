@@ -2,7 +2,8 @@
 
 let fields = {
   name: document.querySelector('input[name=name]'),
-  amount: document.querySelector('input[name=amount]')
+  amount: document.querySelector('input[name=amount]'),
+  markup: document.querySelector('input[name=markup]')
 }
 
 let id
@@ -69,6 +70,7 @@ function fillInfo (info) {
 
   fields.name.value = info.name
   fields.amount.value = info.amount
+  fields.markup.value = info.markup
 }
 
 function editPromise (save, close) {
@@ -77,7 +79,8 @@ function editPromise (save, close) {
       resolve({
         info: {
           name: fields.name.value,
-          amount: fields.amount.value
+          amount: fields.amount.value,
+          markup: fields.markup.value
         },
         recipe: Array.from(document.querySelectorAll('.component')).map(dom => {
           return {

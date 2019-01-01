@@ -122,6 +122,7 @@ function showProducts (data) {
     }
 
     product.info.costPerProduct = product.info.cost / product.info.realAmount
+    product.info.pricePerProduct = product.info.costPerProduct * product.info.markup
 
     updateValues(template, product.info)
     template.querySelector('button.close').onclick = (ev) => deleteProduct(id)
