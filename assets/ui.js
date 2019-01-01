@@ -72,15 +72,15 @@ function showResources (data) {
   for (let [id, resource] of Object.entries(data.resources)) {
     let card = resourceTemplate.cloneNode(true)
 
-    // maybe later I could show a waste progress bar
-    // let wasted = 100 - resource.wastePcnt
-    let consumed = resource.left === undefined
-      ? 100
-      : 100 - (resource.consumed / resource.totalUsed * 100)
-
     let progress = card.querySelector('[data-type=consumed]')
-    progress.setAttribute('style', `width: ${consumed}%`)
-    progress.setAttribute('aria-valuenow', consumed)
+    if (resource.left === undefined) {
+      progress.classList.add('progress-bar-striped')
+      progress.classList.add('progress-bar-animated')
+    } else {
+      let consumed = 100 - (resource.consumed / resource.totalUsed * 100)
+      progress.setAttribute('style', `width: ${consumed}%`)
+      progress.setAttribute('aria-valuenow', consumed)
+    }
 
     updateValues(card, resource)
 
