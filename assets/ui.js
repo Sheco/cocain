@@ -82,6 +82,8 @@ function showResources (data) {
       progress.setAttribute('aria-valuenow', consumed)
     }
 
+    resource.totalCapacity = resource.capacity * resource.amount
+
     updateValues(card, resource)
 
     card.querySelector('button.close').onclick = (ev) => deleteResource(id)
