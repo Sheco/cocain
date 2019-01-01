@@ -51,6 +51,9 @@ const formatters = {
   },
   money: function (value) {
     return '$' + formatters.decimal(value)
+  },
+  units: function (value, data) {
+    return value + data.unit
   }
 }
 
@@ -58,9 +61,17 @@ function updateValues (parent, data) {
   for (let element of parent.querySelectorAll('[data-value]')) {
     let field = element.getAttribute('data-value')
     let format = element.getAttribute('data-format')
-    let value = format && formatters[format]
-      ? formatters[format](data[field])
-      : data[field]
+    let value = data[field]
+
+    if (format) {
+      for (let f of format.split(',')) {
+        if (formatters[f] !== undefined) {
+          value = formatters[f](value, data)
+        }
+      }
+    } else {
+      value = data[field]
+    }
 
     element.textContent = value
   }
@@ -105,7 +116,6 @@ function showProducts (data) {
 
     // fill info block
     let template = productInfoTemplate.cloneNode(true)
-    console.log(product)
 
     for (let element of template.querySelectorAll('[data-type=resourceURL]')) {
       element.setAttribute('href', '/product?id=' + id)
@@ -122,6 +132,9 @@ function showProducts (data) {
     template = productComponentTemplate.cloneNode(true)
     for (let component of product.recipe) {
       let block = template.cloneNode(true)
+      component.unit = data.resources
+        .filter(x => x.name === component.resource)
+        .reduce((acc, curr) => curr.unit, '')
       updateValues(block, component)
       row.appendChild(block)
     }

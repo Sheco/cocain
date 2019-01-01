@@ -10,13 +10,16 @@ block content
           label(for='name') Name
           input.form-control(type='text' name='name')
         .form-group
-          label(for='capacity') Capacity Per Unit
+          label(for='unit') Units
+          input.form-control(type='text' name='unit')
+        .form-group
+          label(for='capacity') Capacity Per Container
           input.form-control(type='text' name='capacity')
         .form-group
-          label(for='amount') Amount of Units
+          label(for='amount') Amount of Containers
           input.form-control(type='text' name='amount')
         .form-group
-          label(for='cost') Cost Per Unit
+          label(for='cost') Cost Per Container
           input.form-control(type='text' name='cost')
       .modal-footer
         button#save.btn.btn-primary(type='button') Save
@@ -36,16 +39,17 @@ block content
         divided between the products that used the resource.
 
       p.
-        If <b>capacity</b> is not defined, it is set to 1.
+        <b>Units</b> is the basic unit type this resource uses, for example grams,
+        liters, mililiters. It's better if you use short names.
 
       p.
-        Capacity can be thought of as if the resource were a container and the
-        recipe will be consuming fractions of it.
+        <b>Capacity</b> is the amount of units each full container has.  If capacity is not defined, it is set to 1.
+
 
       p.
-        The <b>cost</b> is per container, it will be divided between the products using
-        the resource. If there are wasted resources, the cost will be divided
-        according to how much each product used.
+        The <b>Cost Per Container</b> will be divided between the products using
+        the resource. If there are wasted resources, the cost of the unused resources
+        will be prorated between them.
 
       p.  
         <b>For example</b>, a bottle of 1 liter of milk will have a capacity of 1000 (ml),

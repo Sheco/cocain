@@ -2,6 +2,7 @@
 
 let fields = {
   name: document.querySelector('input[name=name]'),
+  unit: document.querySelector('input[name=unit]'),
   cost: document.querySelector('input[name=cost]'),
   capacity: document.querySelector('input[name=capacity]'),
   amount: document.querySelector('input[name=amount]')
@@ -11,12 +12,14 @@ function fill (data) {
   console.log(data)
   _.defaults(data, {
     name: '',
+    unit: '',
     capacity: '',
     amount: '',
     cost: ''
   })
 
   fields.name.value = data.name
+  fields.unit.value = data.unit
   fields.cost.value = data.cost
   fields.capacity.value = data.capacity
   fields.amount.value = data.amount
@@ -27,6 +30,7 @@ function edit (save, close) {
     document.getElementById(save).onclick = function (e) {
       resolve({
         name: fields.name.value,
+        unit: fields.unit.value,
         cost: fields.cost.value,
         capacity: fields.capacity.value,
         amount: fields.amount.value

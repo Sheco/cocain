@@ -33,9 +33,9 @@ block content
             td.text-right.font-weight-bold(data-value='realAmount' data-format='decimal') 0
           tr
             td Total Capacity:
-            td.text-right(data-value='totalCapacity' data-format='decimal') 0
+            td.text-right(data-value='totalCapacity' data-format='decimal,units') 0
             td Consumed:
-            td.text-right.font-weight-bold(data-value='consumed' data-format='decimal') 0
+            td.text-right.font-weight-bold(data-value='consumed' data-format='decimal,units') 0
           tr
             td Cost Per Unit:
             td.text-right(data-value='cost' data-format='money') 0
@@ -78,11 +78,11 @@ block content
                 td.text-right(data-value='amount' data-format='decimal') 0
               tr.font-weight-bold
                 td Consumed:
-                td.text-right(data-value='consumed' data-format='decimal') 0
+                td.text-right(data-value='consumed' data-format='decimal,units') 0
               tr.font-weight-bold
                 td Effective Consumption:
                 td.text-right(data-value='consumedEffective' 
-                  data-format='decimal') 0
+                  data-format='decimal,units') 0
               tr.font-weight-bold
                 td Cost:
                 td.text-right(data-value='cost' data-format='money') 0
