@@ -77,8 +77,11 @@ block content
             .card-header(data-value='resource') name
             table.table.table-bordered.table-striped(style='margin-bottom: 0px')
               tr
-                td Requested Amount:
-                td.text-right(data-value='amount' data-format='decimal') 0
+                td Stage:
+                td.text-right(data-value='stage') 0
+              tr
+                td Needs:
+                td.text-right(data-value='amount' data-format='decimal,units') 0
               tr.font-weight-bold
                 td Consumed:
                 td.text-right(data-value='consumed' data-format='decimal,units') 0
