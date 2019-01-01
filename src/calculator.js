@@ -163,7 +163,7 @@ class Calculator {
    * Start using the recipe, consume as much as neeed
    */
   preProcess (product) {
-    let maxProducts = this.maxProducts(product) || 0
+    let maxProducts = this.maxProducts(product)
     if (maxProducts !== undefined &&
       (!product.info.amount || maxProducts < product.info.amount)) {
       product.info.realAmount = maxProducts
