@@ -100,7 +100,8 @@ function showProducts (data) {
 
   for (let [id, product] of Object.entries(data.products)) {
     let row = document.createElement('div')
-    row.setAttribute('class', 'row')
+    row.classList.add('row')
+    row.classList.add('mb-3')
 
     // fill info block
     let template = productInfoTemplate.cloneNode(true)
