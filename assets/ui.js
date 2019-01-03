@@ -48,7 +48,14 @@ function deleteProduct (id) {
 }
 
 const formatters = {
+  NaNisZero: function (value) {
+    return isNaN(value) ? 0 : value
+  },
+  NaNisInfinite: function (value) {
+    return isNaN(value) ? '∞' : value
+  },
   decimal: function (value) {
+    console.log(value)
     return Number(value).toLocaleString('us', {
       minimumFractionDigits: 2, maximumFractionDigits: 2
     })
