@@ -7,6 +7,9 @@ let resourceTemplate = document.getElementById('resourceTemplate')
   .cloneNode(true)
 resourceTemplate.removeAttribute('id')
 
+let resourceAddTemplate = document.getElementById('resourceAddTemplate')
+  .cloneNode(true)
+
 let productInfoTemplate = document.getElementById('productInfoTemplate')
   .cloneNode(true)
 productInfoTemplate.removeAttribute('id')
@@ -15,9 +18,13 @@ let productComponentTemplate = document.getElementById('productComponentTemplate
   .cloneNode(true)
 productComponentTemplate.removeAttribute('id')
 
+let productAddTemplate = document.getElementById('productAddTemplate')
+
 document.getElementById('resourceTemplate').remove()
+document.getElementById('resourceAddTemplate').remove()
 document.getElementById('productInfoTemplate').remove()
 document.getElementById('productComponentTemplate').remove()
+document.getElementById('productAddTemplate').remove()
 
 async function reload () {
   let data = sessionStorage.getObj('data')
@@ -104,6 +111,8 @@ function showResources (data) {
 
     resourceRow.appendChild(card)
   }
+
+  resourceRow.appendChild(resourceAddTemplate)
 }
 
 function showProducts (data) {
@@ -142,6 +151,7 @@ function showProducts (data) {
 
     productRow.appendChild(row)
   }
+  productRow.appendChild(productAddTemplate)
 }
 
 async function process (data) {

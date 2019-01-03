@@ -41,6 +41,12 @@ block content
             td.text-right(data-value='cost' data-format='money') 0
             td Total cost:
             td.text-right.font-weight-bold(data-value='finalCost' data-format='money') 0
+    .col-lg-6#resourceAddTemplate
+      .card
+        .card-header Add a new resource
+        .card-body 
+          p Resources are your stock of materials that will be spent when creating products.
+          a.btn.btn-primary(href='/resource') Add a new resource
 
   h5 Products
   .row
@@ -92,6 +98,13 @@ block content
               tr.font-weight-bold
                 td Cost:
                 td.text-right(data-value='cost' data-format='money') 0
+      .row#productAddTemplate
+        .col-lg-4
+          .card
+            .card-header Add a new product
+            .card-body 
+              p Products describe your recipes to consume the predefined resources
+              a.btn.btn-primary(href='/product') Add a new product
 
   script(src='/assets/ui.js')
 
