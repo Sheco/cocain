@@ -65,7 +65,8 @@ function addComponent (data) {
 function fillInfo (info) {
   _.defaults(info, {
     name: '',
-    amount: ''
+    amount: '',
+    markup: 1
   })
 
   fields.name.value = info.name
