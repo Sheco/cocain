@@ -5,14 +5,16 @@ block content
   #resources.row
     .col-lg-6.mb-3#resourceTemplate
       .card
-        .card-header
-          a(
+        .card-header.bg-primary
+          a.text-light(
             href='/resource?id=' 
             data-type='resourceURL'
-            data-value='name'
-          ) Name
-          button(type='button' class='close')
-            span(aria-hidden='true') &times;
+          )
+            span.oi.oi-pencil
+            | &nbsp;
+            span(data-value='name')
+          button.close.bg-danger.rounded(type='button')
+            span.text-light(aria-hidden='true') &times;
         .progress
           .progress-bar(
             data-type='consumed'
@@ -43,7 +45,7 @@ block content
             td.text-right.font-weight-bold(data-value='finalCost' data-format='money') 0
     .col-lg-6.mb-3#resourceAddTemplate
       .card
-        .card-header Add a new resource
+        .card-header.bg-primary.text-light Add a new resource
         .card-body 
           p Resources are your stock of materials that will be spent when creating products.
           a.btn.btn-primary(href='/resource') Add a new resource
@@ -53,15 +55,17 @@ block content
     #products.col
       .row
         .col-lg-4#productInfoTemplate
-          .card
-            .card-header
-              a(
+          .card.mb-3
+            .card-header.bg-success
+              a.text-light(
                 href='/resource?id=' 
                 data-type='resourceURL'
-                data-value='name'
-              ) Name
-              button(type='button' class='close')
-                span(aria-hidden='true') &times;
+              )
+                span.oi.oi-pencil
+                | &nbsp;
+                span(data-value='name') Name
+              button.close.bg-danger.rounded(type='button')
+                span.text-light(aria-hidden='true') &times;
             table.table.table-bordered.table-striped(style='margin-bottom: 0px')
               tr
                 td Requested Amount:
@@ -77,10 +81,10 @@ block content
                 td.text-right(data-value='costPerProduct' data-format='NaNisZero,money') 0
               tr.font-weight-bold
                 td Price Per Product:
-                td.text-right(data-value='pricePerProduct' data-format='NaNisZero,money') 0
+                td.text-right.bg-danger.text-light(data-value='pricePerProduct' data-format='NaNisZero,money') 0
         .col-lg-4#productComponentTemplate
           .card
-            .card-header(data-value='resource') name
+            .card-header.bg-info.text-light(data-value='resource') name
             table.table.table-bordered.table-striped(style='margin-bottom: 0px')
               tr
                 td Stage:
@@ -101,10 +105,10 @@ block content
       .row#productAddTemplate
         .col-lg-4
           .card
-            .card-header Add a new product
+            .card-header.bg-success.text-light Add a new product
             .card-body 
               p Products describe your recipes to consume the predefined resources
-              a.btn.btn-primary(href='/product') Add a new product
+              a.btn.btn-success(href='/product') Add a new product
 
   script(src='/assets/ui.js')
 

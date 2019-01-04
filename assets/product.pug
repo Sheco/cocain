@@ -26,7 +26,7 @@ block content
   .row#data
     .col-lg-4.mb-3#infoBlock
       .card
-        .card-header Product Info
+        .card-header.bg-success.text-light Product Info
         .card-body
           .form-group
             label(for='name') Name
@@ -43,16 +43,16 @@ block content
 
     .col-lg-4.mb-3#componentAddTemplate
       .card
-        .card-header Component
+        .card-header.bg-info.text-light Component
         .card-body
           p Add components to specify how many resources this product is going to need
-          button#addComponent.btn.btn-success(type='button') Add a component
+          button#addComponent.btn.btn-info(type='button') Add a component
 
     .col-lg-4.mb-3#componentTemplate.component
       .card
-        .card-header Component
-          button.close(type='button')
-            span(aria-hidden='true') &times;
+        .card-header.bg-info.text-light Component
+          button.close.bg-danger.rounded(type='button')
+            span.text-light(aria-hidden='true') &times;
         .card-body
           .form-group
             label(for='stage') Stage
