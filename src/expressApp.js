@@ -36,6 +36,11 @@ app.get('/about', (req, res) => {
   res.send(pug.renderFile(file))
 })
 
+app.get('/examples', (req, res) => {
+  let file = path.join(__dirname, '..', 'assets', 'examples.pug')
+  res.send(pug.renderFile(file))
+})
+
 app.get('/resource', async (req, res) => {
   let file = path.join(__dirname, '..', 'assets', 'resource.pug')
   res.send(pug.renderFile(file, { id: req.query.id || -1 }))

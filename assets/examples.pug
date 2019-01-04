@@ -1,0 +1,28 @@
+extends layout.pug
+  
+block content
+  h4 Examples
+
+  .row
+    .col-4
+      .card
+        .card-header 
+          b 60 glasses of Chocolate milk
+        .card-body 
+          p  How much milk and chocolate do you need to make 60 glasses of chocolate milk?
+          .modal-footer
+            button.btn.btn-primary(onclick="load('chocomilk60')") Load
+    .col-4
+      .card
+        .card-header 
+          b Chocolate milk with limited resources
+        .card-body
+          p How many glasses of chocolate milk can be made with limited resources?
+          .modal-footer
+            button.btn.btn-primary(onclick="load('chocomilkLimited')") Load
+
+    script(src='/assets/examples.js')
+          
+
+
+
