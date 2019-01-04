@@ -32,6 +32,10 @@ block content
         Resources define your stock of materials, each resource has a cost per
         unit, an amount of units and a raw capacity.
 
+        They can be simple things like "bottles of milk", "cans of chocolate" or
+        they could even be something a bit more abstract like a worker or a 
+        provider, who charges an hourly rate.
+
       p.
         If the #[b amount] is not defined, the resource is infinite, otherwise
         it is the number of units of this resource that have been purchased, if
@@ -40,7 +44,8 @@ block content
 
       p.
         #[b Units] is the basic unit type this resource uses, for example grams,
-        liters, mililiters. It's better if you use short names.
+        liters, mililiters. It's better if you use short names, it's the name
+        of the unit that's consumed when using the resource.
 
       p.
         #[b Capacity] is the amount of units each full container has.  If capacity is not defined, it is set to 1.
