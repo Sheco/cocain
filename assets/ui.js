@@ -55,14 +55,20 @@ const formatters = {
     return isNaN(value) ? '∞' : value
   },
   decimal: function (value) {
+    if (isNaN(value)) return value
+
     return Number(value).toLocaleString('us', {
       minimumFractionDigits: 2, maximumFractionDigits: 2
     })
   },
   integer: function (value) {
+    if (isNaN(value)) return value
+
     return Number(value).toLocaleString('us')
   },
   money: function (value) {
+    if (isNaN(value)) return value
+
     return '$' + formatters.decimal(value)
   },
   units: function (value, data) {
