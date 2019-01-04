@@ -24,7 +24,7 @@ block content
 
 
   .row#data
-    .col-lg-4#infoBlock
+    .col-lg-4.mb-3#infoBlock
       .card
         .card-header Product Info
         .card-body
@@ -39,10 +39,16 @@ block content
             input.form-control(type='text' name='markup')
         .modal-footer
           button#save.btn.btn-primary(type='button') Save
-          button#addComponent.btn.btn-success(type='button') + Component
           a#close.btn.btn-secondary(href='/') Cancel
 
-    .col-lg-4#componentTemplate.component
+    .col-lg-4.mb-3#componentAddTemplate
+      .card
+        .card-header Component
+        .card-body
+          p Add components to specify how many resources this product is going to need
+          button#addComponent.btn.btn-success(type='button') Add a component
+
+    .col-lg-4.mb-3#componentTemplate.component
       .card
         .card-header Component
           button.close(type='button')

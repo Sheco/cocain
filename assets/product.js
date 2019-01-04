@@ -59,7 +59,7 @@ function addComponent (data) {
     element.value = data[field]
   }
 
-  document.getElementById('data').appendChild(newComponent)
+  document.getElementById('componentAddTemplate').before(newComponent)
 }
 
 function fillInfo (info) {
