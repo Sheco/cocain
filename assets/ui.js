@@ -55,7 +55,6 @@ const formatters = {
     return isNaN(value) ? '∞' : value
   },
   decimal: function (value) {
-    console.log(value)
     return Number(value).toLocaleString('us', {
       minimumFractionDigits: 2, maximumFractionDigits: 2
     })
