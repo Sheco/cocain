@@ -45,10 +45,13 @@ block content
             td.text-right.font-weight-bold(data-value='finalCost' data-format='money') 0
     .col-lg-6.mb-3#resourceAddTemplate
       .card
-        .card-header.bg-primary.text-light Add a new resource
+        .card-header.bg-primary
+          a.text-light(href='/resource') 
+            span.oi.oi-pencil
+            | &nbsp;
+            span Add a new resource
         .card-body 
           p Resources are your stock of materials that will be spent when creating products.
-          a.btn.btn-primary(href='/resource') Add a new resource
 
   h5 Products
   .row
@@ -105,10 +108,13 @@ block content
       .row#productAddTemplate
         .col-lg-4
           .card
-            .card-header.bg-success.text-light Add a new product
+            .card-header.bg-success
+              a.text-light(href='/product')
+                span.oi.oi-pencil
+                | &nbsp;
+                span Add a new product
             .card-body 
               p Products describe your recipes to consume the predefined resources
-              a.btn.btn-success(href='/product') Add a new product
 
   script(src='/assets/ui.js')
 
