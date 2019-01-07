@@ -95,8 +95,12 @@ function download (filename, text, encoding) {
 }
 
 function downloadJSON () {
-  let filename = prompt('Name of the project')
-  if (!filename) return
+  let data = sessionStorage.getObj('data')
+  if (data.products.length === 0) {
+    alert('Add a product first')
+    return
+  }
+  let filename = data.products[0].info.name
 
   download(filename + '.json', sessionStorage.data, 'application/json')
   return false
