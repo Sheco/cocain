@@ -47,15 +47,16 @@ block content
               option(value="setup")=t('one_time_cost')
           .form-group
             label(for='resource')=t('resource')
-            select.form-control(name='resource' data-value='resource')
+            select.form-control(name='resource' data-value='resource' onchange="resourceChanged(this)")
           .form-group
-            label(for='amount')=t('common:amount')
+            label(for='amount')
+              =t('common:measure')
+              | &nbsp;(
+              span.amountUnit ?
+              | )
             input.form-control(type='text' name='amount' data-value='amount')
     
 
   script(src='/assets/product.js')
   script.
     setup(#{id})
-
-
-

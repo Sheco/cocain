@@ -21,10 +21,11 @@ function setup (x, addComponentButton) {
   componentTemplate = document.getElementById('componentTemplate')
     .cloneNode(true)
   let resourceSelect = componentTemplate.querySelector('[data-value=resource]')
-  for (let resource of data.resources.map(x => x.name)) {
+  for (let resource of data.resources) {
     let option = document.createElement('option')
-    option.setAttribute('value', resource)
-    option.textContent = resource
+    option.setAttribute('value', resource.name)
+    option.setAttribute('data-unit', resource.unit)
+    option.textContent = resource.name
 
     resourceSelect.append(option)
   }
@@ -58,6 +59,7 @@ function addComponent (data) {
     let field = element.getAttribute('data-value')
     element.value = data[field]
   }
+  resourceChanged(newComponent.querySelector('select[name=resource]'))
 
   document.getElementById('componentAddTemplate').before(newComponent)
 }
@@ -109,4 +111,10 @@ function edit (save, close) {
       }
       sessionStorage.setObj('data', data)
     })
+}
+
+function resourceChanged (input) {
+  let unitLabel = input.parentNode.parentNode.querySelector('.amountUnit')
+  let unit = input.selectedOptions[0].getAttribute('data-unit')
+  unitLabel.textContent = unit
 }
