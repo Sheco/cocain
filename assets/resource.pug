@@ -4,63 +4,32 @@ block content
   .row
     .col-lg-3
       .card
-        .card-header.bg-primary.text-light Resource
+        .card-header.bg-primary.text-light=t('resource')
         .card-body
           .form-group
-            label(for='name') Name
+            label(for='name')=t('name')
             input.form-control(type='text' name='name')
           .form-group
-            label(for='unit') Units
+            label(for='unit')=t('units')
             input.form-control(type='text' name='unit')
           .form-group
-            label(for='capacity') Capacity Per Container
+            label(for='capacity')=t('capacity_per_container')
             input.form-control(type='text' name='capacity')
           .form-group
-            label(for='amount') Amount of Containers
+            label(for='amount')=t('amount_of_containers')
             input.form-control(type='text' name='amount')
           .form-group
-            label(for='cost') Cost Per Container
+            label(for='cost')=t('cost_per_container')
             input.form-control(type='text' name='cost')
         .modal-footer
-          button#save.btn.btn-primary(type='button') Save
-          a#close.btn.btn-secondary(href='/') Cancel
+          button#save.btn.btn-primary(type='button')=t('save')
+          a#close.btn.btn-secondary(href='/')=t('cancel')
     .col-lg-8
       div.modal-header
-        h5 Information
+        h5=t('information')
 
-      p.
-        Resources define your stock of materials, each resource has a cost per
-        unit, an amount of units and a raw capacity.
-
-        They can be simple things like "bottles of milk", "cans of chocolate" or
-        they could even be something a bit more abstract like a worker or a 
-        provider, who charges an hourly rate.
-
-      p.
-        If the #[b amount] is not defined, the resource is infinite, otherwise
-        it is the number of units of this resource that have been purchased, if
-        they're not consumed, it's considered waste, and the cost is divided
-        divided between the products that used the resource.
-
-      p.
-        #[b Units] is the basic unit type this resource uses, for example grams,
-        liters, mililiters. It's better if you use short names, it's the name
-        of the unit that's consumed when using the resource.
-
-      p.
-        #[b Capacity] is the amount of units each full container has.  If capacity is not defined, it is set to 1.
-
-
-      p.
-        The #[b Cost Per Container] will be divided between the products using
-        the resource. If there are wasted resources, the cost of the unused resources
-        will be prorated between them.
-
-      p.  
-        #[b For example], a bottle of 1 liter of milk will have a capacity of 1000 (ml),
-        if the amount is 1, it means we bought one 1000ml bottle of milk, the 
-        products will be able to consume milliliters from this resource. 
-
+      each text in t('resource_docs', {'returnObjects': true})
+        p!=text 
 
   script(src='/assets/resource.js')
   script.

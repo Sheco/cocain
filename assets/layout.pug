@@ -52,36 +52,36 @@ html(lang='en')
       div.collapse.navbar-collapse#mainmenu
         ul.navbar-nav.mr-auto
           li.nav-item
-            a.nav-link(href='/resource') 
-              span.oi.oi-plus
-              | &nbsp;
-              span Resource
-          li.nav-item
-            a.nav-link(href='/product')
-              span.oi.oi-plus 
-              | &nbsp;
-              span Product
-          li.nav-item
             a.nav-link(href='#' onclick="return downloadJSON()") 
               span.oi.oi-data-transfer-download
               | &nbsp;
-              span Download...
+              span=t('download')
           li.nav-item
             a.nav-link(href='#' onclick="return uploadJSON()")
               span.oi.oi-file
               | &nbsp;
-              span Open file...
+              span=t('open')
           li.nav-item
             a.nav-link(href='/examples')
               span.oi.oi-lightbulb
               | &nbsp;
-              span Examples
+              span=t('examples')
           li.nav-item
             a.nav-link(href='/about')
               span.oi.oi-info
               | &nbsp;
-              span About this
-
+              span=t('about')
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle#languageDropdown(
+              href='#'
+              role='button'
+              data-toggle='dropdown'
+              aria-haspopup='true'
+              aria-expanded='false'
+            )=t('language')
+            .dropdown-menu(aria-labelledby='languageDropdown')
+              a.dropdown-item(href='/lang/en')=t('english')
+              a.dropdown-item(href='/lang/es')=t('spanish')
 
     div.container
       block content

@@ -1,0 +1,77 @@
+{
+  "resources": "Resources",
+  "request": "Request",
+  "response": "Response",
+  "requested_amount": "Requested Amount",
+  "amount_used": "Amount Used",
+  "total_capacity": "Total Capacity",
+  "consumed": "Consumed",
+  "cost_per_unit": "Cost Per Unit",
+  "total_cost": "Total Cost",
+  "new_resource": "New resource",
+  "resource_info": "Resources are your stock of materials that will be spent when creating products.",
+  "products": "products",
+  "name": "Name",
+  "cost": "Cost",
+  "cost_per_product": "Cost per product",
+  "price_per_product": "Price per product",
+  "stage": "Stage",
+  "product_needs": "Needs",
+  "distributed_consumption": "Distributed consumption",
+  "new_product": "New product",
+  "product_info": "Products describe your recipes to consume the predefined resources.",
+  "examples": "Examples",
+  "download": "Download",
+  "about": "About",
+  "open": "Open",
+  "resource": "Resource",
+  "resource_docs": [
+    "Resources define your stock of materials, each resource has a cost per unit, an amount of units and a raw capacity.",
+    "They can be simple things like \"bottles of milk\", \"cans of chocolate\" or they could even be something a bit more abstract like a worker or a provider, who charges an hourly rate.",
+    "If the <b>amount</b> is not defined, the resource is infinite, otherwise it is the number of units of this resource that have been purchased, if they're not consumed, it's considered waste, and the cost is divided divided between the products that used the resource.",
+    "<b>Units</b> is the basic unit type this resource uses, for example grams, liters, mililiters. It's better if you use short names, it's the name of the unit that's consumed when using the resource.",
+    "<b>Capacity</b> is the amount of units each full container has.  If capacity is not defined, it is set to 1.",    
+    "The <b>Cost Per Container</b> will be divided between the products using the resource. If there are wasted resources, the cost of the unused resources will be prorated between them.",
+    "<b>For example</b>, a bottle of 1 liter of milk will have a capacity of 1000 (ml), if the amount is 1, it means we bought one 1000ml bottle of milk, the products will be able to consume milliliters from this resource."
+
+  ],
+  "units": "Units",
+  "capacity_per_container": "Capacity per container",
+  "amount_of_containers": "Amount of containers",
+  "cost_per_container": "Cost per container",
+  "save": "Save",
+  "cancel": "Cancel",
+  "information": "Information",
+  "product_docs": [
+    "Products control each recipe, it's where the resources are consumed.",
+    "A product can have an <b>amount</b>, which tells how many products you want to produce. If it is not defined, it means you want to make as many products as possible given the allocated resources.",
+    "Products have <b>components</b>, they are the recipe's structure. There are two stages of consumption, the default <b>Per product</b> means the resource will be consumed for each individual product that's calculated, while the other option, <b>One Time Cost</b> means the resource is spent once at the beginning of the operation, before working on the products themselves."
+  ],
+  "component_info": "Add components to specify how many resources this product is going to need",
+  "product_management": "Product management",
+  "product": "Product",
+  "product_make_amount": "Amount of products to make",
+  "markup": "Markup",
+  "component": "Component",
+  "add_component": "Add a component",
+  "per_product": "Per product",
+  "one_time_cost": "One time cost",
+  "amount": "Amount",
+  "examples_catalog": {
+    "chocomilk60": {
+      "header": "60 glasses of Chocolate milk",
+      "body": "How much milk and chocolate do you need to make 60 glasses of chocolate milk?"
+    },
+    "chocomilkLimited": {
+      "header": "Chocolate milk with limited resources", 
+      "body": "How many glasses of chocolate milk can be made with limited resources?"
+    },
+    "development": {
+      "header": "Simple development project",
+      "body": "A complex project, a development of a simple website, using different products, this example is fun."
+    }
+  },
+  "language": "Language",
+  "english": "English",
+  "spanish": "Spanish"
+}

@@ -1,7 +1,7 @@
 extends layout.pug
   
 block content
-  h5.mt-3 Resources
+  h5.mt-3=t('resources')
   #resources.row
     .col-lg-6.mb-3#resourceTemplate
       .card
@@ -26,22 +26,22 @@ block content
           )
         table.table.table-bordered.table-striped(style='margin-bottom: 0px')
           tr
-            th(colspan=2 width="50%") Request
-            th(colspan=2 width="50%") Response
+            th(colspan=2 width="50%")=t('request')
+            th(colspan=2 width="50%")=t('response')
           tr
-            td Requested Amount:
+            td=t('requested_amount')
             td.text-right(data-value='amount' data-format='NaNisInfinite,integer') 0
-            td Amount Used:
+            td=t('amount_used')
             td.text-right.font-weight-bold(data-value='realAmount' data-format='integer') 0
           tr
-            td Total Capacity:
+            td=t('total_capacity')
             td.text-right(data-value='totalCapacity' data-format='NaNisInfinite,decimal,units') 0
-            td Consumed:
+            td=t('consumed')
             td.text-right.font-weight-bold(data-value='consumed' data-format='decimal,units') 0
           tr
-            td Cost Per Unit:
+            td=t('cost_per_unit')
             td.text-right(data-value='cost' data-format='money') 0
-            td Total cost:
+            td=t('total_cost')
             td.text-right.font-weight-bold(data-value='finalCost' data-format='money') 0
     .col-lg-6.mb-3#resourceAddTemplate
       .card
@@ -49,11 +49,11 @@ block content
           a.text-light(href='/resource') 
             span.oi.oi-pencil
             | &nbsp;
-            span Add a new resource
+            span=t('new_resource')
         .card-body 
-          p Resources are your stock of materials that will be spent when creating products.
+          p=t('resource_info')
 
-  h5 Products
+  h5=t('products')
   .row
     #products.col
       .row
@@ -66,44 +66,44 @@ block content
               )
                 span.oi.oi-pencil
                 | &nbsp;
-                span(data-value='name') Name
+                span(data-value='name')=t('name')
               button.close.bg-danger.rounded(type='button')
                 span.text-light(aria-hidden='true') &times;
             table.table.table-bordered.table-striped(style='margin-bottom: 0px')
               tr
-                td Requested Amount:
+                td=t('requested_amount')
                 td.text-right(data-value='amount' data-format='integer') 0
               tr.font-weight-bold
-                td Amount Used:
+                td=t('amount_used')
                 td.text-right(data-value='realAmount' data-format='integer') 0
               tr.font-weight-bold
-                td Cost:
+                td=t('cost')
                 td.text-right(data-value='cost' data-format='money') 0
               tr.font-weight-bold
-                td Cost Per Product:
+                td=t('cost_per_product')
                 td.text-right(data-value='costPerProduct' data-format='NaNisZero,money') 0
               tr.font-weight-bold
-                td Price Per Product:
+                td=t('price_per_product')
                 td.text-right.bg-danger.text-light(data-value='pricePerProduct' data-format='NaNisZero,money') 0
         .col-lg-4#productComponentTemplate
           .card
-            .card-header.bg-info.text-light(data-value='resource') name
+            .card-header.bg-info.text-light(data-value='resource')=t('name')
             table.table.table-bordered.table-striped(style='margin-bottom: 0px')
               tr
-                td Stage:
+                td=t('stage')
                 td.text-right(data-value='stage') 0
               tr
-                td Needs:
+                td=t('product_needs')
                 td.text-right(data-value='amount' data-format='decimal,units') 0
               tr.font-weight-bold
-                td Consumed:
+                td=t('consumed')
                 td.text-right(data-value='consumed' data-format='decimal,units') 0
               tr.font-weight-bold
-                td Distributed consumption:
+                td=t('distributed_consumption')
                 td.text-right(data-value='consumedEffective' 
                   data-format='decimal,units') 0
               tr.font-weight-bold
-                td Cost:
+                td=t('cost')
                 td.text-right(data-value='cost' data-format='money') 0
       .row#productAddTemplate
         .col-lg-4
@@ -112,9 +112,9 @@ block content
               a.text-light(href='/product')
                 span.oi.oi-pencil
                 | &nbsp;
-                span Add a new product
+                span=t('new_product')
             .card-body 
-              p Products describe your recipes to consume the predefined resources
+              p=t('product_info')
 
   script(src='/assets/ui.js')
 

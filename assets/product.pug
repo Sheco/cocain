@@ -4,66 +4,52 @@ block content
   .row
     .col
       .modal-header
-        h5 Product management
+        h5=t('product_management')
 
-      p.
-        Products control each recipe, it's where the resources are consumed.
-
-      p. 
-        A product can have an #[b amount], which tells how many products you
-        want to produce. If it is #[u not defined], it means you want to make
-        as many products as possible given the allocated resources.
-
-      p. 
-        Products have #[b components], they are the recipe's structure. There
-        are two stages of consumption, the default #[b Per product] means
-        the resource will be consumed for each individual product that's calculated, 
-        while the other option, #[b One Time Cost] means the resource is spent once
-        at the beginning of the operation, before working on the products
-        themselves.
-
+      each text in t('product_docs', {'returnObjects': true})
+        p!=text
 
   .row#data
     .col-lg-4.mb-3#infoBlock
       .card
-        .card-header.bg-success.text-light Product Info
+        .card-header.bg-success.text-light=t('product')
         .card-body
           .form-group
-            label(for='name') Name
+            label(for='name')=t('name')
             input.form-control(type='text' name='name')
           .form-group
-            label(for='amount') Amount of products to make
+            label(for='amount')=t('product_make_amount')
             input.form-control(type='text' name='amount')
           .form-group
-            label(for='markup') Markup
+            label(for='markup')=t('markup')
             input.form-control(type='text' name='markup')
         .modal-footer
-          button#save.btn.btn-primary(type='button') Save
-          a#close.btn.btn-secondary(href='/') Cancel
+          button#save.btn.btn-primary(type='button')=t('save')
+          a#close.btn.btn-secondary(href='/')=t('cancel')
 
     .col-lg-4.mb-3#componentAddTemplate
       .card
-        .card-header.bg-info.text-light Component
+        .card-header.bg-info.text-light=t('component')
         .card-body
-          p Add components to specify how many resources this product is going to need
-          button#addComponent.btn.btn-info(type='button') Add a component
+          p=t('component_info')
+          button#addComponent.btn.btn-info(type='button')=t('add_component')
 
     .col-lg-4.mb-3#componentTemplate.component
       .card
-        .card-header.bg-info.text-light Component
+        .card-header.bg-info.text-light=t('component')
           button.close.bg-danger.rounded(type='button')
             span.text-light(aria-hidden='true') &times;
         .card-body
           .form-group
-            label(for='stage') Stage
+            label(for='stage')=t('stage')
             select.form-control(name='stage' data-value='stage')
-              option(value="product") Per Product
-              option(value="setup") One Time Cost
+              option(value="product")=t('per_product')
+              option(value="setup")=t('one_time_cost')
           .form-group
-            label(for='resource') Resource
+            label(for='resource')=t('resource')
             select.form-control(name='resource' data-value='resource')
           .form-group
-            label(for='amount') Amount
+            label(for='amount')=t('amount')
             input.form-control(type='text' name='amount' data-value='amount')
     
 

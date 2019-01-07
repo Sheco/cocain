@@ -1,33 +1,33 @@
 extends layout.pug
   
 block content
-  h4 Examples
+  h4=t('examples')
 
   .row
     .col-4
       .card
         .card-header 
-          b 60 glasses of Chocolate milk
+          b=t('examples_catalog.chocomilk60.header')
         .card-body 
-          p  How much milk and chocolate do you need to make 60 glasses of chocolate milk?
+          p=t('examples_catalog.chocomilk60.body')
           .modal-footer
-            button.btn.btn-primary(onclick="load('chocomilk60')") Load
+            button.btn.btn-primary(onclick="load('chocomilk60')")=t('Load')
     .col-4
       .card
         .card-header 
-          b Chocolate milk with limited resources
+          b=t('examples_catalog.chocomilkLimited.header')
         .card-body
-          p How many glasses of chocolate milk can be made with limited resources?
+          p=t('examples_catalog.chocomilkLimited.body')
           .modal-footer
-            button.btn.btn-primary(onclick="load('chocomilkLimited')") Load
+            button.btn.btn-primary(onclick="load('chocomilkLimited')")=t('load')
     .col-4
       .card
         .card-header
-          b Simple development project
+          b=t('examples_catalog.development.header')
         .card-body
-          p A complex project, a development of a simple website, using different products, this example is fun.
+          p=t('examples_catalog.development.body')
           .modal-footer
-            button.btn.btn-primary(onclick="load('development')") Load
+            button.btn.btn-primary(onclick="load('development')")=t('load')
 
     script(src='/assets/examples.js')
           

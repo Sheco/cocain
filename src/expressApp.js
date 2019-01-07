@@ -3,11 +3,14 @@
 const express = require('express')
 const multer = require('multer')
 
+const i18next = require('i18next')
+const i18nextBackend = require('i18next-node-fs-backend')
+const i18nextMiddleware = require('i18next-express-middleware')
+
 const fs = require('fs')
 const util = require('util')
 const path = require('path')
 const StreamConcat = require('stream-concat')
-const pug = require('pug')
 
 const readFile = util.promisify(fs.readFile)
 const stat = util.promisify(fs.stat)
@@ -18,6 +21,31 @@ const TransformCsv = require('../src/TransformCsv')
 const upload = multer({ dest: '/tmp' })
 
 const app = express()
+
+i18next
+  .use(i18nextBackend)
+  .use(i18nextMiddleware.LanguageDetector).init({
+    backend: {
+      loadPath: path.join(__dirname, '../locales/{{lng}}/{{ns}}.json'),
+      addPath: path.join(__dirname, '../locales/{{lng}}/{{ns}}.missing.json')
+    },
+    detection: {
+      order: ['cookie', 'header'],
+      lookupCookie: 'lang'
+    },
+    fallbackLng: 'en',
+    preload: ['en', 'es']
+  })
+
+app.use(i18nextMiddleware.handle(i18next))
+app.get('/lang/:lang', (req, res) => {
+  res.cookie('lang', req.params.lang)
+
+  res.redirect('/')
+})
+
+app.set('view engine', 'pug')
+
 app.use('/assets', express.static(path.join(__dirname, '..', 'assets')))
 
 app.get('/old', async (req, res) => {
@@ -28,27 +56,27 @@ app.get('/old', async (req, res) => {
 
 app.get('/', async (req, res) => {
   let file = path.join(__dirname, '..', 'assets', 'ui.pug')
-  res.send(pug.renderFile(file))
+  res.render(file)
 })
 
 app.get('/about', (req, res) => {
   let file = path.join(__dirname, '..', 'assets', 'about.pug')
-  res.send(pug.renderFile(file))
+  res.render(file)
 })
 
 app.get('/examples', (req, res) => {
   let file = path.join(__dirname, '..', 'assets', 'examples.pug')
-  res.send(pug.renderFile(file))
+  res.render(file)
 })
 
 app.get('/resource', async (req, res) => {
   let file = path.join(__dirname, '..', 'assets', 'resource.pug')
-  res.send(pug.renderFile(file, { id: req.query.id || -1 }))
+  res.render(file, { id: req.query.id || -1 })
 })
 
 app.get('/product', async (req, res) => {
   let file = path.join(__dirname, '..', 'assets', 'product.pug')
-  res.send(pug.renderFile(file, { id: req.query.id || -1 }))
+  res.render(file, { id: req.query.id || -1 })
 })
 
 app.post('/api', express.json(),
