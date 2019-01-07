@@ -24,7 +24,7 @@
     "Pueden ser cosas sencillas como \"botellas de leche\", \"latas de chocolate\" or incluso pueden ser algo un poco mas abstracto como un trabajador o un proveedor, quien cobra por hora",
     "La <b>cantidad</b> define cuantos contenedores se han comprado, si no se consumen, se considera merma y el costo de la merma será distribuido entre los productos que usaron el recurso. Si no se define la cantidad, será calculada automaticamente",
     "Las <b>unidades</b> son la unidad basica que este recurso usa, por ejemplo gramos, litros, horas, etc. Es mejor usar nombres cortos (ml, g, h).",
-    "La <b>capacidad</b> es la cantidad e unidades que cada contenedor tiene. Si la capacidad no esta definida, es igual a 1",
+    "La <b>capacidad</b> es la cantidad de unidades que cada contenedor tiene. Si la capacidad no esta definida, es igual a 1",
     "<b>Por ejemplo</b>, una botella de 1 litro d eleche tendra una capacidad de 1000 (ml), si la cantidad es 1, significa que hemos comprado una botella de litro de leche, los productos podran consumir mililitros de este recurso"
 
   ],
@@ -34,7 +34,9 @@
   "product_docs": [
     "Los productos controlan cada receta, es aqui donde los recursos son consumidos",
     "Un producto puede tener una <b>cantidad</b>, la cual dice cuantos productos se quieren consumir. Si la cantidad no esta definida, significa que se busca hacer la mayor cantidad de productos posibles con los recursos disponibles",
-    "Los productos tienen <b>componentes</b>, los cuales son la estructura de la receta. Hay dos etapas de consumo, la predeterminada <b>Por producto</b> significa que el recurso sera consumido por cada producto individual que sea calculado, mientras que la otra opcion, <b>Costo inicial</b> significa que el recurso se consume al principio de la operación, antes de trabajar con los productos mismos"
+    "Los productos tienen <b>componentes</b>, los cuales son la estructura de la receta. Hay dos etapas de consumo, la predeterminada <b>Por producto</b> significa que el recurso sera consumido por cada producto individual que sea calculado, mientras que la otra opcion, <b>Costo inicial</b> significa que el recurso se consume al principio de la operación, antes de trabajar con los productos mismos",
+    "A su vez, cada componente indica el recurso que representa y la <b>medida</b> que usara de este recurso, la cual es la cantidad del recurso que el componente necesita."
+
   ],
   
   "component_info": "Agrega componentes para especificar cuantos recursos este producto necesitará",

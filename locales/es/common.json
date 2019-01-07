@@ -5,7 +5,7 @@
   "download": "Descargar",
   "about": "Acerca de",
   "open": "Abrir",
-  "units": "Unidades",
+  "units": "Unidades de medida",
   "save": "Guardar",
   "cancel": "Cancelar",
   "information": "Información",
@@ -13,5 +13,6 @@
   "language": "Idioma",
   "english": "Inglés",
   "spanish": "Español",
-  "load": "Cargar"
+  "load": "Cargar",
+  "measure": "Medida"
 }

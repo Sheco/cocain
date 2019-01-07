@@ -5,7 +5,7 @@
   "download": "Download",
   "about": "About",
   "open": "Open",
-  "units": "Units",
+  "units": "Measurement units",
   "save": "Save",
   "cancel": "Cancel",
   "information": "Information",
@@ -13,5 +13,6 @@
   "language": "Language",
   "english": "English",
   "spanish": "Spanish",
-  "load": "Load"
+  "load": "Load",
+  "measure": "Measure"
 }
