@@ -15,7 +15,7 @@ block content
         .card-header.bg-success.text-light=t('product')
         .card-body
           .form-group
-            label(for='name')=t('name')
+            label(for='name')=t('common:name')
             input.form-control(type='text' name='name')
           .form-group
             label(for='amount')=t('product_make_amount')
@@ -24,8 +24,8 @@ block content
             label(for='markup')=t('markup')
             input.form-control(type='text' name='markup')
         .modal-footer
-          button#save.btn.btn-primary(type='button')=t('save')
-          a#close.btn.btn-secondary(href='/')=t('cancel')
+          button#save.btn.btn-primary(type='button')=t('common:save')
+          a#close.btn.btn-secondary(href='/')=t('common:cancel')
 
     .col-lg-4.mb-3#componentAddTemplate
       .card
@@ -49,7 +49,7 @@ block content
             label(for='resource')=t('resource')
             select.form-control(name='resource' data-value='resource')
           .form-group
-            label(for='amount')=t('amount')
+            label(for='amount')=t('common:amount')
             input.form-control(type='text' name='amount' data-value='amount')
     
 

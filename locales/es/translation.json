@@ -11,19 +11,13 @@
   "new_resource": "Nuevo recurso",
   "resource_info": "Los recursos son tus existencias de materiales, las cuales se usarán al crear productos.",
   "products": "Productos",
-  "name": "Nombre",
-  "cost": "Costo",
+  "stage": "Etapa",
   "cost_per_product": "Costo por producto",
   "price_per_product": "Precio por producto",
-  "stage": "Etapa",
   "product_needs": "Necesita",
   "distributed_consumption": "Consumo distribuido",
   "new_product": "Nuevo producto",
   "product_info": "Los productos describen tus recetas para consumir los recursos predefinidos.",
-  "examples": "Ejemplos",
-  "download": "Descargar",
-  "about": "Acerca de",
-  "open": "Abrir",
   "resource": "Recurso",
   "resource_docs": [
     "Los recursos definen tu existencia de materiales, cada recurso tiene un costo por contenedor, una cantidad de contenedores y la capacidad por contenedor",
@@ -34,13 +28,9 @@
     "<b>Por ejemplo</b>, una botella de 1 litro d eleche tendra una capacidad de 1000 (ml), si la cantidad es 1, significa que hemos comprado una botella de litro de leche, los productos podran consumir mililitros de este recurso"
 
   ],
-  "units": "Unidades",
   "capacity_per_container": "Capacidad por contenedor",
   "amount_of_containers": "Cantidad de contenedores",
   "cost_per_container": "Costo por contenedor",
-  "save": "Guardar",
-  "cancel": "Cancelar",
-  "information": "Informacion",
   "product_docs": [
     "Los productos controlan cada receta, es aqui donde los recursos son consumidos",
     "Un producto puede tener una <b>cantidad</b>, la cual dice cuantos productos se quieren consumir. Si la cantidad no esta definida, significa que se busca hacer la mayor cantidad de productos posibles con los recursos disponibles",
@@ -56,7 +46,6 @@
   "add_component": "Agregar un componente",
   "per_product": "Por producto",
   "one_time_cost": "Costo inicial",
-  "amount": "Cantidad",
   "examples_catalog": {
     "chocomilk60": {
       "header": "60 vasos de leche con chocolate",
@@ -70,8 +59,5 @@
       "header": "Proyecto simple de desarrollo",
       "body": "Una receta un poco mas compleja, el desarrollo de un sitio sencillo, usando varios productos, los cuales comparten los recursos."
     }
-  },
-  "language": "Idioma",
-  "english": "Inglés",
-  "spanish": "Español"
+  }
 }

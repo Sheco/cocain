@@ -1,0 +1,17 @@
+{
+  "name": "Name",
+  "cost": "Cost",
+  "examples": "Examples",
+  "download": "Download",
+  "about": "About",
+  "open": "Open",
+  "units": "Units",
+  "save": "Save",
+  "cancel": "Cancel",
+  "information": "Information",
+  "amount": "Amount",
+  "language": "Language",
+  "english": "English",
+  "spanish": "Spanish",
+  "load": "Load"
+}

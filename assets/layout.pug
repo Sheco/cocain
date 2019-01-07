@@ -55,22 +55,22 @@ html(lang='en')
             a.nav-link(href='#' onclick="return downloadJSON()") 
               span.oi.oi-data-transfer-download
               | &nbsp;
-              span=t('download')
+              span=t('common:download')
           li.nav-item
             a.nav-link(href='#' onclick="return uploadJSON()")
               span.oi.oi-file
               | &nbsp;
-              span=t('open')
+              span=t('common:open')
           li.nav-item
             a.nav-link(href='/examples')
               span.oi.oi-lightbulb
               | &nbsp;
-              span=t('examples')
+              span=t('common:examples')
           li.nav-item
             a.nav-link(href='/about')
               span.oi.oi-info
               | &nbsp;
-              span=t('about')
+              span=t('common:about')
           li.nav-item.dropdown
             a.nav-link.dropdown-toggle#languageDropdown(
               href='#'
@@ -78,10 +78,10 @@ html(lang='en')
               data-toggle='dropdown'
               aria-haspopup='true'
               aria-expanded='false'
-            )=t('language')
+            )=t('common:language')
             .dropdown-menu(aria-labelledby='languageDropdown')
-              a.dropdown-item(href='/lang/en')=t('english')
-              a.dropdown-item(href='/lang/es')=t('spanish')
+              a.dropdown-item(href='/lang/en')=t('common:english')
+              a.dropdown-item(href='/lang/es')=t('common:spanish')
 
     div.container
       block content

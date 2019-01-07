@@ -25,6 +25,8 @@ const app = express()
 i18next
   .use(i18nextBackend)
   .use(i18nextMiddleware.LanguageDetector).init({
+    ns: ['common', 'products', 'resources', 'translation'],
+    defaultNS: 'translation',
     backend: {
       loadPath: path.join(__dirname, '../locales/{{lng}}/{{ns}}.json'),
       addPath: path.join(__dirname, '../locales/{{lng}}/{{ns}}.missing.json')

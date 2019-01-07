@@ -1,0 +1,17 @@
+{
+  "name": "Nombre",
+  "cost": "Costo",
+  "examples": "Ejemplos",
+  "download": "Descargar",
+  "about": "Acerca de",
+  "open": "Abrir",
+  "units": "Unidades",
+  "save": "Guardar",
+  "cancel": "Cancelar",
+  "information": "Información",
+  "amount": "Cantidad",
+  "language": "Idioma",
+  "english": "Inglés",
+  "spanish": "Español",
+  "load": "Cargar"
+}

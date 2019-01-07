@@ -11,19 +11,12 @@
   "new_resource": "New resource",
   "resource_info": "Resources are your stock of materials that will be spent when creating products.",
   "products": "products",
-  "name": "Name",
-  "cost": "Cost",
   "cost_per_product": "Cost per product",
   "price_per_product": "Price per product",
-  "stage": "Stage",
   "product_needs": "Needs",
   "distributed_consumption": "Distributed consumption",
   "new_product": "New product",
   "product_info": "Products describe your recipes to consume the predefined resources.",
-  "examples": "Examples",
-  "download": "Download",
-  "about": "About",
-  "open": "Open",
   "resource": "Resource",
   "resource_docs": [
     "Resources define your stock of materials, each resource has a cost per unit, an amount of units and a raw capacity.",
@@ -35,13 +28,9 @@
     "<b>For example</b>, a bottle of 1 liter of milk will have a capacity of 1000 (ml), if the amount is 1, it means we bought one 1000ml bottle of milk, the products will be able to consume milliliters from this resource."
 
   ],
-  "units": "Units",
   "capacity_per_container": "Capacity per container",
   "amount_of_containers": "Amount of containers",
   "cost_per_container": "Cost per container",
-  "save": "Save",
-  "cancel": "Cancel",
-  "information": "Information",
   "product_docs": [
     "Products control each recipe, it's where the resources are consumed.",
     "A product can have an <b>amount</b>, which tells how many products you want to produce. If it is not defined, it means you want to make as many products as possible given the allocated resources.",
@@ -56,7 +45,6 @@
   "add_component": "Add a component",
   "per_product": "Per product",
   "one_time_cost": "One time cost",
-  "amount": "Amount",
   "examples_catalog": {
     "chocomilk60": {
       "header": "60 glasses of Chocolate milk",
@@ -70,8 +58,5 @@
       "header": "Simple development project",
       "body": "A complex project, a development of a simple website, using different products, this example is fun."
     }
-  },
-  "language": "Language",
-  "english": "English",
-  "spanish": "Spanish"
+  }
 }
