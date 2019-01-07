@@ -52,6 +52,11 @@ html(lang='en')
       div.collapse.navbar-collapse#mainmenu
         ul.navbar-nav.mr-auto
           li.nav-item
+            a.nav-link(href='#' onclick="return cleanup()")
+              span.oi.oi-reload
+              | &nbsp;
+              span=t('common:cleanup')
+          li.nav-item
             a.nav-link(href='#' onclick="return downloadJSON()") 
               span.oi.oi-data-transfer-download
               | &nbsp;

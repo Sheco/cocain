@@ -117,3 +117,11 @@ function uploadJSON() {
   input.click()
   return false
 }
+
+function cleanup () {
+  sessionStorage.setObj('data', {
+    resources: [],
+    products: []
+  })
+  window.location = '/'
+}
