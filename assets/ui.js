@@ -103,16 +103,11 @@ function showResources (data) {
     let card = resourceTemplate.cloneNode(true)
 
     let progress = card.querySelector('[data-type=consumed]')
-    if (resource.left === undefined) {
-      progress.classList.add('progress-bar-striped')
-      progress.classList.add('progress-bar-animated')
-    } else {
-      let consumed = 100 - (resource.consumed / resource.totalUsed * 100)
-      progress.setAttribute('style', `width: ${consumed}%`)
-      progress.setAttribute('aria-valuenow', consumed)
-    }
+    let consumed = 100 - (resource.consumed / resource.totalUsed * 100)
+    progress.setAttribute('style', `width: ${consumed}%`)
+    progress.setAttribute('aria-valuenow', consumed)
 
-    resource.totalCapacity = resource.capacity * resource.amount
+    resource.totalCapacity = resource.capacity * resource.realAmount
 
     updateValues(card, resource)
 

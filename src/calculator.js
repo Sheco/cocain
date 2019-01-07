@@ -197,9 +197,7 @@ class Calculator {
       resource.wastePcnt = 0
     }
 
-    resource.totalUsed = resource.left !== undefined
-      ? resource.left + resource.consumed
-      : resource.consumed
+    resource.totalUsed = resource.capacity * resource.realAmount
   }
 
   postProcess (component) {

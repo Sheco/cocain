@@ -21,9 +21,7 @@ module.exports = function (resource) {
     ? Math.ceil(resource.consumed / resource.capacity)
     : resource.amount
 
-  if (resource.capacity > 1 && resource.amount > 0) {
-    resource.left = (resource.amount * resource.capacity) - resource.consumed
-  }
+  resource.left = (resource.realAmount * resource.capacity) - resource.consumed
 
   /* The cost is that of the amount of containers */
   resource.finalCost = Math.round(((resource.cost * resource.realAmount) || 0) * 1e2) / 1e2
