@@ -181,14 +181,16 @@ class Calculator {
    * about how much of it has been used, after being consumed
    */
   calculate (resource) {
-    let type = resource.type || 'standard'
+    /* if the amount is undefined, we'll calculate the amount of containers
+    * spent and the leftover waste */
+    resource.realAmount = resource.amount === undefined
+      ? Math.ceil(resource.consumed / resource.capacity)
+      : resource.amount
 
-    // the type must be alphanumeric (and it can have a dash)
-    if (!/^[\w-]+$/.test(type)) {
-      throw Error('Invalid resource type: ' + type)
-    }
+    resource.left = (resource.realAmount * resource.capacity) - resource.consumed
 
-    require('./types/' + type)(resource)
+    /* The cost is that of the amount of containers */
+    resource.finalCost = Math.round(((resource.cost * resource.realAmount) || 0) * 1e2) / 1e2
 
     if (resource.left >= 0 && resource.capacity > 0 && resource.amount > 0) {
       resource.wastePcnt = Math.round(resource.left /
