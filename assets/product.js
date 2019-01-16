@@ -115,6 +115,8 @@ function edit (save, close) {
 
 function resourceChanged (input) {
   let unitLabel = input.parentNode.parentNode.querySelector('.amountUnit')
+  if (input.selectedOptions.length === 0) return
+
   let unit = input.selectedOptions[0].getAttribute('data-unit')
   unitLabel.textContent = unit
 }
