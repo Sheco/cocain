@@ -30,9 +30,9 @@ block content
             th(colspan=2 width="50%")=t('response')
           tr
             td=t('requested_amount')
-            td.text-right(data-value='amount' data-format='NaNisInfinite,integer') 0
+            td.text-right(data-value='amount') 0
             td=t('amount_used')
-            td.text-right.font-weight-bold(data-value='realAmount' data-format='integer') 0
+            td.text-right.font-weight-bold(data-value='evaluated_amount' data-format='integer') 0
           tr
             td=t('total_capacity')
             td.text-right(data-value='totalCapacity' data-format='NaNisInfinite,decimal,units') 0
@@ -40,7 +40,7 @@ block content
             td.text-right.font-weight-bold(data-value='consumed' data-format='decimal,units') 0
           tr
             td=t('cost_per_unit')
-            td.text-right(data-value='cost' data-format='money') 0
+            td.text-right(data-value='evaluated_cost' data-format='money') 0
             td=t('total_cost')
             td.text-right.font-weight-bold(data-value='finalCost' data-format='money') 0
     .col-lg-6.mb-3#resourceAddTemplate
@@ -72,10 +72,10 @@ block content
             table.table.table-bordered.table-striped(style='margin-bottom: 0px')
               tr
                 td=t('requested_amount')
-                td.text-right(data-value='amount' data-format='integer') 0
+                td.text-right(data-value='amount') 0
               tr.font-weight-bold
                 td=t('amount_used')
-                td.text-right(data-value='realAmount' data-format='integer') 0
+                td.text-right(data-value='evaluated_amount' data-format='integer') 0
               tr.font-weight-bold
                 td=t('cost')
                 td.text-right(data-value='cost' data-format='money') 0
@@ -94,7 +94,7 @@ block content
                 td.text-right(data-value='stage') 0
               tr
                 td=t('product_needs')
-                td.text-right(data-value='amount' data-format='decimal,units') 0
+                td.text-right(data-value='evaluated_amount' data-format='decimal,units') 0
               tr.font-weight-bold
                 td=t('consumed')
                 td.text-right(data-value='consumed' data-format='decimal,units') 0

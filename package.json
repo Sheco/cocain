@@ -11,6 +11,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "csv-parse": "4.0.1",
+    "expr-eval": "1.2.2",
     "express": "4.16.4",
     "i18next": "13.1.0",
     "i18next-express-middleware": "1.7.0",

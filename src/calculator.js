@@ -1,5 +1,14 @@
 'use strict'
 
+function evaluate (string, defaultValue) {
+  const { Parser } = require('expr-eval')
+  try {
+    return Parser.evaluate(string)
+  } catch (err) {
+    return defaultValue
+  }
+}
+
 /**
  * Process an object containing a list of resources, along with the recipe
  * describing how much of each resource is used.
@@ -79,8 +88,7 @@ class Calculator {
     if (!components) return
 
     for (let component of components) {
-      let consumed = this.consume(component.resource,
-        component.amount * total)
+      let consumed = this.consume(component.resource, component.evaluated_amount * total)
 
       component.consumed = consumed
     }
@@ -99,28 +107,28 @@ class Calculator {
    */
   setup () {
     for (let resource of this.data.resources) {
-      resource.capacity = Number(resource.capacity) || 1
-      resource.cost = Number(resource.cost)
-      resource.amount = resource.realAmount = Number(resource.amount)
+      resource.evaluated_amount = evaluate(resource.amount, undefined)
+      resource.evaluated_cost = evaluate(resource.cost, 0)
+      resource.evaluated_capacity = evaluate(resource.capacity, 1)
       
+
       resource.consumed = 0
 
-      if (!resource.amount) {
-        resource.amount = undefined
+      if (!resource.evaluated_amount) {
+        resource.evaluated_mount = undefined
         resource.left = undefined
       } else {
-        resource.left = resource.amount * resource.capacity
+        resource.left = resource.evaluated_amount * resource.evaluated_capacity
       }
     }
 
     for (let product of this.data.products) {
       if (product.recipe === undefined) product.recipe = []
       for (let component of product.recipe) {
-        component.amount = Number(component.amount)
+        component.evaluated_amount = evaluate(component.amount, 0)
       }
 
-      product.info.amount = Number(product.info.amount)
-      product.info.realAmount = product.info.amount
+      product.info.evaluated_amount = evaluate(product.info.amount, 0)
     }
   }
 
@@ -134,14 +142,14 @@ class Calculator {
     for (let resource of this.data.resources) {
       if (!resource.left) continue
 
-      resources[resource.name] = (resources[resource.name] || 0) +
-        resource.left
+      resources[resource.name] = (resources[resource.name] || 0) + resource.left
     }
 
     // substract the components used when setting up first
     for (let component of this.stageComponents(product, ['setup'])) {
       if (!resources.left) continue
-      resources[component.resource] -= component.amount
+
+      resources[component.resource] -= component.evaluated_amount
     }
 
     // divide the left over resource by the amount it needs per product
@@ -151,7 +159,7 @@ class Calculator {
       if (resources[component.resource] === undefined) continue
 
       let thisMax = Math.floor(resources[component.resource] /
-        component.amount)
+        component.evaluated_amount)
 
       if (max === undefined || thisMax < max) max = thisMax
     }
@@ -165,13 +173,13 @@ class Calculator {
   preProcess (product) {
     let maxProducts = this.maxProducts(product)
     if (maxProducts !== undefined &&
-      (!product.info.amount || maxProducts < product.info.amount)) {
-      product.info.realAmount = maxProducts
+      (!product.info.evaluated_amount ||
+        maxProducts < product.info.evaluated_amount)) {
+      product.info.evaluated_amount = maxProducts
     }
 
     this.consumeGroup(this.stageComponents(product, ['setup']), 1)
-    this.consumeGroup(this.stageComponents(product, ['product', undefined]),
-      product.info.realAmount)
+    this.consumeGroup(components, product.info.evaluated_amount)
   }
 
   /**
@@ -183,23 +191,23 @@ class Calculator {
   calculate (resource) {
     /* if the amount is undefined, we'll calculate the amount of containers
     * spent and the leftover waste */
-    resource.realAmount = resource.amount === undefined
-      ? Math.ceil(resource.consumed / resource.capacity)
-      : resource.amount
+    if (resource.evaluated_amount === undefined) {
+      resource.evaluated_amount = Math.ceil(resource.consumed / resource.evaluated_capacity)
+    }
 
-    resource.left = (resource.realAmount * resource.capacity) - resource.consumed
+    resource.left = (resource.evaluated_amount * resource.evaluated_capacity) - resource.consumed
 
     /* The cost is that of the amount of containers */
-    resource.finalCost = Math.round(((resource.cost * resource.realAmount) || 0) * 1e2) / 1e2
+    resource.finalCost = Math.round(((resource.evaluated_cost * resource.evaluated_amount) || 0) * 1e2) / 1e2
 
-    if (resource.left >= 0 && resource.capacity > 0 && resource.amount > 0) {
+    if (resource.left >= 0 && resource.evaluated_capacity > 0 && resource.evaluated_amount > 0) {
       resource.wastePcnt = Math.round(resource.left /
-        (resource.amount * resource.capacity) * 100)
+        (resource.evaluated_amount * resource.evaluated_capacity) * 100)
     } else {
       resource.wastePcnt = 0
     }
 
-    resource.totalUsed = resource.capacity * resource.realAmount
+    resource.totalUsed = resource.evaluated_capacity * resource.evaluated_amount
   }
 
   postProcess (component) {

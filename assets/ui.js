@@ -107,7 +107,7 @@ function showResources (data) {
     progress.setAttribute('style', `width: ${consumed}%`)
     progress.setAttribute('aria-valuenow', consumed)
 
-    resource.totalCapacity = resource.capacity * resource.realAmount
+    resource.totalCapacity = resource.evaluated_capacity * resource.evaluated_amount
 
     updateValues(card, resource)
 
@@ -137,7 +137,7 @@ function showProducts (data) {
       element.setAttribute('href', '/product?id=' + id)
     }
 
-    product.info.costPerProduct = product.info.cost / product.info.realAmount
+    product.info.costPerProduct = product.info.cost / product.info.evaluated_amount
     product.info.pricePerProduct = product.info.costPerProduct * product.info.markup
 
     updateValues(template, product.info)
