@@ -94,6 +94,11 @@ class Calculator {
     }
   }
 
+  /**
+   * Scan a product, looking for components for some given stages.
+   * @param {Object[]} product 
+   * @param {string[]} stages 
+   */
   * stageComponents (product, stages) {
     for (let component of product.recipe) {
       if (stages.includes(component.stage)) {
@@ -152,10 +157,11 @@ class Calculator {
       resources[component.resource] -= component.evaluated_amount
     }
 
-    // divide the left over resource by the amount it needs per product
+    // divide the left over resources by the amount they need per product
     let max
-    for (let component of this.stageComponents(
-      product, ['product', undefined])) {
+    let stages = ['product', undefined]
+
+    for (let component of this.stageComponents(product, stages)) {
       if (resources[component.resource] === undefined) continue
 
       let thisMax = Math.floor(resources[component.resource] /
@@ -179,6 +185,9 @@ class Calculator {
     }
 
     this.consumeGroup(this.stageComponents(product, ['setup']), 1)
+
+    let stages = ['product', undefined]
+    let components = this.stageComponents(product, stages)
     this.consumeGroup(components, product.info.evaluated_amount)
   }
 
@@ -211,34 +220,38 @@ class Calculator {
   }
 
   postProcess (component) {
-    // First, get the relevant resources, and sum them up
-    let resource = this.data.resources
-      .reduce((prev, curr) => {
-        if (curr.name !== component.resource) {
-          return prev
-        }
+    // First, get the relevant resources, and sum their properties
+    let resource = this.data.resources.reduce((prev, curr) => {
+      if (curr.name !== component.resource) {
+        return prev
+      }
 
-        return {
-          consumed: prev.consumed + curr.consumed,
-          totalUsed: prev.totalUsed + curr.totalUsed,
-          finalCost: prev.finalCost + curr.finalCost
-        }
-      }, { consumed: 0, totalUsed: 0, finalCost: 0 })
+      return {
+        consumed: prev.consumed + curr.consumed,
+        totalUsed: prev.totalUsed + curr.totalUsed,
+        finalCost: prev.finalCost + curr.finalCost
+      }
+    }, { consumed: 0, totalUsed: 0, finalCost: 0 })
 
     // then do some final calculations
     let usagePcnt = resource.consumed / resource.totalUsed
-    component.consumedEffective = Math.round(
-      component.consumed / usagePcnt * 1e2) / 1e2
-    component.cost = Math.round(resource.finalCost *
-      (component.consumedEffective / resource.totalUsed) *
-        1e2) / 1e2
+
+    // calculate the distributed consumption, which means
+    // that everybody is going to consume an appropriate
+    // part of the wasted resources
+    component.consumedEffective = Math.round(component.consumed / usagePcnt * 1e2) / 1e2
+
+    let consumptionRatio = (component.consumedEffective / resource.totalUsed)
+    component.cost = Math.round(resource.finalCost * consumptionRatio * 1e2) / 1e2
   }
 
   /**
    * Handle everything, set things up, consume components and return the result
    */
   process () {
+    // initialize
     this.setup()
+
     for (let product of this.data.products) {
       this.preProcess(product)
     }
@@ -247,9 +260,11 @@ class Calculator {
       this.calculate(resource)
     }
 
+    // lambda function to be used with reduce()
+    // to sum the cost properties of all of the items
     let sumCost = (total, x) => total + x.cost
 
-    // calculate price per component
+    // loop to calculate the price per component
     for (let product of this.data.products) {
       for (let component of product.recipe) {
         this.postProcess(component)
@@ -257,7 +272,7 @@ class Calculator {
 
       product.info.cost = Math.round(
         product.recipe.reduce(sumCost, 0) *
-      1e2) / 1e2
+        1e2) / 1e2
     }
 
     return this.data
