@@ -103,7 +103,7 @@ function showResources (data) {
     let card = resourceTemplate.cloneNode(true)
 
     let progress = card.querySelector('[data-type=consumed]')
-    let consumed = 100 - (resource.consumed / resource.totalUsed * 100)
+    let consumed = (resource.consumed / resource.totalUsed * 100)
     progress.setAttribute('style', `width: ${consumed}%`)
     progress.setAttribute('aria-valuenow', consumed)
 
