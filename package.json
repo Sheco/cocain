@@ -10,7 +10,7 @@
   "author": "Sergio Duran",
   "license": "GPL-3.0",
   "dependencies": {
-    "csv-parse": "4.0.1",
+    "csv-parse": "4.4.6",
     "expr-eval": "1.2.2",
     "express": "4.16.4",
     "i18next": "13.1.0",
