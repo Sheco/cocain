@@ -19,7 +19,7 @@
     "json-pretty-html": "^1.2.0",
     "lodash": ">=4.17.13",
     "multer": "1.4.1",
-    "pug": "2.0.3",
+    "pug": "3.0.1",
     "stream-concat": "0.3.0"
   },
   "engines": {
